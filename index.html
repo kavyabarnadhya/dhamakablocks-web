@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dhamaka Blocks — India's Block Puzzle Game</title>
+<meta name="description" content="Dhamaka Blocks — India's festive block puzzle game. Coming soon to Android. Place blocks, clear lines, beat your score!">
+<meta property="og:title" content="Dhamaka Blocks 🎆">
+<meta property="og:description" content="India's festive block puzzle game. Coming soon to Android.">
+<meta name="theme-color" content="#FF9933">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Rajdhani:wght@400;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --saffron: #FF9933;
+    --gold: #FFD700;
+    --deep-red: #8B0000;
+    --peacock: #00827F;
+    --dark: #1a0a00;
+    --dark2: #2d1200;
+    --ivory: #FFFFF0;
+  }
+
+  body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--dark) 0%, var(--dark2) 60%, #1a1000 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Rajdhani', sans-serif;
+    color: var(--ivory);
+    overflow: hidden;
+    position: relative;
+    padding: 24px;
+  }
+
+  /* Dot grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(circle, rgba(255,215,0,0.12) 1px, transparent 1px);
+    background-size: 22px 22px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Top rainbow bar */
+  .rainbow {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--deep-red), var(--saffron), var(--gold), var(--saffron), var(--deep-red));
+    z-index: 10;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 480px;
+    width: 100%;
+  }
+
+  /* Floating particles */
+  .particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    animation: floatUp linear infinite;
+    opacity: 0;
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.3; }
+    100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* Studio name */
+  .studio {
+    font-size: 11px;
+    letter-spacing: 6px;
+    color: var(--saffron);
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 12px;
+    opacity: 0.8;
+  }
+
+  /* Main logo */
+  .logo-dhamaka {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(42px, 12vw, 72px);
+    font-weight: 900;
+    background: linear-gradient(180deg, var(--gold) 0%, var(--saffron) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 0.95;
+    letter-spacing: 2px;
+  }
+  .logo-blocks {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(42px, 12vw, 72px);
+    font-weight: 900;
+    background: linear-gradient(180deg, var(--saffron) 0%, var(--deep-red) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 0.95;
+    letter-spacing: 12px;
+  }
+
+  /* Decorative divider */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 20px auto;
+    width: 80%;
+  }
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,215,0,0.4), transparent);
+  }
+  .divider-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    opacity: 0.6;
+  }
+
+  /* Tagline */
+  .tagline {
+    font-size: 14px;
+    color: var(--gold);
+    opacity: 0.7;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 32px;
+  }
+
+  /* Coming soon badge */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,153,51,0.12);
+    border: 1px solid rgba(255,153,51,0.3);
+    border-radius: 30px;
+    padding: 10px 22px;
+    font-size: 13px;
+    color: var(--saffron);
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 36px;
+  }
+  .badge-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--saffron);
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  /* Feature pills */
+  .features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 36px;
+  }
+  .pill {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,215,0,0.15);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 12px;
+    color: var(--ivory);
+    opacity: 0.7;
+    letter-spacing: 0.5px;
+  }
+
+  /* Notify / social section */
+  .social-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 32px;
+  }
+  .social-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    border-radius: 22px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: 'Rajdhani', sans-serif;
+    transition: transform 0.15s, opacity 0.15s;
+  }
+  .social-btn:hover { transform: translateY(-2px); opacity: 0.9; }
+  .social-btn.instagram {
+    background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+    color: white;
+  }
+  .social-btn.youtube {
+    background: #FF0000;
+    color: white;
+  }
+
+  /* Mini block preview */
+  .block-preview {
+    display: grid;
+    grid-template-columns: repeat(5, 28px);
+    gap: 3px;
+    margin: 0 auto 32px;
+    width: fit-content;
+    opacity: 0.6;
+  }
+  .bp-cell {
+    width: 28px; height: 28px;
+    border-radius: 5px;
+  }
+  .bp-empty {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* Footer */
+  .footer {
+    font-size: 10px;
+    color: var(--gold);
+    opacity: 0.25;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* Animate in */
+  .container > * {
+    animation: fadeUp 0.6s ease forwards;
+    opacity: 0;
+  }
+  .studio { animation-delay: 0.1s; }
+  .logo-dhamaka { animation-delay: 0.2s; }
+  .logo-blocks { animation-delay: 0.3s; }
+  .divider { animation-delay: 0.4s; }
+  .tagline { animation-delay: 0.45s; }
+  .badge { animation-delay: 0.5s; }
+  .block-preview { animation-delay: 0.55s; }
+  .features { animation-delay: 0.6s; }
+  .social-row { animation-delay: 0.65s; }
+  .footer { animation-delay: 0.7s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<div class="rainbow"></div>
+
+<!-- Floating particles -->
+<div class="particles" id="particles"></div>
+
+<div class="container">
+  <div class="studio">🎆 Dhamaka Games 🎆</div>
+
+  <div class="logo-dhamaka">DHAMAKA</div>
+  <div class="logo-blocks">BLOCKS</div>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-dot"></div>
+    <div class="divider-dot"></div>
+    <div class="divider-dot"></div>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="tagline">India's Block Puzzle Game</div>
+
+  <div class="badge">
+    <div class="badge-dot"></div>
+    Coming Soon to Android
+  </div>
+
+  <!-- Mini block grid preview -->
+  <div class="block-preview" id="blockPreview"></div>
+
+  <div class="features">
+    <div class="pill">🎨 Indian Festive Theme</div>
+    <div class="pill">🔥 Daily Streaks</div>
+    <div class="pill">📤 Share Your Score</div>
+    <div class="pill">📵 Play Offline</div>
+    <div class="pill">🆓 Free to Play</div>
+  </div>
+
+  <div class="social-row">
+    <a href="https://instagram.com/dhamakablocks" target="_blank" class="social-btn instagram">
+      📸 Instagram
+    </a>
+    <a href="https://youtube.com/@DhamakaBlocksGame" target="_blank" class="social-btn youtube">
+      ▶ YouTube
+    </a>
+  </div>
+
+  <div class="footer">dhamakablocks.com • Dhamaka Games</div>
+</div>
+
+<script>
+  // Generate floating particles
+  const colors = ['#FF9933','#FFD700','#00827F','#C41E3A','#FF6B35'];
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 6 + 3;
+    p.style.cssText = `
+      width: ${size}px; height: ${size}px;
+      left: ${Math.random() * 100}%;
+      background: ${colors[Math.floor(Math.random() * colors.length)]};
+      animation-duration: ${Math.random() * 12 + 8}s;
+      animation-delay: ${Math.random() * 8}s;
+    `;
+    container.appendChild(p);
+  }
+
+  // Mini block preview
+  const grid = document.getElementById('blockPreview');
+  const blockColors = ['#FF9933','#00827F','#FFD700','#C41E3A','#FF6B35','#8B0000'];
+  const pattern = [
+    [1,1,0,0,0],[1,1,0,2,2],[0,0,0,0,2],
+    [3,0,4,4,0],[3,3,0,4,0]
+  ];
+  pattern.forEach(row => {
+    row.forEach(cell => {
+      const d = document.createElement('div');
+      d.className = 'bp-cell ' + (cell ? '' : 'bp-empty');
+      if (cell) {
+        const c = blockColors[cell - 1];
+        d.style.background = `linear-gradient(135deg, ${c}cc, ${c}77)`;
+        d.style.border = '1px solid rgba(255,255,255,0.2)';
+      }
+      grid.appendChild(d);
+    });
+  });
+</script>
+</body>
+</html>
