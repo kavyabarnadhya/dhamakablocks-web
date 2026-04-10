@@ -793,45 +793,32 @@ footer {
       <div class="ornament-line"></div>
     </div>
     <p class="section-sub reveal reveal-delay-2">
-      Submit the email linked to your Google account and we'll add you
-      to the tester list — then send you the link to install
+      Two quick steps — takes under a minute
     </p>
 
-    <!-- Step 1: collect Gmail → you add to Play Console tester list -->
-    <form class="email-form reveal reveal-delay-3" id="betaForm"
-          action="https://api.web3forms.com/submit" method="POST">
-      <input type="hidden" name="access_key" value="8c938215-6ec8-4870-bb1b-7a42eac36b74">
-      <input type="hidden" name="subject" value="New Dhamaka Blocks Beta Request">
-      <input type="hidden" name="name" value="Beta Request">
-      <input type="hidden" name="redirect" value="https://dhamakablocks.com?signup=success">
-      <input type="checkbox" name="botcheck" style="display:none">
-      <div class="email-row">
-        <input
-          class="email-input"
-          type="email"
-          name="email"
-          id="betaEmail"
-          placeholder="your Google account email"
-          autocomplete="email"
-          required
-        >
-        <button class="email-submit" type="submit">Request Access</button>
-      </div>
-      <div class="form-msg" id="formMsg"></div>
-      <p class="beta-note">Use the email linked to your Google Play account &amp; we'll send you the install link</p>
-    </form>
+    <!-- Step 1: Join Google Group (auto-registers as tester) -->
+    <div class="reveal reveal-delay-3" style="text-align:center; margin-bottom:8px;">
+      <a href="https://groups.google.com/g/dhamaka-testers"
+         class="beta-btn" target="_blank" rel="noopener">
+        Step 1 — Join Tester Group
+      </a>
+      <p class="beta-note" style="margin-top:10px;">Tap "Ask to join" — this unlocks beta access on Google Play</p>
+    </div>
 
-    <!-- Step 2: already added? opt in here -->
+    <!-- Divider -->
     <div class="beta-divider reveal reveal-delay-4">
       <div class="beta-divider-line"></div>
-      <span class="beta-divider-text">Already added?</span>
+      <span class="beta-divider-text">then</span>
       <div class="beta-divider-line"></div>
     </div>
+
+    <!-- Step 2: Opt in on Play Store -->
     <div class="reveal reveal-delay-5" style="text-align:center;">
       <a href="https://play.google.com/apps/testing/com.dhamakagames.dhamakablocks"
          class="beta-btn" target="_blank" rel="noopener" style="font-size:15px;padding:14px 36px;">
-        Join Beta on Google Play
+        Step 2 — Become a Tester on Google Play
       </a>
+      <p class="beta-note" style="margin-top:10px;">After joining the group, tap "Become a tester" to install</p>
     </div>
     <!-- UPDATE AT LAUNCH: Replace both above with Play Store download button -->
   </div>
@@ -1042,22 +1029,6 @@ footer {
       grid.appendChild(d);
     });
   });
-})();
-
-/* ── Beta signup: show success on return from Web3Forms ─────── */
-(function () {
-  if (window.location.search.indexOf('signup=success') === -1) return;
-  var msg = document.getElementById('formMsg');
-  if (msg) {
-    msg.textContent = '🎉 Request received! We\'ll add you and send the install link.';
-    msg.className = 'form-msg success';
-    msg.style.display = 'block';
-  }
-  var beta = document.getElementById('beta');
-  if (beta) setTimeout(function () { beta.scrollIntoView({ behavior: 'smooth' }); }, 300);
-  if (window.history && window.history.replaceState) {
-    window.history.replaceState({}, document.title, window.location.pathname);
-  }
 })();
 
 /* ── Sticky nav (show after 100px) ───────────────────────── */
