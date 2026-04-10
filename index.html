@@ -366,33 +366,84 @@ section {
   margin: 0 auto;
   text-align: center;
 }
-.beta-btn {
-  display: inline-block;
-  padding: 18px 48px;
-  background: linear-gradient(135deg, var(--saffron), var(--gold));
-  color: var(--dark);
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  text-decoration: none;
-  border-radius: 50px;
-  box-shadow: 0 0 0 3px rgba(255,215,0,0.25), 0 8px 32px rgba(255,153,51,0.35);
-  transition: transform 0.2s, box-shadow 0.2s;
-  margin-bottom: 16px;
-  max-width: 320px;
+/* Email signup form */
+.email-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
   width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
 }
-.beta-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 0 0 5px rgba(255,215,0,0.35), 0 12px 40px rgba(255,153,51,0.5);
+.email-row {
+  display: flex;
+  width: 100%;
+  gap: 0;
+  border-radius: 50px;
+  overflow: hidden;
+  box-shadow: 0 0 0 2px rgba(255,215,0,0.3), 0 8px 32px rgba(255,153,51,0.25);
 }
+.email-input {
+  flex: 1;
+  padding: 16px 22px;
+  background: rgba(255,255,255,0.07);
+  border: none;
+  outline: none;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ivory);
+  letter-spacing: 0.3px;
+  min-width: 0;
+}
+.email-input::placeholder { color: rgba(255,255,240,0.35); }
+.email-submit {
+  padding: 16px 28px;
+  background: linear-gradient(135deg, var(--saffron), var(--gold));
+  border: none;
+  cursor: pointer;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--dark);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: opacity 0.2s, transform 0.2s;
+  white-space: nowrap;
+}
+.email-submit:hover { opacity: 0.9; transform: scale(1.02); }
+.email-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 .beta-note {
   font-size: 13px;
-  color: rgba(255,255,240,0.45);
+  color: rgba(255,255,240,0.4);
   letter-spacing: 0.5px;
-  margin-top: 8px;
+}
+/* Success / error states */
+.form-msg {
+  display: none;
+  padding: 14px 24px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-align: center;
+  width: 100%;
+}
+.form-msg.success {
+  background: rgba(0,130,127,0.15);
+  border: 1px solid rgba(0,130,127,0.4);
+  color: #4ecdc4;
+}
+.form-msg.error {
+  background: rgba(139,0,0,0.15);
+  border: 1px solid rgba(139,0,0,0.4);
+  color: #ff6b6b;
+}
+@media (max-width: 480px) {
+  .email-row { flex-direction: column; border-radius: 16px; }
+  .email-input { border-radius: 12px 12px 0 0; text-align: center; }
+  .email-submit { border-radius: 0 0 12px 12px; padding: 14px; }
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -693,14 +744,31 @@ footer {
       <div class="ornament-line"></div>
     </div>
     <p class="section-sub reveal reveal-delay-2">
-      Join our beta test and be among the first to play<br>Dhamaka Blocks on Android
+      Drop your email and we'll send you the beta link<br>the moment it's ready on Android
     </p>
-    <!-- UPDATE: Replace # with beta opt-in URL from Play Console -->
-    <a href="#" class="beta-btn reveal reveal-delay-3" target="_blank" rel="noopener">
-      Join Beta on Android
-    </a>
-    <p class="beta-note reveal reveal-delay-4">Free &nbsp;•&nbsp; Android only &nbsp;•&nbsp; Takes 2 minutes to install</p>
-    <!-- UPDATE AT LAUNCH: Add Play Store download button here -->
+
+    <!-- Email signup form — powered by Web3Forms (free) -->
+    <!-- UPDATE: Go to web3forms.com → enter your email → paste the access key below -->
+    <form class="email-form reveal reveal-delay-3" id="betaForm" novalidate>
+      <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY">
+      <input type="hidden" name="subject" value="New Dhamaka Blocks Beta Signup">
+      <input type="hidden" name="from_name" value="Dhamaka Blocks Website">
+      <div class="email-row">
+        <input
+          class="email-input"
+          type="email"
+          name="email"
+          id="betaEmail"
+          placeholder="your@email.com"
+          autocomplete="email"
+          required
+        >
+        <button class="email-submit" type="submit" id="betaSubmit">Notify Me</button>
+      </div>
+      <div class="form-msg" id="formMsg"></div>
+      <p class="beta-note">Free &nbsp;•&nbsp; Android only &nbsp;•&nbsp; No spam, ever</p>
+    </form>
+    <!-- UPDATE AT LAUNCH: Add Play Store download button here, replace form above -->
   </div>
 </section>
 
@@ -939,6 +1007,52 @@ footer {
   arrow.addEventListener('click', scrollToBeta);
   arrow.addEventListener('keydown', function (e) {
     if (e.key === 'Enter' || e.key === ' ') scrollToBeta();
+  });
+})();
+
+/* ── Beta email form (Web3Forms) ─────────────────────────── */
+(function () {
+  var form    = document.getElementById('betaForm');
+  var btn     = document.getElementById('betaSubmit');
+  var msg     = document.getElementById('formMsg');
+  if (!form) return;
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var email = document.getElementById('betaEmail').value.trim();
+    if (!email) return;
+
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    msg.style.display = 'none';
+    msg.className = 'form-msg';
+
+    var data = new FormData(form);
+
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: data
+    })
+    .then(function (res) { return res.json(); })
+    .then(function (json) {
+      if (json.success) {
+        msg.textContent = '🎉 You\'re on the list! We\'ll email you the beta link.';
+        msg.classList.add('success');
+        form.reset();
+        btn.textContent = 'Notify Me';
+      } else {
+        throw new Error(json.message || 'Submission failed');
+      }
+    })
+    .catch(function () {
+      msg.textContent = '⚠️ Something went wrong. Please try again.';
+      msg.classList.add('error');
+      btn.textContent = 'Notify Me';
+    })
+    .finally(function () {
+      msg.style.display = 'block';
+      btn.disabled = false;
+    });
   });
 })();
 
