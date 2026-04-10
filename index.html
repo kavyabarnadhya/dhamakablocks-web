@@ -1027,11 +1027,18 @@ footer {
     msg.style.display = 'none';
     msg.className = 'form-msg';
 
-    var data = new FormData(form);
-
     fetch('https://api.web3forms.com/submit', {
       method: 'POST',
-      body: data
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        access_key: '8c938215-6ec8-4870-bb1b-7a42eac36b74',
+        email: email,
+        subject: 'New Dhamaka Blocks Beta Signup',
+        from_name: 'Dhamaka Blocks Website'
+      })
     })
     .then(function (res) { return res.json(); })
     .then(function (json) {
