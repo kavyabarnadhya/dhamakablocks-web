@@ -4,369 +4,1100 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dhamaka Blocks — India's Block Puzzle Game</title>
-<meta name="description" content="Dhamaka Blocks — India's festive block puzzle game. Coming soon to Android. Place blocks, clear lines, beat your score!">
-<meta property="og:title" content="Dhamaka Blocks 🎆">
-<meta property="og:description" content="India's festive block puzzle game. Coming soon to Android.">
+<meta name="description" content="India's festive block puzzle game. Drag blocks, clear lines, beat your score. Coming soon to Android.">
+<meta property="og:title" content="Dhamaka Blocks — India's Block Puzzle Game">
+<meta property="og:description" content="India's festive block puzzle game. Drag blocks, clear lines, beat your score. Coming soon to Android.">
 <meta name="theme-color" content="#FF9933">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Rajdhani:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Rajdhani:wght@400;600;700&display=swap');
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+/* ── Reset & Variables ─────────────────────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-  :root {
-    --saffron: #FF9933;
-    --gold: #FFD700;
-    --deep-red: #8B0000;
-    --peacock: #00827F;
-    --dark: #1a0a00;
-    --dark2: #2d1200;
-    --ivory: #FFFFF0;
-  }
+:root {
+  --saffron:   #FF9933;
+  --gold:      #FFD700;
+  --deep-red:  #8B0000;
+  --peacock:   #00827F;
+  --dark:      #1a0a00;
+  --dark2:     #2d1200;
+  --ivory:     #FFFFF0;
+  --card-bg:   rgba(255,255,255,0.04);
+  --card-border: rgba(255,215,0,0.18);
+}
 
-  body {
-    min-height: 100vh;
-    background: linear-gradient(135deg, var(--dark) 0%, var(--dark2) 60%, #1a1000 100%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Rajdhani', sans-serif;
-    color: var(--ivory);
-    overflow: hidden;
-    position: relative;
-    padding: 24px;
-  }
+html { scroll-behavior: smooth; }
 
-  /* Dot grid background */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      radial-gradient(circle, rgba(255,215,0,0.12) 1px, transparent 1px);
-    background-size: 22px 22px;
-    pointer-events: none;
-    z-index: 0;
-  }
+body {
+  font-family: 'Rajdhani', sans-serif;
+  background: var(--dark);
+  color: var(--ivory);
+  overflow-x: hidden;
+}
 
-  /* Top rainbow bar */
-  .rainbow {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, var(--deep-red), var(--saffron), var(--gold), var(--saffron), var(--deep-red));
-    z-index: 10;
-  }
+/* ── Mandala dot background ─────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,215,0,0.1) 1px, transparent 1px);
+  background-size: 22px 22px;
+  pointer-events: none;
+  z-index: 0;
+}
 
-  .container {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    max-width: 480px;
-    width: 100%;
-  }
+/* ── Rainbow bars ───────────────────────────────────────────── */
+.rainbow-top, .rainbow-bottom {
+  position: fixed;
+  left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--deep-red), var(--saffron), var(--gold), var(--saffron), var(--deep-red));
+  z-index: 100;
+}
+.rainbow-top  { top: 0; }
+.rainbow-bottom { bottom: 0; }
 
-  /* Floating particles */
-  .particles {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-  }
-  .particle {
-    position: absolute;
-    border-radius: 50%;
-    animation: floatUp linear infinite;
-    opacity: 0;
-  }
-  @keyframes floatUp {
-    0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.6; }
-    90% { opacity: 0.3; }
-    100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
-  }
+/* ── Sticky Nav ─────────────────────────────────────────────── */
+#nav {
+  position: fixed;
+  top: 4px; left: 0; right: 0;
+  z-index: 90;
+  background: rgba(26,10,0,0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255,215,0,0.12);
+  transform: translateY(-100%);
+  transition: transform 0.3s ease;
+  padding: 0 24px;
+}
+#nav.visible { transform: translateY(0); }
+.nav-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
+  font-size: 20px;
+  background: linear-gradient(135deg, var(--gold), var(--saffron));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 1px;
+}
+.nav-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: rgba(255,255,240,0.7);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--gold); }
+@media (max-width: 480px) {
+  .nav-links { gap: 14px; }
+  .nav-links a { font-size: 11px; letter-spacing: 0.5px; }
+}
 
-  /* Studio name */
-  .studio {
-    font-size: 11px;
-    letter-spacing: 6px;
-    color: var(--saffron);
-    text-transform: uppercase;
-    font-weight: 600;
-    margin-bottom: 12px;
-    opacity: 0.8;
-  }
+/* ── Floating Particles ─────────────────────────────────────── */
+.particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  animation: floatUp linear infinite;
+  opacity: 0;
+}
+@keyframes floatUp {
+  0%   { transform: translateY(110vh) rotate(0deg);   opacity: 0; }
+  10%  { opacity: 0.6; }
+  90%  { opacity: 0.3; }
+  100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+}
 
-  /* Main logo */
-  .logo-dhamaka {
-    font-family: 'Cinzel', serif;
-    font-size: clamp(42px, 12vw, 72px);
-    font-weight: 900;
-    background: linear-gradient(180deg, var(--gold) 0%, var(--saffron) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 0.95;
-    letter-spacing: 2px;
-  }
-  .logo-blocks {
-    font-family: 'Cinzel', serif;
-    font-size: clamp(42px, 12vw, 72px);
-    font-weight: 900;
-    background: linear-gradient(180deg, var(--saffron) 0%, var(--deep-red) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 0.95;
-    letter-spacing: 12px;
-  }
+/* ── Section base ───────────────────────────────────────────── */
+section {
+  position: relative;
+  z-index: 1;
+  padding: 80px 24px;
+}
+.section-inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+.section-heading {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: clamp(24px, 5vw, 38px);
+  text-align: center;
+  background: linear-gradient(135deg, var(--gold), var(--saffron));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 12px;
+}
+.section-sub {
+  text-align: center;
+  font-size: 16px;
+  color: rgba(255,255,240,0.65);
+  font-weight: 400;
+  margin-bottom: 48px;
+  line-height: 1.6;
+}
 
-  /* Decorative divider */
-  .divider {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 20px auto;
-    width: 80%;
-  }
-  .divider-line {
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,215,0,0.4), transparent);
-  }
-  .divider-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--gold);
-    opacity: 0.6;
-  }
+/* Divider ornament */
+.ornament {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 auto 40px;
+  max-width: 280px;
+}
+.ornament-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,215,0,0.35), transparent);
+}
+.ornament-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: 0.5;
+}
 
-  /* Tagline */
-  .tagline {
-    font-size: 14px;
-    color: var(--gold);
-    opacity: 0.7;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    font-weight: 600;
-    margin-bottom: 32px;
-  }
+/* ── Scroll reveal ──────────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-5 { transition-delay: 0.5s; }
+.reveal-delay-6 { transition-delay: 0.6s; }
 
-  /* Coming soon badge */
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(255,153,51,0.12);
-    border: 1px solid rgba(255,153,51,0.3);
-    border-radius: 30px;
-    padding: 10px 22px;
-    font-size: 13px;
-    color: var(--saffron);
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 36px;
-  }
-  .badge-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--saffron);
-    animation: pulse 1.5s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(0.7); }
-  }
+/* ══════════════════════════════════════════════════════════════
+   1. HERO
+══════════════════════════════════════════════════════════════ */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 48px 24px 80px;
+  background: linear-gradient(160deg, var(--dark) 0%, var(--dark2) 60%, #1a1000 100%);
+}
+.hero-studio {
+  font-size: 11px;
+  letter-spacing: 6px;
+  color: var(--saffron);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 16px;
+  opacity: 0.85;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+.hero-title-dhamaka {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(48px, 13vw, 84px);
+  font-weight: 900;
+  background: linear-gradient(180deg, var(--gold) 0%, var(--saffron) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 0.95;
+  letter-spacing: 3px;
+  animation: fadeUp 0.6s 0.2s ease both;
+}
+.hero-title-blocks {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(48px, 13vw, 84px);
+  font-weight: 900;
+  background: linear-gradient(180deg, var(--saffron) 0%, var(--deep-red) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 0.95;
+  letter-spacing: 14px;
+  animation: fadeUp 0.6s 0.3s ease both;
+}
+.hero-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 24px auto;
+  width: 80%;
+  max-width: 320px;
+  animation: fadeUp 0.6s 0.4s ease both;
+}
+.hero-divider-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,215,0,0.4), transparent);
+}
+.hero-divider-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: 0.6;
+}
+.hero-tagline {
+  font-size: 13px;
+  color: var(--gold);
+  opacity: 0.75;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 28px;
+  animation: fadeUp 0.6s 0.45s ease both;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,153,51,0.1);
+  border: 1px solid rgba(255,153,51,0.35);
+  border-radius: 30px;
+  padding: 10px 22px;
+  font-size: 13px;
+  color: var(--saffron);
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+  animation: fadeUp 0.6s 0.5s ease both;
+}
+.badge-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--saffron);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+.hero-block-preview {
+  display: grid;
+  grid-template-columns: repeat(5, 28px);
+  gap: 3px;
+  margin: 0 auto 48px;
+  width: fit-content;
+  opacity: 0.5;
+  animation: fadeUp 0.6s 0.55s ease both;
+}
+.bp-cell {
+  width: 28px; height: 28px;
+  border-radius: 5px;
+}
+.bp-empty {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.hero-scroll-arrow {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  animation: fadeUp 0.6s 0.8s ease both;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+.hero-scroll-arrow:hover { opacity: 1; }
+.scroll-arrow-text {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.scroll-arrow-icon {
+  width: 24px; height: 24px;
+  border-right: 2px solid var(--gold);
+  border-bottom: 2px solid var(--gold);
+  transform: rotate(45deg);
+  margin-top: 2px;
+  animation: bounce 1.6s ease-in-out infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: rotate(45deg) translateY(0); }
+  50%       { transform: rotate(45deg) translateY(6px); }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.7); }
+}
 
-  /* Feature pills */
-  .features {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-    margin-bottom: 36px;
-  }
-  .pill {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,215,0,0.15);
-    border-radius: 20px;
-    padding: 6px 14px;
-    font-size: 12px;
-    color: var(--ivory);
-    opacity: 0.7;
-    letter-spacing: 0.5px;
-  }
+/* ══════════════════════════════════════════════════════════════
+   2. JOIN BETA
+══════════════════════════════════════════════════════════════ */
+#beta {
+  background: linear-gradient(160deg, var(--dark2) 0%, #1f0e00 100%);
+}
+.beta-inner {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+}
+.beta-btn {
+  display: inline-block;
+  padding: 18px 48px;
+  background: linear-gradient(135deg, var(--saffron), var(--gold));
+  color: var(--dark);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 50px;
+  box-shadow: 0 0 0 3px rgba(255,215,0,0.25), 0 8px 32px rgba(255,153,51,0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
+  margin-bottom: 16px;
+  max-width: 320px;
+  width: 100%;
+}
+.beta-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 0 5px rgba(255,215,0,0.35), 0 12px 40px rgba(255,153,51,0.5);
+}
+.beta-note {
+  font-size: 13px;
+  color: rgba(255,255,240,0.45);
+  letter-spacing: 0.5px;
+  margin-top: 8px;
+}
 
-  /* Notify / social section */
-  .social-row {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    margin-bottom: 32px;
-  }
-  .social-btn {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 10px 20px;
-    border-radius: 22px;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    cursor: pointer;
-    text-decoration: none;
-    font-family: 'Rajdhani', sans-serif;
-    transition: transform 0.15s, opacity 0.15s;
-  }
-  .social-btn:hover { transform: translateY(-2px); opacity: 0.9; }
-  .social-btn.instagram {
-    background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
-    color: white;
-  }
-  .social-btn.youtube {
-    background: #FF0000;
-    color: white;
-  }
+/* ══════════════════════════════════════════════════════════════
+   3. HOW TO PLAY
+══════════════════════════════════════════════════════════════ */
+#how {
+  background: var(--dark);
+}
+.steps-grid {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.step-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 32px 28px;
+  flex: 1 1 220px;
+  max-width: 260px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.step-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--saffron), var(--gold));
+}
+.step-number {
+  font-family: 'Cinzel', serif;
+  font-size: 42px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--gold), var(--saffron));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+.step-icon {
+  font-size: 28px;
+  margin-bottom: 10px;
+  display: block;
+}
+.step-text {
+  font-size: 15px;
+  color: var(--ivory);
+  font-weight: 600;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+@media (max-width: 767px) {
+  .steps-grid { flex-direction: column; align-items: center; }
+  .step-card   { max-width: 340px; width: 100%; }
+}
 
-  /* Mini block preview */
-  .block-preview {
-    display: grid;
-    grid-template-columns: repeat(5, 28px);
-    gap: 3px;
-    margin: 0 auto 32px;
-    width: fit-content;
-    opacity: 0.6;
-  }
-  .bp-cell {
-    width: 28px; height: 28px;
-    border-radius: 5px;
-  }
-  .bp-empty {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.06);
-  }
+/* ══════════════════════════════════════════════════════════════
+   4. FEATURES
+══════════════════════════════════════════════════════════════ */
+#features {
+  background: linear-gradient(160deg, var(--dark2) 0%, var(--dark) 100%);
+}
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.feature-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 24px 20px;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.feature-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255,215,0,0.4);
+}
+.feature-emoji {
+  font-size: 26px;
+  margin-bottom: 10px;
+  display: block;
+}
+.feature-title {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.feature-desc {
+  font-size: 13px;
+  color: rgba(255,255,240,0.6);
+  line-height: 1.55;
+  font-weight: 400;
+}
+@media (min-width: 768px) {
+  .features-grid { grid-template-columns: repeat(3, 1fr); }
+}
 
-  /* Footer */
-  .footer {
-    font-size: 10px;
-    color: var(--gold);
-    opacity: 0.25;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
+/* ══════════════════════════════════════════════════════════════
+   5. SCREENSHOTS
+══════════════════════════════════════════════════════════════ */
+#screenshots {
+  background: var(--dark);
+}
+.screens-scroll {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 8px 4px 24px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,215,0,0.2) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+.screens-scroll::-webkit-scrollbar { height: 4px; }
+.screens-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255,215,0,0.2);
+  border-radius: 2px;
+}
+.phone-card {
+  flex-shrink: 0;
+  width: 160px;
+  background: #110600;
+  border: 2px solid rgba(255,215,0,0.2);
+  border-radius: 22px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.phone-screen {
+  width: 160px;
+  height: 290px;
+  position: relative;
+  overflow: hidden;
+  background: #0d0400;
+}
+/* shared mini-grid styles inside screens */
+.mini-grid {
+  display: grid;
+  gap: 3px;
+  position: absolute;
+}
+.mc { border-radius: 3px; }
+.mc-s { background: rgba(255,153,51,0.85); box-shadow: 0 0 4px rgba(255,153,51,0.4); }
+.mc-g { background: rgba(255,215,0,0.85);  box-shadow: 0 0 4px rgba(255,215,0,0.4); }
+.mc-p { background: rgba(0,130,127,0.85);  box-shadow: 0 0 4px rgba(0,130,127,0.4); }
+.mc-r { background: rgba(139,0,0,0.85);    box-shadow: 0 0 4px rgba(139,0,0,0.4); }
+.mc-e { background: rgba(255,255,255,0.06); }
 
-  /* Animate in */
-  .container > * {
-    animation: fadeUp 0.6s ease forwards;
-    opacity: 0;
-  }
-  .studio { animation-delay: 0.1s; }
-  .logo-dhamaka { animation-delay: 0.2s; }
-  .logo-blocks { animation-delay: 0.3s; }
-  .divider { animation-delay: 0.4s; }
-  .tagline { animation-delay: 0.45s; }
-  .badge { animation-delay: 0.5s; }
-  .block-preview { animation-delay: 0.55s; }
-  .features { animation-delay: 0.6s; }
-  .social-row { animation-delay: 0.65s; }
-  .footer { animation-delay: 0.7s; }
+.phone-label {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--gold);
+  opacity: 0.7;
+  text-transform: uppercase;
+  padding: 10px 8px;
+  background: #110600;
+}
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+/* ══════════════════════════════════════════════════════════════
+   6. SOCIAL
+══════════════════════════════════════════════════════════════ */
+#social {
+  background: linear-gradient(160deg, var(--dark2) 0%, #1f0e00 100%);
+  text-align: center;
+}
+.social-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.social-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  border-radius: 50px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-family: 'Rajdhani', sans-serif;
+  transition: transform 0.2s, opacity 0.2s;
+}
+.social-btn:hover { transform: translateY(-2px); opacity: 0.9; }
+.social-btn.instagram {
+  background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+  color: #fff;
+}
+.social-btn.youtube {
+  background: #FF0000;
+  color: #fff;
+}
+@media (max-width: 480px) {
+  .social-buttons   { flex-direction: column; align-items: center; }
+  .social-btn       { width: 100%; max-width: 280px; justify-content: center; }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   7. FOOTER
+══════════════════════════════════════════════════════════════ */
+footer {
+  position: relative;
+  z-index: 1;
+  background: var(--dark);
+  text-align: center;
+  padding: 32px 24px 48px;
+  border-top: 1px solid rgba(255,215,0,0.08);
+}
+.footer-copy {
+  font-size: 13px;
+  color: rgba(255,255,240,0.35);
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+.footer-links {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.footer-links a {
+  font-size: 12px;
+  color: rgba(255,215,0,0.4);
+  text-decoration: none;
+  letter-spacing: 1px;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--gold); }
+
+/* UPDATE comment anchor visibility */
+/* <!-- UPDATE AT LAUNCH: Add Play Store download button here --> */
 </style>
 </head>
 <body>
 
-<div class="rainbow"></div>
+<!-- Rainbow bars -->
+<div class="rainbow-top"></div>
+<div class="rainbow-bottom"></div>
 
 <!-- Floating particles -->
 <div class="particles" id="particles"></div>
 
-<div class="container">
-  <div class="studio">🎆 Dhamaka Games 🎆</div>
-
-  <div class="logo-dhamaka">DHAMAKA</div>
-  <div class="logo-blocks">BLOCKS</div>
-
-  <div class="divider">
-    <div class="divider-line"></div>
-    <div class="divider-dot"></div>
-    <div class="divider-dot"></div>
-    <div class="divider-dot"></div>
-    <div class="divider-line"></div>
+<!-- ── Sticky Nav ──────────────────────────────────────────── -->
+<nav id="nav" aria-label="Site navigation">
+  <div class="nav-inner">
+    <div class="nav-logo">DB</div>
+    <ul class="nav-links">
+      <li><a href="#beta">Beta</a></li>
+      <li><a href="#how">How to Play</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#social">Follow Us</a></li>
+    </ul>
   </div>
+</nav>
 
-  <div class="tagline">India's Block Puzzle Game</div>
-
-  <div class="badge">
+<!-- ══════════════════════════════════════════════════════════
+     1. HERO
+══════════════════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-studio">🎆 Dhamaka Games 🎆</div>
+  <div class="hero-title-dhamaka">DHAMAKA</div>
+  <div class="hero-title-blocks">BLOCKS</div>
+  <div class="hero-divider">
+    <div class="hero-divider-line"></div>
+    <div class="hero-divider-dot"></div>
+    <div class="hero-divider-dot"></div>
+    <div class="hero-divider-dot"></div>
+    <div class="hero-divider-line"></div>
+  </div>
+  <div class="hero-tagline">India's Block Puzzle Game</div>
+  <div class="hero-badge">
     <div class="badge-dot"></div>
     Coming Soon to Android
   </div>
+  <div class="hero-block-preview" id="blockPreview"></div>
 
-  <!-- Mini block grid preview -->
-  <div class="block-preview" id="blockPreview"></div>
-
-  <div class="features">
-    <div class="pill">🎨 Indian Festive Theme</div>
-    <div class="pill">🔥 Daily Streaks</div>
-    <div class="pill">📤 Share Your Score</div>
-    <div class="pill">📵 Play Offline</div>
-    <div class="pill">🆓 Free to Play</div>
+  <!-- Scroll arrow to beta section -->
+  <div class="hero-scroll-arrow" id="scrollArrow" role="button" aria-label="Scroll down" tabindex="0">
+    <span class="scroll-arrow-text">Scroll</span>
+    <div class="scroll-arrow-icon"></div>
   </div>
+</section>
 
-  <div class="social-row">
-    <a href="https://instagram.com/dhamakablocks" target="_blank" class="social-btn instagram">
-      📸 Instagram
+<!-- ══════════════════════════════════════════════════════════
+     2. JOIN BETA
+══════════════════════════════════════════════════════════ -->
+<section id="beta">
+  <div class="section-inner beta-inner">
+    <h2 class="section-heading reveal">Play Before Everyone Else 🎮</h2>
+    <div class="ornament reveal reveal-delay-1">
+      <div class="ornament-line"></div>
+      <div class="ornament-dot"></div><div class="ornament-dot"></div><div class="ornament-dot"></div>
+      <div class="ornament-line"></div>
+    </div>
+    <p class="section-sub reveal reveal-delay-2">
+      Join our beta test and be among the first to play<br>Dhamaka Blocks on Android
+    </p>
+    <!-- UPDATE: Replace # with beta opt-in URL from Play Console -->
+    <a href="#" class="beta-btn reveal reveal-delay-3" target="_blank" rel="noopener">
+      Join Beta on Android
     </a>
-    <a href="https://youtube.com/@DhamakaBlocksGame" target="_blank" class="social-btn youtube">
-      ▶ YouTube
-    </a>
+    <p class="beta-note reveal reveal-delay-4">Free &nbsp;•&nbsp; Android only &nbsp;•&nbsp; Takes 2 minutes to install</p>
+    <!-- UPDATE AT LAUNCH: Add Play Store download button here -->
   </div>
+</section>
 
-  <div class="footer">dhamakablocks.com • Dhamaka Games</div>
-</div>
+<!-- ══════════════════════════════════════════════════════════
+     3. HOW TO PLAY
+══════════════════════════════════════════════════════════ -->
+<section id="how">
+  <div class="section-inner">
+    <h2 class="section-heading reveal">How to Play</h2>
+    <div class="ornament reveal reveal-delay-1">
+      <div class="ornament-line"></div>
+      <div class="ornament-dot"></div><div class="ornament-dot"></div><div class="ornament-dot"></div>
+      <div class="ornament-line"></div>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card reveal reveal-delay-2">
+        <div class="step-number">01</div>
+        <span class="step-icon">🎯</span>
+        <p class="step-text">Drag blocks onto the 8×8 grid</p>
+      </div>
+      <div class="step-card reveal reveal-delay-3">
+        <div class="step-number">02</div>
+        <span class="step-icon">✨</span>
+        <p class="step-text">Fill a full row or column to clear it</p>
+      </div>
+      <div class="step-card reveal reveal-delay-4">
+        <div class="step-number">03</div>
+        <span class="step-icon">🏆</span>
+        <p class="step-text">Beat your high score every day</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     4. FEATURES
+══════════════════════════════════════════════════════════ -->
+<section id="features">
+  <div class="section-inner">
+    <h2 class="section-heading reveal">Why You'll Love It</h2>
+    <div class="ornament reveal reveal-delay-1">
+      <div class="ornament-line"></div>
+      <div class="ornament-dot"></div><div class="ornament-dot"></div><div class="ornament-dot"></div>
+      <div class="ornament-line"></div>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal reveal-delay-1">
+        <span class="feature-emoji">🎨</span>
+        <div class="feature-title">Indian Festive Theme</div>
+        <p class="feature-desc">Saffron, gold and peacock green — colours that feel like home</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <span class="feature-emoji">🔥</span>
+        <div class="feature-title">Daily Streak</div>
+        <p class="feature-desc">Play every day to keep your streak alive. Can you hit 30 days?</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-3">
+        <span class="feature-emoji">📤</span>
+        <div class="feature-title">Share Your Score</div>
+        <p class="feature-desc">Challenge friends on WhatsApp and Instagram with your score card</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-4">
+        <span class="feature-emoji">📵</span>
+        <div class="feature-title">Play Offline</div>
+        <p class="feature-desc">No internet needed — play on your commute, anywhere, anytime</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-5">
+        <span class="feature-emoji">🆓</span>
+        <div class="feature-title">Completely Free</div>
+        <p class="feature-desc">Free to play forever. No hidden charges.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-6">
+        <span class="feature-emoji">🎵</span>
+        <div class="feature-title">Festive Sounds</div>
+        <p class="feature-desc">Indian percussion and celebration sounds make every clear satisfying</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     5. SCREENSHOTS
+══════════════════════════════════════════════════════════ -->
+<section id="screenshots">
+  <div class="section-inner">
+    <h2 class="section-heading reveal">See It In Action</h2>
+    <div class="ornament reveal reveal-delay-1">
+      <div class="ornament-line"></div>
+      <div class="ornament-dot"></div><div class="ornament-dot"></div><div class="ornament-dot"></div>
+      <div class="ornament-line"></div>
+    </div>
+    <!-- UPDATE AT LAUNCH: Replace CSS mockups with real screenshots -->
+    <div class="screens-scroll reveal reveal-delay-2">
+
+      <!-- Card 1: Home Screen -->
+      <div class="phone-card">
+        <div class="phone-screen" id="screen1"></div>
+        <div class="phone-label">Home Screen</div>
+      </div>
+
+      <!-- Card 2: Game in Progress -->
+      <div class="phone-card">
+        <div class="phone-screen" id="screen2"></div>
+        <div class="phone-label">Game in Progress</div>
+      </div>
+
+      <!-- Card 3: Line Clear! -->
+      <div class="phone-card">
+        <div class="phone-screen" id="screen3"></div>
+        <div class="phone-label">Line Clear!</div>
+      </div>
+
+      <!-- Card 4: Game Over -->
+      <div class="phone-card">
+        <div class="phone-screen" id="screen4"></div>
+        <div class="phone-label">Game Over</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     6. SOCIAL
+══════════════════════════════════════════════════════════ -->
+<section id="social">
+  <div class="section-inner">
+    <h2 class="section-heading reveal">Follow Our Journey</h2>
+    <div class="ornament reveal reveal-delay-1">
+      <div class="ornament-line"></div>
+      <div class="ornament-dot"></div><div class="ornament-dot"></div><div class="ornament-dot"></div>
+      <div class="ornament-line"></div>
+    </div>
+    <p class="section-sub reveal reveal-delay-2">Behind the scenes, gameplay previews and launch updates</p>
+    <div class="social-buttons reveal reveal-delay-3">
+      <a href="https://instagram.com/dhamakablocks" target="_blank" rel="noopener" class="social-btn instagram">
+        📸 @dhamakablocks
+      </a>
+      <a href="https://youtube.com/@DhamakaBlocksGame" target="_blank" rel="noopener" class="social-btn youtube">
+        ▶ @DhamakaBlocksGame
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     7. FOOTER
+══════════════════════════════════════════════════════════ -->
+<footer>
+  <p class="footer-copy">© 2026 Dhamaka Games</p>
+  <div class="footer-links">
+    <a href="https://dhamakablocks.com/privacy">Privacy Policy</a>
+    <span style="color:rgba(255,215,0,0.2)">•</span>
+    <a href="https://dhamakablocks.com">dhamakablocks.com</a>
+  </div>
+</footer>
 
 <script>
-  // Generate floating particles
+/* ── Floating particles ──────────────────────────────────── */
+(function () {
   const colors = ['#FF9933','#FFD700','#00827F','#C41E3A','#FF6B35'];
-  const container = document.getElementById('particles');
-  for (let i = 0; i < 18; i++) {
+  const wrap = document.getElementById('particles');
+  for (let i = 0; i < 22; i++) {
     const p = document.createElement('div');
     p.className = 'particle';
     const size = Math.random() * 6 + 3;
-    p.style.cssText = `
-      width: ${size}px; height: ${size}px;
-      left: ${Math.random() * 100}%;
-      background: ${colors[Math.floor(Math.random() * colors.length)]};
-      animation-duration: ${Math.random() * 12 + 8}s;
-      animation-delay: ${Math.random() * 8}s;
-    `;
-    container.appendChild(p);
+    p.style.cssText =
+      'width:' + size + 'px;height:' + size + 'px;' +
+      'left:' + (Math.random() * 100) + '%;' +
+      'background:' + colors[Math.floor(Math.random() * colors.length)] + ';' +
+      'animation-duration:' + (Math.random() * 12 + 8) + 's;' +
+      'animation-delay:' + (Math.random() * 10) + 's;';
+    wrap.appendChild(p);
   }
+})();
 
-  // Mini block preview
+/* ── Hero mini block preview ─────────────────────────────── */
+(function () {
   const grid = document.getElementById('blockPreview');
-  const blockColors = ['#FF9933','#00827F','#FFD700','#C41E3A','#FF6B35','#8B0000'];
+  if (!grid) return;
+  const blockColors = ['#FF9933','#00827F','#FFD700','#C41E3A','#FF6B35'];
   const pattern = [
-    [1,1,0,0,0],[1,1,0,2,2],[0,0,0,0,2],
-    [3,0,4,4,0],[3,3,0,4,0]
+    [1,1,0,0,0],
+    [1,1,0,2,2],
+    [0,0,0,0,2],
+    [3,0,4,4,0],
+    [3,3,0,4,0]
   ];
-  pattern.forEach(row => {
-    row.forEach(cell => {
+  grid.style.cssText = 'display:grid;grid-template-columns:repeat(5,28px);gap:3px;margin:0 auto 40px;width:fit-content;opacity:0.5;';
+  pattern.forEach(function(row) {
+    row.forEach(function(cell) {
       const d = document.createElement('div');
-      d.className = 'bp-cell ' + (cell ? '' : 'bp-empty');
+      d.className = 'bp-cell' + (cell ? '' : ' bp-empty');
       if (cell) {
         const c = blockColors[cell - 1];
-        d.style.background = `linear-gradient(135deg, ${c}cc, ${c}77)`;
-        d.style.border = '1px solid rgba(255,255,255,0.2)';
+        d.style.background = 'linear-gradient(135deg,' + c + 'cc,' + c + '77)';
+        d.style.border = '1px solid rgba(255,255,255,0.18)';
       }
       grid.appendChild(d);
     });
   });
+})();
+
+/* ── Sticky nav (show after 100px) ───────────────────────── */
+(function () {
+  const nav = document.getElementById('nav');
+  let ticking = false;
+  window.addEventListener('scroll', function () {
+    if (!ticking) {
+      window.requestAnimationFrame(function () {
+        if (window.scrollY > 100) {
+          nav.classList.add('visible');
+        } else {
+          nav.classList.remove('visible');
+        }
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+})();
+
+/* ── Smooth scroll: hero arrow → beta section ────────────── */
+(function () {
+  const arrow = document.getElementById('scrollArrow');
+  const beta  = document.getElementById('beta');
+  if (!arrow || !beta) return;
+  function scrollToBeta() { beta.scrollIntoView({ behavior: 'smooth' }); }
+  arrow.addEventListener('click', scrollToBeta);
+  arrow.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') scrollToBeta();
+  });
+})();
+
+/* ── Scroll reveal (IntersectionObserver) ────────────────── */
+(function () {
+  const els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(function (el) { el.classList.add('visible'); });
+    return;
+  }
+  const observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  els.forEach(function (el) { observer.observe(el); });
+})();
+
+/* ── CSS Phone Mockups (pure CSS blocks) ─────────────────── */
+(function () {
+  /* Helper: build a mini grid */
+  function makeGrid(el, cols, rows, cells, top, left, cellSize, gap) {
+    const g = document.createElement('div');
+    g.className = 'mini-grid';
+    g.style.cssText =
+      'grid-template-columns:repeat(' + cols + ',' + cellSize + 'px);' +
+      'top:' + top + 'px;left:' + left + 'px;gap:' + gap + 'px;';
+    cells.forEach(function (cls) {
+      const c = document.createElement('div');
+      c.className = 'mc ' + cls;
+      c.style.cssText = 'width:' + cellSize + 'px;height:' + cellSize + 'px;border-radius:3px;';
+      g.appendChild(c);
+    });
+    el.appendChild(g);
+  }
+
+  /* Helper: title label inside screen */
+  function makeLabel(el, text, top, color) {
+    const lb = document.createElement('div');
+    lb.style.cssText =
+      'position:absolute;top:' + top + 'px;left:0;right:0;text-align:center;' +
+      'font-family:Cinzel,serif;font-size:11px;font-weight:700;letter-spacing:2px;' +
+      'color:' + color + ';text-transform:uppercase;';
+    lb.textContent = text;
+    el.appendChild(lb);
+  }
+
+  /* Colour shorthand */
+  var S = 'mc-s', G = 'mc-g', P = 'mc-p', R = 'mc-r', E = 'mc-e';
+
+  /* ── Screen 1: Home Screen ── */
+  var s1 = document.getElementById('screen1');
+  if (s1) {
+    makeLabel(s1, 'DHAMAKA', 18, '#FFD700');
+    makeLabel(s1, 'BLOCKS', 34, '#FF9933');
+    /* 8×8 empty grid */
+    var emptyCells = [];
+    for (var i = 0; i < 64; i++) emptyCells.push(E);
+    makeGrid(s1, 8, 8, emptyCells, 60, 12, 14, 2);
+    /* score area */
+    var score = document.createElement('div');
+    score.style.cssText = 'position:absolute;bottom:20px;left:0;right:0;text-align:center;font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:2px;font-family:Cinzel,serif;';
+    score.textContent = 'SCORE  0';
+    s1.appendChild(score);
+  }
+
+  /* ── Screen 2: Game in Progress ── */
+  var s2 = document.getElementById('screen2');
+  if (s2) {
+    makeLabel(s2, 'SCORE  1240', 14, '#FFD700');
+    var inProg = [
+      E,E,E,E,E,E,E,E,
+      E,S,S,E,E,E,E,E,
+      E,S,S,E,G,G,G,E,
+      E,E,E,E,E,E,G,E,
+      P,P,E,E,E,E,G,E,
+      P,P,E,R,R,R,R,E,
+      E,E,E,R,E,E,E,E,
+      E,E,E,R,E,E,E,E
+    ];
+    makeGrid(s2, 8, 8, inProg, 36, 12, 14, 2);
+    /* next blocks */
+    var nb = document.createElement('div');
+    nb.style.cssText = 'position:absolute;bottom:12px;left:12px;right:12px;display:flex;gap:8px;justify-content:center;';
+    [[S,S,S],[G,E,G],[P,P,E]].forEach(function(b) {
+      var bw = document.createElement('div');
+      bw.style.cssText = 'display:grid;grid-template-columns:repeat(3,10px);gap:2px;';
+      b.forEach(function(cls) {
+        var bc = document.createElement('div');
+        bc.className = 'mc ' + cls;
+        bc.style.cssText = 'width:10px;height:10px;border-radius:2px;';
+        bw.appendChild(bc);
+      });
+      nb.appendChild(bw);
+    });
+    s2.appendChild(nb);
+  }
+
+  /* ── Screen 3: Line Clear! ── */
+  var s3 = document.getElementById('screen3');
+  if (s3) {
+    /* flash label */
+    var fl = document.createElement('div');
+    fl.style.cssText = 'position:absolute;top:14px;left:0;right:0;text-align:center;font-family:Cinzel,serif;font-size:12px;font-weight:900;color:#FFD700;text-shadow:0 0 12px #FFD700;letter-spacing:1px;animation:pulse 1s ease-in-out infinite;';
+    fl.textContent = '✨ LINE CLEAR!';
+    s3.appendChild(fl);
+    /* grid with cleared row highlighted */
+    var clearGrid = [
+      E,S,S,E,P,P,E,E,
+      E,S,S,E,P,E,E,E,
+      G,G,G,G,G,G,G,G,  /* cleared row */
+      E,E,R,R,R,E,E,E,
+      E,E,R,E,E,E,E,E,
+      S,E,E,E,G,G,G,G,
+      S,S,E,E,E,E,E,G,
+      E,E,E,E,E,E,E,G
+    ];
+    makeGrid(s3, 8, 8, clearGrid, 38, 12, 14, 2);
+    /* score bump */
+    var sc3 = document.createElement('div');
+    sc3.style.cssText = 'position:absolute;bottom:12px;left:0;right:0;text-align:center;font-size:9px;color:rgba(255,215,0,0.7);letter-spacing:2px;font-family:Cinzel,serif;';
+    sc3.textContent = 'SCORE  2880';
+    s3.appendChild(sc3);
+  }
+
+  /* ── Screen 4: Game Over ── */
+  var s4 = document.getElementById('screen4');
+  if (s4) {
+    /* full grid */
+    var overGrid = [
+      S,S,G,G,P,P,R,R,
+      S,G,G,P,P,R,R,S,
+      G,G,P,P,R,R,S,S,
+      G,P,P,R,R,S,S,G,
+      P,P,R,R,S,S,G,G,
+      P,R,R,S,S,G,G,P,
+      R,R,S,S,G,G,P,P,
+      R,S,S,G,G,P,P,R
+    ];
+    makeGrid(s4, 8, 8, overGrid, 8, 12, 14, 2);
+    /* overlay */
+    var ov = document.createElement('div');
+    ov.style.cssText = 'position:absolute;inset:0;background:rgba(0,0,0,0.65);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;';
+    var go = document.createElement('div');
+    go.style.cssText = 'font-family:Cinzel,serif;font-size:16px;font-weight:900;color:#FF9933;letter-spacing:2px;';
+    go.textContent = 'GAME OVER';
+    var hs = document.createElement('div');
+    hs.style.cssText = 'font-size:11px;color:#FFD700;letter-spacing:1px;font-family:Rajdhani,sans-serif;font-weight:700;';
+    hs.textContent = 'BEST  3640';
+    var rb = document.createElement('div');
+    rb.style.cssText = 'margin-top:8px;padding:6px 16px;background:linear-gradient(135deg,#FF9933,#FFD700);border-radius:20px;font-size:10px;font-weight:700;color:#1a0a00;letter-spacing:1px;font-family:Rajdhani,sans-serif;';
+    rb.textContent = 'PLAY AGAIN';
+    ov.appendChild(go);
+    ov.appendChild(hs);
+    ov.appendChild(rb);
+    s4.appendChild(ov);
+  }
+})();
 </script>
 </body>
 </html>
