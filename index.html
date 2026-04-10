@@ -531,22 +531,17 @@ section {
 .phone-screen {
   width: 160px;
   height: 290px;
-  position: relative;
   overflow: hidden;
   background: #0d0400;
+  display: block;
 }
-/* shared mini-grid styles inside screens */
-.mini-grid {
-  display: grid;
-  gap: 3px;
-  position: absolute;
+.phone-screen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
 }
-.mc { border-radius: 3px; }
-.mc-s { background: rgba(255,153,51,0.85); box-shadow: 0 0 4px rgba(255,153,51,0.4); }
-.mc-g { background: rgba(255,215,0,0.85);  box-shadow: 0 0 4px rgba(255,215,0,0.4); }
-.mc-p { background: rgba(0,130,127,0.85);  box-shadow: 0 0 4px rgba(0,130,127,0.4); }
-.mc-r { background: rgba(139,0,0,0.85);    box-shadow: 0 0 4px rgba(139,0,0,0.4); }
-.mc-e { background: rgba(255,255,255,0.06); }
 
 .phone-label {
   text-align: center;
@@ -797,30 +792,37 @@ footer {
       <div class="ornament-dot"></div><div class="ornament-dot"></div><div class="ornament-dot"></div>
       <div class="ornament-line"></div>
     </div>
-    <!-- UPDATE AT LAUNCH: Replace CSS mockups with real screenshots -->
     <div class="screens-scroll reveal reveal-delay-2">
 
       <!-- Card 1: Home Screen -->
       <div class="phone-card">
-        <div class="phone-screen" id="screen1"></div>
+        <div class="phone-screen">
+          <img src="images/screen-home.jpg" alt="Dhamaka Blocks home screen showing best score and play button" loading="lazy">
+        </div>
         <div class="phone-label">Home Screen</div>
       </div>
 
       <!-- Card 2: Game in Progress -->
       <div class="phone-card">
-        <div class="phone-screen" id="screen2"></div>
+        <div class="phone-screen">
+          <img src="images/screen-game.jpg" alt="Dhamaka Blocks game in progress with coloured blocks on the grid" loading="lazy">
+        </div>
         <div class="phone-label">Game in Progress</div>
       </div>
 
       <!-- Card 3: Line Clear! -->
       <div class="phone-card">
-        <div class="phone-screen" id="screen3"></div>
+        <div class="phone-screen">
+          <img src="images/screen-clear.jpg" alt="Dhamaka Blocks line clear moment with score bonus" loading="lazy">
+        </div>
         <div class="phone-label">Line Clear!</div>
       </div>
 
       <!-- Card 4: Game Over -->
       <div class="phone-card">
-        <div class="phone-screen" id="screen4"></div>
+        <div class="phone-screen">
+          <img src="images/screen-gameover.jpg" alt="Dhamaka Blocks game over screen with final score" loading="lazy">
+        </div>
         <div class="phone-label">Game Over</div>
       </div>
 
@@ -958,146 +960,6 @@ footer {
   els.forEach(function (el) { observer.observe(el); });
 })();
 
-/* ── CSS Phone Mockups (pure CSS blocks) ─────────────────── */
-(function () {
-  /* Helper: build a mini grid */
-  function makeGrid(el, cols, rows, cells, top, left, cellSize, gap) {
-    const g = document.createElement('div');
-    g.className = 'mini-grid';
-    g.style.cssText =
-      'grid-template-columns:repeat(' + cols + ',' + cellSize + 'px);' +
-      'top:' + top + 'px;left:' + left + 'px;gap:' + gap + 'px;';
-    cells.forEach(function (cls) {
-      const c = document.createElement('div');
-      c.className = 'mc ' + cls;
-      c.style.cssText = 'width:' + cellSize + 'px;height:' + cellSize + 'px;border-radius:3px;';
-      g.appendChild(c);
-    });
-    el.appendChild(g);
-  }
-
-  /* Helper: title label inside screen */
-  function makeLabel(el, text, top, color) {
-    const lb = document.createElement('div');
-    lb.style.cssText =
-      'position:absolute;top:' + top + 'px;left:0;right:0;text-align:center;' +
-      'font-family:Cinzel,serif;font-size:11px;font-weight:700;letter-spacing:2px;' +
-      'color:' + color + ';text-transform:uppercase;';
-    lb.textContent = text;
-    el.appendChild(lb);
-  }
-
-  /* Colour shorthand */
-  var S = 'mc-s', G = 'mc-g', P = 'mc-p', R = 'mc-r', E = 'mc-e';
-
-  /* ── Screen 1: Home Screen ── */
-  var s1 = document.getElementById('screen1');
-  if (s1) {
-    makeLabel(s1, 'DHAMAKA', 18, '#FFD700');
-    makeLabel(s1, 'BLOCKS', 34, '#FF9933');
-    /* 8×8 empty grid */
-    var emptyCells = [];
-    for (var i = 0; i < 64; i++) emptyCells.push(E);
-    makeGrid(s1, 8, 8, emptyCells, 60, 12, 14, 2);
-    /* score area */
-    var score = document.createElement('div');
-    score.style.cssText = 'position:absolute;bottom:20px;left:0;right:0;text-align:center;font-size:10px;color:rgba(255,215,0,0.6);letter-spacing:2px;font-family:Cinzel,serif;';
-    score.textContent = 'SCORE  0';
-    s1.appendChild(score);
-  }
-
-  /* ── Screen 2: Game in Progress ── */
-  var s2 = document.getElementById('screen2');
-  if (s2) {
-    makeLabel(s2, 'SCORE  1240', 14, '#FFD700');
-    var inProg = [
-      E,E,E,E,E,E,E,E,
-      E,S,S,E,E,E,E,E,
-      E,S,S,E,G,G,G,E,
-      E,E,E,E,E,E,G,E,
-      P,P,E,E,E,E,G,E,
-      P,P,E,R,R,R,R,E,
-      E,E,E,R,E,E,E,E,
-      E,E,E,R,E,E,E,E
-    ];
-    makeGrid(s2, 8, 8, inProg, 36, 12, 14, 2);
-    /* next blocks */
-    var nb = document.createElement('div');
-    nb.style.cssText = 'position:absolute;bottom:12px;left:12px;right:12px;display:flex;gap:8px;justify-content:center;';
-    [[S,S,S],[G,E,G],[P,P,E]].forEach(function(b) {
-      var bw = document.createElement('div');
-      bw.style.cssText = 'display:grid;grid-template-columns:repeat(3,10px);gap:2px;';
-      b.forEach(function(cls) {
-        var bc = document.createElement('div');
-        bc.className = 'mc ' + cls;
-        bc.style.cssText = 'width:10px;height:10px;border-radius:2px;';
-        bw.appendChild(bc);
-      });
-      nb.appendChild(bw);
-    });
-    s2.appendChild(nb);
-  }
-
-  /* ── Screen 3: Line Clear! ── */
-  var s3 = document.getElementById('screen3');
-  if (s3) {
-    /* flash label */
-    var fl = document.createElement('div');
-    fl.style.cssText = 'position:absolute;top:14px;left:0;right:0;text-align:center;font-family:Cinzel,serif;font-size:12px;font-weight:900;color:#FFD700;text-shadow:0 0 12px #FFD700;letter-spacing:1px;animation:pulse 1s ease-in-out infinite;';
-    fl.textContent = '✨ LINE CLEAR!';
-    s3.appendChild(fl);
-    /* grid with cleared row highlighted */
-    var clearGrid = [
-      E,S,S,E,P,P,E,E,
-      E,S,S,E,P,E,E,E,
-      G,G,G,G,G,G,G,G,  /* cleared row */
-      E,E,R,R,R,E,E,E,
-      E,E,R,E,E,E,E,E,
-      S,E,E,E,G,G,G,G,
-      S,S,E,E,E,E,E,G,
-      E,E,E,E,E,E,E,G
-    ];
-    makeGrid(s3, 8, 8, clearGrid, 38, 12, 14, 2);
-    /* score bump */
-    var sc3 = document.createElement('div');
-    sc3.style.cssText = 'position:absolute;bottom:12px;left:0;right:0;text-align:center;font-size:9px;color:rgba(255,215,0,0.7);letter-spacing:2px;font-family:Cinzel,serif;';
-    sc3.textContent = 'SCORE  2880';
-    s3.appendChild(sc3);
-  }
-
-  /* ── Screen 4: Game Over ── */
-  var s4 = document.getElementById('screen4');
-  if (s4) {
-    /* full grid */
-    var overGrid = [
-      S,S,G,G,P,P,R,R,
-      S,G,G,P,P,R,R,S,
-      G,G,P,P,R,R,S,S,
-      G,P,P,R,R,S,S,G,
-      P,P,R,R,S,S,G,G,
-      P,R,R,S,S,G,G,P,
-      R,R,S,S,G,G,P,P,
-      R,S,S,G,G,P,P,R
-    ];
-    makeGrid(s4, 8, 8, overGrid, 8, 12, 14, 2);
-    /* overlay */
-    var ov = document.createElement('div');
-    ov.style.cssText = 'position:absolute;inset:0;background:rgba(0,0,0,0.65);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;';
-    var go = document.createElement('div');
-    go.style.cssText = 'font-family:Cinzel,serif;font-size:16px;font-weight:900;color:#FF9933;letter-spacing:2px;';
-    go.textContent = 'GAME OVER';
-    var hs = document.createElement('div');
-    hs.style.cssText = 'font-size:11px;color:#FFD700;letter-spacing:1px;font-family:Rajdhani,sans-serif;font-weight:700;';
-    hs.textContent = 'BEST  3640';
-    var rb = document.createElement('div');
-    rb.style.cssText = 'margin-top:8px;padding:6px 16px;background:linear-gradient(135deg,#FF9933,#FFD700);border-radius:20px;font-size:10px;font-weight:700;color:#1a0a00;letter-spacing:1px;font-family:Rajdhani,sans-serif;';
-    rb.textContent = 'PLAY AGAIN';
-    ov.appendChild(go);
-    ov.appendChild(hs);
-    ov.appendChild(rb);
-    s4.appendChild(ov);
-  }
-})();
 </script>
 </body>
 </html>
