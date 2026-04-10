@@ -748,11 +748,13 @@ footer {
     </p>
 
     <!-- Email signup form — powered by Web3Forms (free) -->
-    <!-- UPDATE: Go to web3forms.com → enter your email → paste the access key below -->
-    <form class="email-form reveal reveal-delay-3" id="betaForm" novalidate>
+    <form class="email-form reveal reveal-delay-3" id="betaForm"
+          action="https://api.web3forms.com/submit" method="POST">
       <input type="hidden" name="access_key" value="8c938215-6ec8-4870-bb1b-7a42eac36b74">
       <input type="hidden" name="subject" value="New Dhamaka Blocks Beta Signup">
-      <input type="hidden" name="from_name" value="Dhamaka Blocks Website">
+      <input type="hidden" name="name" value="Beta Signup">
+      <input type="hidden" name="redirect" value="https://dhamakablocks.com?signup=success">
+      <input type="checkbox" name="botcheck" style="display:none">
       <div class="email-row">
         <input
           class="email-input"
@@ -763,7 +765,7 @@ footer {
           autocomplete="email"
           required
         >
-        <button class="email-submit" type="submit" id="betaSubmit">Notify Me</button>
+        <button class="email-submit" type="submit">Notify Me</button>
       </div>
       <div class="form-msg" id="formMsg"></div>
       <p class="beta-note">Free &nbsp;•&nbsp; Android only &nbsp;•&nbsp; No spam, ever</p>
@@ -1010,58 +1012,22 @@ footer {
   });
 })();
 
-/* ── Beta email form (Web3Forms) ─────────────────────────── */
+/* ── Beta signup: show success message if returned from Web3Forms ── */
 (function () {
-  var form    = document.getElementById('betaForm');
-  var btn     = document.getElementById('betaSubmit');
-  var msg     = document.getElementById('formMsg');
-  if (!form) return;
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var email = document.getElementById('betaEmail').value.trim();
-    if (!email) return;
-
-    btn.disabled = true;
-    btn.textContent = 'Sending…';
-    msg.style.display = 'none';
-    msg.className = 'form-msg';
-
-    var params = new URLSearchParams();
-    params.append('access_key', '8c938215-6ec8-4870-bb1b-7a42eac36b74');
-    params.append('name', 'Beta Signup');
-    params.append('email', email);
-    params.append('message', email + ' wants to join the Dhamaka Blocks beta.');
-    params.append('subject', 'New Dhamaka Blocks Beta Signup');
-    params.append('botcheck', '');
-
-    fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      headers: { 'Accept': 'application/json' },
-      body: params
-    })
-    .then(function (res) { return res.json(); })
-    .then(function (json) {
-      if (json.success) {
-        msg.textContent = '🎉 You\'re on the list! We\'ll email you the beta link.';
-        msg.classList.add('success');
-        form.reset();
-      } else {
-        msg.textContent = '⚠️ ' + (json.message || 'Something went wrong. Please try again.');
-        msg.classList.add('error');
-      }
+  if (window.location.search.indexOf('signup=success') !== -1) {
+    var msg = document.getElementById('formMsg');
+    if (msg) {
+      msg.textContent = '🎉 You\'re on the list! We\'ll email you the beta link.';
+      msg.className = 'form-msg success';
       msg.style.display = 'block';
-      btn.textContent = 'Notify Me';
-      btn.disabled = false;
-    })
-    .catch(function (err) {
-      msg.textContent = '⚠️ Network error. Please check your connection and try again.';
-      msg.classList.add('error');
-      msg.style.display = 'block';
-      btn.textContent = 'Notify Me';
-      btn.disabled = false;
-    });
-  });
+    }
+    /* Scroll beta section into view and clean the URL */
+    var beta = document.getElementById('beta');
+    if (beta) setTimeout(function () { beta.scrollIntoView({ behavior: 'smooth' }); }, 300);
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }
 })();
 
 /* ── Scroll reveal (IntersectionObserver) ────────────────── */
