@@ -1027,20 +1027,18 @@ footer {
     msg.style.display = 'none';
     msg.className = 'form-msg';
 
+    var params = new URLSearchParams();
+    params.append('access_key', '8c938215-6ec8-4870-bb1b-7a42eac36b74');
+    params.append('name', 'Beta Signup');
+    params.append('email', email);
+    params.append('message', email + ' wants to join the Dhamaka Blocks beta.');
+    params.append('subject', 'New Dhamaka Blocks Beta Signup');
+    params.append('botcheck', '');
+
     fetch('https://api.web3forms.com/submit', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        access_key: '8c938215-6ec8-4870-bb1b-7a42eac36b74',
-        name: 'Beta Signup',
-        email: email,
-        message: email + ' signed up for the Dhamaka Blocks beta.',
-        subject: 'New Dhamaka Blocks Beta Signup',
-        from_name: 'Dhamaka Blocks Website'
-      })
+      headers: { 'Accept': 'application/json' },
+      body: params
     })
     .then(function (res) { return res.json(); })
     .then(function (json) {
@@ -1048,18 +1046,19 @@ footer {
         msg.textContent = '🎉 You\'re on the list! We\'ll email you the beta link.';
         msg.classList.add('success');
         form.reset();
-        btn.textContent = 'Notify Me';
       } else {
-        throw new Error(json.message || 'Submission failed');
+        msg.textContent = '⚠️ ' + (json.message || 'Something went wrong. Please try again.');
+        msg.classList.add('error');
       }
-    })
-    .catch(function () {
-      msg.textContent = '⚠️ Something went wrong. Please try again.';
-      msg.classList.add('error');
-      btn.textContent = 'Notify Me';
-    })
-    .finally(function () {
       msg.style.display = 'block';
+      btn.textContent = 'Notify Me';
+      btn.disabled = false;
+    })
+    .catch(function (err) {
+      msg.textContent = '⚠️ Network error. Please check your connection and try again.';
+      msg.classList.add('error');
+      msg.style.display = 'block';
+      btn.textContent = 'Notify Me';
       btn.disabled = false;
     });
   });
