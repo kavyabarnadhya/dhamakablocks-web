@@ -41,7 +41,10 @@
   --card-border: rgba(255,215,0,0.18);
 }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 70px;
+}
 
 body {
   font-family: 'Rajdhani', sans-serif;
@@ -103,6 +106,32 @@ body::before {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   letter-spacing: 1px;
+  text-decoration: none;
+}
+
+/* ── Accessibility ─────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--saffron);
+  color: var(--dark);
+  padding: 12px 24px;
+  z-index: 1000;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  transition: top 0.3s ease;
+}
+.skip-link:focus {
+  top: 0;
+}
+
+*:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 4px;
 }
 .nav-links {
   display: flex;
@@ -733,6 +762,9 @@ footer {
 </head>
 <body>
 
+<!-- Skip to content for accessibility -->
+<a href="#hero" class="skip-link">Skip to main content</a>
+
 <!-- Rainbow bars -->
 <div class="rainbow-top"></div>
 <div class="rainbow-bottom"></div>
@@ -743,7 +775,7 @@ footer {
 <!-- ── Sticky Nav ──────────────────────────────────────────── -->
 <nav id="nav" aria-label="Site navigation">
   <div class="nav-inner">
-    <div class="nav-logo">DB</div>
+    <a href="#" class="nav-logo" aria-label="Dhamaka Blocks - Return to top">DB</a>
     <ul class="nav-links">
       <li><a href="#beta">Beta</a></li>
       <li><a href="#how">How to Play</a></li>
