@@ -160,12 +160,14 @@ body::before {
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
+  contain: strict; /* Isolate layout, paint, and size */
 }
 .particle {
   position: absolute;
   border-radius: 50%;
   animation: floatUp linear infinite;
   opacity: 0;
+  will-change: transform; /* Hint compositor promotion */
 }
 @keyframes floatUp {
   0%   { transform: translateY(110vh) rotate(0deg);   opacity: 0; }
@@ -343,7 +345,7 @@ section {
   display: grid;
   grid-template-columns: repeat(5, 28px);
   gap: 3px;
-  margin: 0 auto 48px;
+  margin: 0 auto 40px; /* Reduced to 40px to prevent layout shift */
   width: fit-content;
   opacity: 0.5;
   animation: fadeUp 0.6s 0.55s ease both;
@@ -351,11 +353,17 @@ section {
 .bp-cell {
   width: 28px; height: 28px;
   border-radius: 5px;
+  border: 1px solid rgba(255,255,255,0.18);
 }
 .bp-empty {
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.06);
 }
+.bp-1 { background: linear-gradient(135deg, #FF9933cc, #FF993377); }
+.bp-2 { background: linear-gradient(135deg, #00827Fcc, #00827F77); }
+.bp-3 { background: linear-gradient(135deg, #FFD700cc, #FFD70077); }
+.bp-4 { background: linear-gradient(135deg, #C41E3Acc, #C41E3A77); }
+.bp-5 { background: linear-gradient(135deg, #FF6B35cc, #FF6B3577); }
 .hero-scroll-arrow {
   position: absolute;
   bottom: 32px;
@@ -804,7 +812,38 @@ footer {
     <div class="badge-dot"></div>
     Coming Soon to Android
   </div>
-  <div class="hero-block-preview" id="blockPreview"></div>
+  <div class="hero-block-preview" id="blockPreview">
+    <!-- Row 1 -->
+    <div class="bp-cell bp-1"></div>
+    <div class="bp-cell bp-1"></div>
+    <div class="bp-cell bp-empty"></div>
+    <div class="bp-cell bp-empty"></div>
+    <div class="bp-cell bp-empty"></div>
+    <!-- Row 2 -->
+    <div class="bp-cell bp-1"></div>
+    <div class="bp-cell bp-1"></div>
+    <div class="bp-cell bp-empty"></div>
+    <div class="bp-cell bp-2"></div>
+    <div class="bp-cell bp-2"></div>
+    <!-- Row 3 -->
+    <div class="bp-cell bp-empty"></div>
+    <div class="bp-cell bp-empty"></div>
+    <div class="bp-cell bp-empty"></div>
+    <div class="bp-cell bp-empty"></div>
+    <div class="bp-cell bp-2"></div>
+    <!-- Row 4 -->
+    <div class="bp-cell bp-3"></div>
+    <div class="bp-cell bp-empty"></div>
+    <div class="bp-cell bp-4"></div>
+    <div class="bp-cell bp-4"></div>
+    <div class="bp-cell bp-empty"></div>
+    <!-- Row 5 -->
+    <div class="bp-cell bp-3"></div>
+    <div class="bp-cell bp-3"></div>
+    <div class="bp-cell bp-empty"></div>
+    <div class="bp-cell bp-4"></div>
+    <div class="bp-cell bp-empty"></div>
+  </div>
 
   <!-- Scroll arrow to beta section -->
   <div class="hero-scroll-arrow" id="scrollArrow" role="button" aria-label="Scroll down" tabindex="0">
@@ -1022,6 +1061,7 @@ footer {
 (function () {
   const colors = ['#FF9933','#FFD700','#00827F','#C41E3A','#FF6B35'];
   const wrap = document.getElementById('particles');
+  const frag = document.createDocumentFragment();
   for (let i = 0; i < 22; i++) {
     const p = document.createElement('div');
     p.className = 'particle';
@@ -1032,35 +1072,9 @@ footer {
       'background:' + colors[Math.floor(Math.random() * colors.length)] + ';' +
       'animation-duration:' + (Math.random() * 12 + 8) + 's;' +
       'animation-delay:' + (Math.random() * 10) + 's;';
-    wrap.appendChild(p);
+    frag.appendChild(p);
   }
-})();
-
-/* ── Hero mini block preview ─────────────────────────────── */
-(function () {
-  const grid = document.getElementById('blockPreview');
-  if (!grid) return;
-  const blockColors = ['#FF9933','#00827F','#FFD700','#C41E3A','#FF6B35'];
-  const pattern = [
-    [1,1,0,0,0],
-    [1,1,0,2,2],
-    [0,0,0,0,2],
-    [3,0,4,4,0],
-    [3,3,0,4,0]
-  ];
-  grid.style.cssText = 'display:grid;grid-template-columns:repeat(5,28px);gap:3px;margin:0 auto 40px;width:fit-content;opacity:0.5;';
-  pattern.forEach(function(row) {
-    row.forEach(function(cell) {
-      const d = document.createElement('div');
-      d.className = 'bp-cell' + (cell ? '' : ' bp-empty');
-      if (cell) {
-        const c = blockColors[cell - 1];
-        d.style.background = 'linear-gradient(135deg,' + c + 'cc,' + c + '77)';
-        d.style.border = '1px solid rgba(255,255,255,0.18)';
-      }
-      grid.appendChild(d);
-    });
-  });
+  wrap.appendChild(frag);
 })();
 
 /* ── Sticky nav (show after 100px) ───────────────────────── */
