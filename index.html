@@ -88,7 +88,10 @@ body::before {
   transition: transform 0.3s ease;
   padding: 0 24px;
 }
-#nav.visible { transform: translateY(0); }
+#nav.visible,
+#nav:focus-within {
+  transform: translateY(0);
+}
 .nav-inner {
   max-width: 900px;
   margin: 0 auto;
@@ -148,6 +151,19 @@ body::before {
   transition: color 0.2s;
 }
 .nav-links a:hover { color: var(--gold); }
+.nav-links a.active {
+  color: var(--gold);
+  position: relative;
+}
+.nav-links a.active::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--gold);
+}
 @media (max-width: 480px) {
   .nav-links { gap: 14px; }
   .nav-links a { font-size: 11px; letter-spacing: 0.5px; }
@@ -796,8 +812,8 @@ footer {
 <!-- ══════════════════════════════════════════════════════════
      1. HERO
 ══════════════════════════════════════════════════════════ -->
-<section id="hero">
-  <div class="hero-studio">🎆 Dhamaka Games 🎆</div>
+<section id="hero" tabindex="-1">
+  <div class="hero-studio"><span aria-hidden="true">🎆</span> Dhamaka Games <span aria-hidden="true">🎆</span></div>
   <div class="hero-title-dhamaka">DHAMAKA</div>
   <div class="hero-title-blocks">BLOCKS</div>
   <div class="hero-divider">
@@ -1077,18 +1093,43 @@ footer {
   wrap.appendChild(frag);
 })();
 
-/* ── Sticky nav (show after 100px) ───────────────────────── */
+/* ── Sticky nav & Scroll-Spy ─────────────────────────────── */
 (function () {
   const nav = document.getElementById('nav');
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
   let ticking = false;
+
   window.addEventListener('scroll', function () {
     if (!ticking) {
       window.requestAnimationFrame(function () {
-        if (window.scrollY > 100) {
+        const scrollY = window.scrollY;
+
+        // Visibility toggle
+        if (scrollY > 100) {
           nav.classList.add('visible');
         } else {
           nav.classList.remove('visible');
         }
+
+        // Scroll-Spy
+        let current = "";
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop - 100;
+          if (scrollY >= sectionTop) {
+            current = section.getAttribute('id');
+          }
+        });
+
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          link.removeAttribute('aria-current');
+          if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+            link.setAttribute('aria-current', 'page');
+          }
+        });
+
         ticking = false;
       });
       ticking = true;
