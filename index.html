@@ -1004,7 +1004,7 @@ footer {
       <!-- Card 1: Home Screen -->
       <div class="phone-card">
         <div class="phone-screen">
-          <img src="images/screen-home.jpg" alt="Dhamaka Blocks home screen showing best score and play button" loading="lazy">
+          <img src="images/screen-home.jpg" alt="Dhamaka Blocks home screen showing best score and play button" loading="lazy" decoding="async" width="160" height="290">
         </div>
         <div class="phone-label">Home Screen</div>
       </div>
@@ -1012,7 +1012,7 @@ footer {
       <!-- Card 2: Game in Progress -->
       <div class="phone-card">
         <div class="phone-screen">
-          <img src="images/screen-game.jpg" alt="Dhamaka Blocks game in progress with coloured blocks on the grid" loading="lazy">
+          <img src="images/screen-game.jpg" alt="Dhamaka Blocks game in progress with coloured blocks on the grid" loading="lazy" decoding="async" width="160" height="290">
         </div>
         <div class="phone-label">Game in Progress</div>
       </div>
@@ -1020,7 +1020,7 @@ footer {
       <!-- Card 3: Line Clear! -->
       <div class="phone-card">
         <div class="phone-screen">
-          <img src="images/screen-clear.jpg" alt="Dhamaka Blocks line clear moment with score bonus" loading="lazy">
+          <img src="images/screen-clear.jpg" alt="Dhamaka Blocks line clear moment with score bonus" loading="lazy" decoding="async" width="160" height="290">
         </div>
         <div class="phone-label">Line Clear!</div>
       </div>
@@ -1028,7 +1028,7 @@ footer {
       <!-- Card 4: Game Over -->
       <div class="phone-card">
         <div class="phone-screen">
-          <img src="images/screen-gameover.jpg" alt="Dhamaka Blocks game over screen with final score" loading="lazy">
+          <img src="images/screen-gameover.jpg" alt="Dhamaka Blocks game over screen with final score" loading="lazy" decoding="async" width="160" height="290">
         </div>
         <div class="phone-label">Game Over</div>
       </div>
@@ -1075,6 +1075,9 @@ footer {
 <script>
 /* ── Floating particles ──────────────────────────────────── */
 (function () {
+  // Performance & Accessibility: Skip particles if user prefers reduced motion
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
   const colors = ['#FF9933','#FFD700','#00827F','#C41E3A','#FF6B35'];
   const wrap = document.getElementById('particles');
   const frag = document.createDocumentFragment();
@@ -1100,6 +1103,18 @@ footer {
   const navLinks = document.querySelectorAll('.nav-links a');
   let ticking = false;
 
+  // Cache section offsets to avoid Forced Synchronous Layout (FSL) during scroll
+  let sectionOffsets = [];
+  function updateOffsets() {
+    sectionOffsets = Array.from(sections).map(section => ({
+      id: section.getAttribute('id'),
+      top: section.offsetTop - 100
+    }));
+  }
+  updateOffsets();
+  window.addEventListener('resize', updateOffsets);
+  window.addEventListener('load', updateOffsets);
+
   window.addEventListener('scroll', function () {
     if (!ticking) {
       window.requestAnimationFrame(function () {
@@ -1112,21 +1127,25 @@ footer {
           nav.classList.remove('visible');
         }
 
-        // Scroll-Spy
+        // Scroll-Spy using cached offsets for performance
         let current = "";
-        sections.forEach(section => {
-          const sectionTop = section.offsetTop - 100;
-          if (scrollY >= sectionTop) {
-            current = section.getAttribute('id');
+        for (let i = 0; i < sectionOffsets.length; i++) {
+          if (scrollY >= sectionOffsets[i].top) {
+            current = sectionOffsets[i].id;
           }
-        });
+        }
 
         navLinks.forEach(link => {
-          link.classList.remove('active');
-          link.removeAttribute('aria-current');
-          if (link.getAttribute('href') === '#' + current) {
-            link.classList.add('active');
-            link.setAttribute('aria-current', 'page');
+          const isActive = link.getAttribute('href') === '#' + current;
+          // Only touch the DOM if necessary
+          if (link.classList.contains('active') !== isActive) {
+            if (isActive) {
+              link.classList.add('active');
+              link.setAttribute('aria-current', 'page');
+            } else {
+              link.classList.remove('active');
+              link.removeAttribute('aria-current');
+            }
           }
         });
 
