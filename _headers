@@ -2,8 +2,10 @@
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=(self)
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
   X-Permitted-Cross-Domain-Policies: none
-  # CSP refined to allow Google Fonts, Google AdMob, and Cloudflare Web Analytics
-  Content-Security-Policy: default-src 'self'; object-src 'none'; base-uri 'self'; upgrade-insecure-requests; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://adservice.google.com https://static.cloudflareinsights.com; img-src 'self' data: https://pagead2.googlesyndication.com; connect-src 'self' https://pagead2.googlesyndication.com https://cloudflareinsights.com; frame-src https://googleads.g.doubleclick.net;
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  # CSP refined to allow Google Fonts, Google AdMob, and Cloudflare Web Analytics; added frame-ancestors and form-action
+  Content-Security-Policy: default-src 'self'; object-src 'none'; base-uri 'self'; upgrade-insecure-requests; frame-ancestors 'none'; form-action 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://adservice.google.com https://static.cloudflareinsights.com; img-src 'self' data: https://pagead2.googlesyndication.com; connect-src 'self' https://pagead2.googlesyndication.com https://cloudflareinsights.com; frame-src https://googleads.g.doubleclick.net;
