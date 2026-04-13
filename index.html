@@ -1101,13 +1101,20 @@ footer {
   const nav = document.getElementById('nav');
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-links a');
+  // Cache nav link data to avoid repeated DOM reads during scroll
+  const linkData = Array.from(navLinks).map(link => ({
+    el: link,
+    href: link.getAttribute('href')
+  }));
   let ticking = false;
+  let lastCurrent = null;
+  let navVisible = false;
 
   // Cache section offsets to avoid Forced Synchronous Layout (FSL) during scroll
   let sectionOffsets = [];
   function updateOffsets() {
     sectionOffsets = Array.from(sections).map(section => ({
-      id: section.getAttribute('id'),
+      id: section.id, // Direct property access is faster than getAttribute
       top: section.offsetTop - 100
     }));
   }
@@ -1120,34 +1127,42 @@ footer {
       window.requestAnimationFrame(function () {
         const scrollY = window.scrollY;
 
-        // Visibility toggle
-        if (scrollY > 100) {
-          nav.classList.add('visible');
-        } else {
-          nav.classList.remove('visible');
+        // Visibility toggle: Only update DOM when state changes
+        const shouldBeVisible = scrollY > 100;
+        if (shouldBeVisible !== navVisible) {
+          nav.classList.toggle('visible', shouldBeVisible);
+          navVisible = shouldBeVisible;
         }
 
-        // Scroll-Spy using cached offsets for performance
+        // Scroll-Spy using cached offsets and backward iteration for early exit
         let current = "";
-        for (let i = 0; i < sectionOffsets.length; i++) {
+        for (let i = sectionOffsets.length - 1; i >= 0; i--) {
           if (scrollY >= sectionOffsets[i].top) {
             current = sectionOffsets[i].id;
+            break;
           }
         }
 
-        navLinks.forEach(link => {
-          const isActive = link.getAttribute('href') === '#' + current;
-          // Only touch the DOM if necessary
-          if (link.classList.contains('active') !== isActive) {
-            if (isActive) {
-              link.classList.add('active');
-              link.setAttribute('aria-current', 'page');
-            } else {
-              link.classList.remove('active');
-              link.removeAttribute('aria-current');
+        // Only update link classes if the active section has changed
+        if (current !== lastCurrent) {
+          lastCurrent = current;
+          const hash = '#' + current;
+
+          for (let i = 0; i < linkData.length; i++) {
+            const item = linkData[i];
+            const isActive = item.href === hash;
+
+            if (item.el.classList.contains('active') !== isActive) {
+              if (isActive) {
+                item.el.classList.add('active');
+                item.el.setAttribute('aria-current', 'page');
+              } else {
+                item.el.classList.remove('active');
+                item.el.removeAttribute('aria-current');
+              }
             }
           }
-        });
+        }
 
         ticking = false;
       });
