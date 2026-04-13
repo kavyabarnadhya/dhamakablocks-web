@@ -5,3 +5,7 @@
 ## 2026-04-12 - Scroll Performance & Rendering Efficiency
 **Learning:** Reading layout properties like `offsetTop` during scroll events causes "Forced Synchronous Layout" (FSL) or "layout thrashing" because the browser must calculate the layout to provide the value. Adding `decoding="async"` to images allows the browser to decode them off the main thread, reducing main thread jank during initial load or scroll.
 **Action:** Cache layout-dependent values (like `offsetTop`) outside of high-frequency event handlers (scroll, resize) and update them only when necessary (load, resize). Always provide `width` and `height` to images to prevent Layout Shift (CLS) and use `decoding="async"` for non-critical below-the-fold images.
+
+## 2026-04-13 - High-Frequency Scroll Event Optimization
+**Learning:** Even when using `requestAnimationFrame`, redundant DOM writes (like toggling classes that are already present) and DOM reads (like `getAttribute`) inside the scroll handler can cause main thread pressure. Backward iteration for section lookup is more efficient as the active section is typically the one further down.
+**Action:** Cache DOM metadata (element references and attributes) outside the scroll handler. Use state tracking to skip redundant DOM updates. Implement backward iteration with early-exit for active section detection.
