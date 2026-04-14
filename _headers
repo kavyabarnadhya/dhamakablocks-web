@@ -1,11 +1,12 @@
 /*
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
+  X-XSS-Protection: 0
   Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=(self)
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=(self), interest-cohort=(), browsing-topics=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
   X-Permitted-Cross-Domain-Policies: none
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Resource-Policy: same-origin
-  # CSP refined to allow Google Fonts, Google AdMob, and Cloudflare Web Analytics; added frame-ancestors and form-action
-  Content-Security-Policy: default-src 'self'; object-src 'none'; base-uri 'self'; upgrade-insecure-requests; frame-ancestors 'none'; form-action 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://adservice.google.com https://static.cloudflareinsights.com; img-src 'self' data: https://pagead2.googlesyndication.com; connect-src 'self' https://pagead2.googlesyndication.com https://cloudflareinsights.com; frame-src https://googleads.g.doubleclick.net;
+  # CSP hardened: base-uri set to none, unused AdMob domains and data: scheme removed to minimize attack surface
+  Content-Security-Policy: default-src 'self'; object-src 'none'; base-uri 'none'; upgrade-insecure-requests; frame-ancestors 'none'; form-action 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; img-src 'self'; connect-src 'self' https://cloudflareinsights.com; frame-src 'none';
