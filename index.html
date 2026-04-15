@@ -42,8 +42,12 @@
 }
 
 html {
-  scroll-behavior: smooth;
   scroll-padding-top: 70px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
@@ -164,7 +168,7 @@ body::before {
   height: 2px;
   background: var(--gold);
 }
-.nav-blog-link { color: var(--peacock) !important; }
+.nav-blog-link { color: #00b8b4 !important; }
 .nav-blog-link:hover { color: #00a89e !important; }
 @media (max-width: 480px) {
   .nav-links { gap: 14px; }
@@ -410,7 +414,11 @@ section {
   border-bottom: 2px solid var(--gold);
   transform: rotate(45deg);
   margin-top: 2px;
-  animation: bounce 1.6s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-arrow-icon {
+    animation: bounce 1.6s ease-in-out infinite;
+  }
 }
 @keyframes bounce {
   0%, 100% { transform: rotate(45deg) translateY(0); }
@@ -457,7 +465,7 @@ section {
 }
 .beta-note {
   font-size: 13px;
-  color: rgba(255,255,240,0.4);
+  color: rgba(255,255,240,0.6);
   letter-spacing: 0.5px;
 }
 /* Email signup form */
@@ -763,7 +771,7 @@ footer {
 }
 .footer-copy {
   font-size: 13px;
-  color: rgba(255,255,240,0.35);
+  color: rgba(255,255,240,0.6);
   letter-spacing: 1px;
   margin-bottom: 8px;
 }
@@ -775,7 +783,7 @@ footer {
 }
 .footer-links a {
   font-size: 12px;
-  color: rgba(255,215,0,0.4);
+  color: rgba(255,215,0,0.65);
   text-decoration: none;
   letter-spacing: 1px;
   transition: color 0.2s;
@@ -1054,10 +1062,10 @@ footer {
     <p class="section-sub reveal reveal-delay-2">Behind the scenes, gameplay previews and launch updates</p>
     <div class="social-buttons reveal reveal-delay-3">
       <a href="https://instagram.com/dhamakablocks" target="_blank" rel="noopener noreferrer" class="social-btn instagram">
-        📸 @dhamakablocks
+        <span aria-hidden="true">📸</span> @dhamakablocks
       </a>
       <a href="https://youtube.com/@DhamakaBlocksGame" target="_blank" rel="noopener noreferrer" class="social-btn youtube">
-        ▶ @DhamakaBlocksGame
+        <span aria-hidden="true">▶</span> @DhamakaBlocksGame
       </a>
     </div>
   </div>
