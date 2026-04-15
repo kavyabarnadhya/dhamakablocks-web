@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to Play Dhamaka Blocks — Complete Beginner's Guide</title>
+  <meta name="description" content="Learn how to play Dhamaka Blocks, India's block puzzle game. Step-by-step guide to drag-drop mechanics, line clears, scoring and difficulty levels." />
+  <link rel="canonical" href="https://dhamakablocks.com/blog/how-to-play-dhamaka-blocks.html" />
+  <meta property="og:title" content="How to Play Dhamaka Blocks — Complete Beginner's Guide" />
+  <meta property="og:description" content="Learn how to play Dhamaka Blocks, India's block puzzle game. Step-by-step guide to drag-drop mechanics, line clears, scoring and difficulty levels." />
+  <meta property="og:url" content="https://dhamakablocks.com/blog/how-to-play-dhamaka-blocks.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Dhamaka Blocks" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="How to Play Dhamaka Blocks — Complete Beginner's Guide" />
+  <meta name="twitter:description" content="Learn how to play Dhamaka Blocks, India's block puzzle game. Step-by-step guide to drag-drop mechanics, line clears, scoring and difficulty levels." />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Rajdhani:wght@400;600;700&display=swap" />
+  <style>
+    :root {
+      --saffron: #FF9933;
+      --gold: #FFD700;
+      --deep-red: #8B0000;
+      --peacock: #00827F;
+      --dark: #1a0a00;
+      --dark2: #2d1200;
+      --ivory: #FFFFF0;
+      --card-bg: rgba(255,255,255,0.04);
+      --card-border: rgba(255,215,0,0.18);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background: linear-gradient(180deg, #1a0a00, #2d1200);
+      min-height: 100vh;
+      color: var(--ivory);
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255,215,0,0.1) 1px, transparent 1px);
+      background-size: 22px 22px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .rainbow-top, .rainbow-bottom {
+      position: fixed;
+      left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--deep-red), var(--saffron), var(--gold), var(--saffron), var(--deep-red));
+      z-index: 100;
+    }
+    .rainbow-top { top: 0; }
+    .rainbow-bottom { bottom: 0; }
+
+    /* Header */
+    .blog-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      border-bottom: 1px solid rgba(255,215,0,0.1);
+      position: sticky;
+      top: 4px;
+      z-index: 50;
+      background: rgba(26,10,0,0.92);
+      backdrop-filter: blur(8px);
+    }
+    .back-link {
+      color: var(--gold);
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--saffron); }
+    .join-beta-btn {
+      padding: 10px 24px;
+      background: linear-gradient(135deg, var(--saffron), var(--gold));
+      color: var(--dark);
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      border-radius: 50px;
+      text-decoration: none;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 16px rgba(255,153,51,0.3);
+    }
+    .join-beta-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,153,51,0.45); }
+
+    /* Main content */
+    .blog-main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 48px 24px 140px;
+      position: relative;
+      z-index: 1;
+    }
+    .post-meta {
+      font-size: 13px;
+      color: rgba(255,255,240,0.4);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    h1.page-title {
+      font-family: 'Cinzel', serif;
+      font-weight: 900;
+      font-size: clamp(28px, 6vw, 44px);
+      background: linear-gradient(135deg, var(--gold), var(--saffron));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .ornament {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 40px;
+      max-width: 280px;
+    }
+    .ornament-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,215,0,0.35), transparent);
+    }
+    .ornament-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--gold);
+      opacity: 0.5;
+    }
+    h2 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold);
+      font-size: clamp(18px, 3.5vw, 22px);
+      font-weight: 700;
+      margin: 48px 0 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255,215,0,0.12);
+    }
+    h3 {
+      font-family: 'Rajdhani', sans-serif;
+      color: var(--saffron);
+      font-size: 17px;
+      font-weight: 700;
+      margin: 24px 0 8px;
+      letter-spacing: 0.5px;
+    }
+    p {
+      font-size: 16px;
+      line-height: 1.8;
+      color: rgba(255,255,240,0.82);
+      margin-bottom: 16px;
+    }
+    ul, ol {
+      padding-left: 24px;
+      margin-bottom: 20px;
+    }
+    li {
+      font-size: 16px;
+      line-height: 1.75;
+      color: rgba(255,255,240,0.82);
+      margin-bottom: 8px;
+    }
+    strong { color: var(--gold); }
+    em { color: var(--saffron); font-style: normal; font-weight: 700; }
+
+    /* Score table */
+    .score-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0 28px;
+      font-size: 15px;
+    }
+    .score-table th {
+      font-family: 'Cinzel', serif;
+      color: var(--gold);
+      font-size: 13px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 12px 16px;
+      background: rgba(255,215,0,0.06);
+      border: 1px solid rgba(255,215,0,0.12);
+      text-align: left;
+    }
+    .score-table td {
+      padding: 11px 16px;
+      border: 1px solid rgba(255,215,0,0.08);
+      color: rgba(255,255,240,0.82);
+    }
+    .score-table tr:nth-child(even) td {
+      background: rgba(255,255,255,0.02);
+    }
+    .score-table .highlight td {
+      color: var(--saffron);
+      font-weight: 700;
+    }
+
+    /* Info card */
+    .info-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 28px 28px 24px;
+      margin: 28px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .info-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--saffron), var(--gold));
+    }
+    .info-card-title {
+      font-family: 'Cinzel', serif;
+      color: var(--gold);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    /* CTA section */
+    .cta-section {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 36px 32px;
+      text-align: center;
+      margin: 56px 0 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--deep-red), var(--saffron), var(--gold), var(--saffron), var(--deep-red));
+    }
+    .cta-section p {
+      font-size: 17px;
+      color: rgba(255,255,240,0.75);
+      margin-bottom: 20px;
+    }
+    .cta-btn {
+      display: inline-block;
+      padding: 16px 40px;
+      background: linear-gradient(135deg, var(--saffron), var(--gold));
+      color: var(--dark);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 50px;
+      box-shadow: 0 0 0 3px rgba(255,215,0,0.2), 0 8px 28px rgba(255,153,51,0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .cta-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 0 5px rgba(255,215,0,0.3), 0 12px 36px rgba(255,153,51,0.5);
+    }
+
+    /* Related articles */
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .related-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 20px 20px 16px;
+      text-decoration: none;
+      transition: transform 0.2s, border-color 0.2s;
+      display: block;
+      position: relative;
+      overflow: hidden;
+    }
+    .related-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--saffron), var(--gold));
+    }
+    .related-card:hover { transform: translateY(-3px); border-color: rgba(255,215,0,0.35); }
+    .related-card-title {
+      font-family: 'Cinzel', serif;
+      color: var(--gold);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+    .related-card-desc {
+      font-size: 13px;
+      color: rgba(255,255,240,0.5);
+      line-height: 1.5;
+    }
+    .related-card-link {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--saffron);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    /* Sticky CTA */
+    .sticky-cta {
+      position: fixed;
+      bottom: 4px;
+      left: 0; right: 0;
+      z-index: 90;
+      padding: 0 12px 8px;
+      display: none;
+    }
+    .sticky-cta a {
+      display: block;
+      text-align: center;
+      background: linear-gradient(135deg, var(--saffron), var(--gold));
+      color: var(--dark);
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      padding: 14px;
+      border-radius: 12px;
+      text-decoration: none;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 20px rgba(255,153,51,0.4);
+    }
+    @media (max-width: 640px) { .sticky-cta { display: block; } }
+
+    /* Footer */
+    footer {
+      position: relative;
+      z-index: 1;
+      background: var(--dark);
+      text-align: center;
+      padding: 32px 24px 56px;
+      border-top: 1px solid rgba(255,215,0,0.08);
+    }
+    .footer-copy {
+      font-size: 13px;
+      color: rgba(255,255,240,0.35);
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      font-size: 12px;
+      color: rgba(255,215,0,0.4);
+      text-decoration: none;
+      letter-spacing: 1px;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+
+    /* Reveal animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    @media (max-width: 480px) {
+      .blog-main { padding: 32px 18px 140px; }
+      h2 { font-size: 18px; }
+      .score-table th, .score-table td { padding: 9px 10px; font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="rainbow-top"></div>
+
+  <header class="blog-header">
+    <a href="https://dhamakablocks.com" class="back-link">← dhamakablocks.com</a>
+    <a href="https://play.google.com/apps/testing/com.dhamakagames.dhamakablocks" class="join-beta-btn" rel="noopener">Join Beta</a>
+  </header>
+
+  <main class="blog-main">
+    <article>
+      <p class="post-meta">Beginner Guide · Dhamaka Blocks</p>
+      <h1 class="page-title">How to Play Dhamaka Blocks</h1>
+      <div class="ornament">
+        <div class="ornament-line"></div>
+        <div class="ornament-dot"></div>
+        <div class="ornament-dot"></div>
+        <div class="ornament-dot"></div>
+        <div class="ornament-line"></div>
+      </div>
+
+      <!-- Section 1 -->
+      <section class="reveal">
+        <h2>What is Dhamaka Blocks?</h2>
+        <p>Dhamaka Blocks is a block puzzle game for Android built specifically for Indian players. It takes the classic drag-and-drop block grid formula and wraps it in an Indian festive aesthetic — saffron, gold, and peacock green colours, rangoli-inspired visuals, and Indian percussion sounds. It is the only block puzzle game on the Play Store made in India, for India.</p>
+        <p>The core mechanic is simple: you place differently shaped block pieces onto an 8×8 grid. When you fill a complete row or column, it clears and you score points. The game rewards calm, strategic thinking — there is no timer, no rushing, and no lives to lose. Pick it up for a five-minute commute or play for an hour. The choice is yours.</p>
+      </section>
+
+      <!-- Section 2 -->
+      <section class="reveal">
+        <h2>The Basic Rules</h2>
+        <p>Before your first game, read through these six rules once. They cover everything you need to know to get started:</p>
+        <ol>
+          <li><strong>You always have 3 pieces in the tray</strong> at the bottom of the screen — these are the pieces available to place this turn.</li>
+          <li><strong>Drag and drop any piece</strong> from the tray onto any valid position on the 8×8 grid. You can place pieces in any order.</li>
+          <li><strong>Fill a complete row or column</strong> to clear it. The cleared cells disappear and your score increases. You can clear rows, columns, or both at once.</li>
+          <li><strong>After placing all 3 pieces</strong>, a fresh set of 3 new pieces appears in the tray.</li>
+          <li><strong>The game ends</strong> when none of the 3 current pieces fit anywhere on the remaining grid. At that point your final score is recorded.</li>
+          <li><strong>There is no time pressure.</strong> Take as long as you need to think through each move.</li>
+        </ol>
+        <div class="info-card">
+          <div class="info-card-title">Good to know</div>
+          <p style="margin-bottom:0;">You do not have to place pieces in order — you can place piece 2 before piece 1 if it suits your strategy. The new tray of 3 pieces only appears once all 3 current pieces have been placed.</p>
+        </div>
+      </section>
+
+      <!-- Section 3 -->
+      <section class="reveal">
+        <h2>How Scoring Works</h2>
+        <p>The scoring system has three layers: base points for placing cells, line clear bonuses, and a combo multiplier for consecutive clears. Understanding all three is the key to high scores.</p>
+
+        <h3>Base Points</h3>
+        <p>You earn <strong>1 point for every cell</strong> you place on the grid. A 1×1 single block scores 1 point. A 3×3 square scores 9 points. Larger pieces are worth more just by the number of cells they fill.</p>
+
+        <h3>Line Clear Bonuses</h3>
+        <table class="score-table">
+          <thead>
+            <tr>
+              <th>Lines Cleared at Once</th>
+              <th>Bonus Points</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1 line (row or column)</td><td>+10 pts</td></tr>
+            <tr><td>2 lines simultaneously</td><td>+30 pts</td></tr>
+            <tr><td>3 lines simultaneously</td><td>+60 pts</td></tr>
+            <tr><td>4 lines simultaneously</td><td>+100 pts</td></tr>
+            <tr class="highlight"><td>5+ lines simultaneously</td><td>+150 pts</td></tr>
+          </tbody>
+        </table>
+        <p>Simultaneous means cleared by placing a single piece — for example, placing one piece that completes two rows and one column counts as 3 lines (60 bonus points).</p>
+
+        <h3>Combo Multiplier</h3>
+        <p>If you clear at least one line two turns in a row, a combo multiplier activates on all points scored during that streak:</p>
+        <ul>
+          <li><strong>2 consecutive clears:</strong> 1.5× multiplier on all points</li>
+          <li><strong>3 or more consecutive clears:</strong> 2× multiplier on all points</li>
+        </ul>
+        <p>This is the biggest lever in the game. A well-set-up combo streak at level 5 can swing hundreds of points in a single turn.</p>
+      </section>
+
+      <!-- Section 4 -->
+      <section class="reveal">
+        <h2>Difficulty Levels</h2>
+        <p>Dhamaka Blocks uses a score-based progression system. As your score climbs, the piece set expands to include more complex shapes, making the game more challenging and more rewarding.</p>
+        <table class="score-table">
+          <thead>
+            <tr>
+              <th>Level</th>
+              <th>Score Range</th>
+              <th>Pieces Available</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Level 1</td><td>0 – 49 pts</td><td>Basic shapes only (1×1, 1×2, L-shapes)</td></tr>
+            <tr><td>Level 2</td><td>50 – 149 pts</td><td>More variety — T-shapes, 2×2 squares</td></tr>
+            <tr><td>Level 3</td><td>150 – 299 pts</td><td>All medium shapes including longer pieces</td></tr>
+            <tr><td>Level 4</td><td>300 – 499 pts</td><td>Complex pieces unlock — zigzags, longer Ls</td></tr>
+            <tr class="highlight"><td>Level 5</td><td>500+ pts</td><td>All 12 piece types including the 3×3 square</td></tr>
+          </tbody>
+        </table>
+        <p>The 3×3 square is the largest piece in the game — it occupies 9 cells in a single placement. Reaching level 5 is a sign you have mastered the earlier game, but the 3×3 requires careful grid management or it will end your run.</p>
+      </section>
+
+      <!-- Section 5 -->
+      <section class="reveal">
+        <h2>Your First Game — Step by Step</h2>
+        <p>Use these three principles on your very first game to avoid the most common beginner mistakes:</p>
+
+        <h3>1. Start from a corner</h3>
+        <p>New players instinctively place pieces in the middle of the grid. Resist this. Place your first pieces tight into a corner — ideally the bottom-left or top-right. This keeps the maximum open space available for future pieces and avoids creating hard-to-fill gaps in the centre.</p>
+
+        <h3>2. Leave space for large pieces</h3>
+        <p>Even at level 1, a 3-cell L-shape can strand you if the grid is too fragmented. As you place pieces, periodically scan the grid and ask: could the longest piece currently in the tray still fit comfortably? If not, your next few placements should consolidate and create clear lanes.</p>
+
+        <h3>3. Think 2–3 moves ahead</h3>
+        <p>You can see all 3 pieces in your current tray at once. Before placing the first one, look at all three and figure out which placement makes the other two easier to place. The best move for piece 1 is not always obvious until you think about pieces 2 and 3.</p>
+
+        <div class="info-card">
+          <div class="info-card-title">First game goal</div>
+          <p style="margin-bottom:0;">Do not aim for a high score on your first game. Instead, aim to simply survive long enough to reach 50 points and see level 2. Once you understand the piece variety, strategy becomes natural.</p>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <div class="cta-section reveal">
+        <p>Ready to put this into practice? Dhamaka Blocks is in closed beta on Android right now.</p>
+        <a href="https://play.google.com/apps/testing/com.dhamakagames.dhamakablocks" class="cta-btn" rel="noopener">Join the Beta — Free</a>
+        <p style="margin-top:16px; font-size:14px; color:rgba(255,255,240,0.4);">Available on Android · Free to play · dhamakablocks.com</p>
+      </div>
+
+      <!-- Related articles -->
+      <section class="reveal">
+        <h2>More Guides</h2>
+        <div class="related-grid">
+          <a href="dhamaka-blocks-tips-and-tricks.html" class="related-card">
+            <div class="related-card-title">Tips &amp; Tricks</div>
+            <div class="related-card-desc">7 expert tips to score higher every game, including combo setup and corner strategy.</div>
+            <span class="related-card-link">Read more →</span>
+          </a>
+          <a href="how-to-increase-score-dhamaka-blocks.html" class="related-card">
+            <div class="related-card-title">How to Get a High Score</div>
+            <div class="related-card-desc">Deep dive into the scoring system and a sample 500+ point game walkthrough.</div>
+            <span class="related-card-link">Read more →</span>
+          </a>
+          <a href="block-puzzle-games-india.html" class="related-card">
+            <div class="related-card-title">Best Block Puzzle Games in India</div>
+            <div class="related-card-desc">How Dhamaka Blocks compares to Block Blast, 1010!, and other top picks for Android.</div>
+            <span class="related-card-link">Read more →</span>
+          </a>
+          <a href="index.html" class="related-card">
+            <div class="related-card-title">All Blog Posts</div>
+            <div class="related-card-desc">All guides, tips and updates for Dhamaka Blocks in one place.</div>
+            <span class="related-card-link">View blog →</span>
+          </a>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <!-- Sticky CTA (mobile only) -->
+  <div class="sticky-cta">
+    <a href="https://play.google.com/apps/testing/com.dhamakagames.dhamakablocks" rel="noopener">🎆 Join Beta — Free Android Game</a>
+  </div>
+
+  <footer>
+    <p class="footer-copy">© 2026 Dhamaka Games</p>
+    <div class="footer-links">
+      <a href="https://dhamakablocks.com">Home</a>
+      <span style="color:rgba(255,215,0,0.2)">•</span>
+      <a href="https://dhamakablocks.com/privacy">Privacy Policy</a>
+      <span style="color:rgba(255,215,0,0.2)">•</span>
+      <a href="/blog/">Blog</a>
+    </div>
+  </footer>
+
+  <div class="rainbow-bottom"></div>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
