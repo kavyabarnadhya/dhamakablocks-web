@@ -164,6 +164,8 @@ body::before {
   height: 2px;
   background: var(--gold);
 }
+.nav-blog-link { color: var(--peacock) !important; }
+.nav-blog-link:hover { color: #00a89e !important; }
 @media (max-width: 480px) {
   .nav-links { gap: 14px; }
   .nav-links a { font-size: 11px; letter-spacing: 0.5px; }
@@ -805,6 +807,7 @@ footer {
       <li><a href="#how">How to Play</a></li>
       <li><a href="#features">Features</a></li>
       <li><a href="#social">Follow Us</a></li>
+      <li><a href="/blog/" class="nav-blog-link">Blog</a></li>
     </ul>
   </div>
 </nav>
@@ -1061,7 +1064,47 @@ footer {
 </section>
 
 <!-- ══════════════════════════════════════════════════════════
-     7. FOOTER
+     7. BLOG
+══════════════════════════════════════════════════════════ -->
+<section id="blog" style="background:var(--dark);">
+  <div class="section-inner">
+    <h2 class="section-heading reveal">Tips, Guides &amp; Strategies</h2>
+    <div class="ornament reveal reveal-delay-1">
+      <div class="ornament-line"></div>
+      <div class="ornament-dot"></div><div class="ornament-dot"></div><div class="ornament-dot"></div>
+      <div class="ornament-line"></div>
+    </div>
+    <p class="section-sub reveal reveal-delay-2">Learn how to play, score higher, and master every level</p>
+    <div class="features-grid reveal reveal-delay-3">
+      <a href="/blog/how-to-play-dhamaka-blocks.html" class="feature-card" style="text-decoration:none;display:block;">
+        <div class="feature-emoji">🎮</div>
+        <div class="feature-title">How to Play</div>
+        <div class="feature-desc">Rules, drag-drop mechanics, line clears, scoring and difficulty levels — the complete beginner's guide.</div>
+      </a>
+      <a href="/blog/dhamaka-blocks-tips-and-tricks.html" class="feature-card" style="text-decoration:none;display:block;">
+        <div class="feature-emoji">🏆</div>
+        <div class="feature-title">Tips &amp; Tricks</div>
+        <div class="feature-desc">7 expert strategies — corner technique, combo chains, and how to avoid the most common mistakes.</div>
+      </a>
+      <a href="/blog/how-to-increase-score-dhamaka-blocks.html" class="feature-card" style="text-decoration:none;display:block;">
+        <div class="feature-emoji">📈</div>
+        <div class="feature-title">Beat Your High Score</div>
+        <div class="feature-desc">Deep dive into the scoring formula, multi-line clear setup, and a turn-by-turn 500+ point walkthrough.</div>
+      </a>
+      <a href="/blog/block-puzzle-games-india.html" class="feature-card" style="text-decoration:none;display:block;">
+        <div class="feature-emoji">🇮🇳</div>
+        <div class="feature-title">Block Puzzles in India</div>
+        <div class="feature-desc">How Dhamaka Blocks compares to Block Blast, 1010! and other top Android picks for Indian players.</div>
+      </a>
+    </div>
+    <div style="text-align:center;margin-top:32px;" class="reveal">
+      <a href="/blog/" style="display:inline-block;padding:12px 32px;border:1px solid rgba(255,215,0,0.3);border-radius:50px;color:var(--gold);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:14px;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;transition:border-color 0.2s,color 0.2s;" onmouseover="this.style.borderColor='rgba(255,215,0,0.7)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='rgba(255,215,0,0.3)'">View All Guides →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     8. FOOTER
 ══════════════════════════════════════════════════════════ -->
 <footer>
   <p class="footer-copy">© 2026 Dhamaka Games</p>
