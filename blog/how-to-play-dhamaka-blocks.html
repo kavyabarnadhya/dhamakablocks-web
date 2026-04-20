@@ -14,6 +14,9 @@
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="How to Play Dhamaka Blocks — Complete Beginner's Guide" />
   <meta name="twitter:description" content="Learn how to play Dhamaka Blocks, India's block puzzle game. Step-by-step guide to drag-drop mechanics, line clears, scoring and difficulty levels." />
+  <!-- Performance: Preconnect to font origins to reduce Time to First Font (TTFF) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Rajdhani:wght@400;600;700&display=swap" />
   <style>
     :root {
@@ -573,10 +576,29 @@
   <div class="rainbow-bottom"></div>
 
   <script>
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    /**
+     * Performance Optimization: Scroll Reveal
+     * 1. Uses IntersectionObserver for efficient scroll tracking.
+     * 2. Calls unobserve() after reveal to stop tracking and reduce main thread overhead.
+     * 3. Provides an immediate fallback for non-supporting browsers.
+     * Expected Impact: Reduces Long Tasks during scroll by eliminating redundant intersection checks.
+     */
+    (function() {
+      const els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(el => el.classList.add('visible'));
+        return;
+      }
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            observer.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      els.forEach(el => observer.observe(el));
+    })();
   </script>
 </body>
 </html>
