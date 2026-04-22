@@ -71,6 +71,15 @@
       background: rgba(26,10,0,0.92);
       backdrop-filter: blur(8px);
     }
+    .progress-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--saffron), var(--gold));
+      width: 0%;
+      transition: width 0.05s linear;
+    }
     .back-link {
       color: var(--gold);
       font-weight: 700;
@@ -106,7 +115,7 @@
     }
     .post-meta {
       font-size: 13px;
-      color: rgba(255,255,240,0.4);
+      color: rgba(255,255,240,0.65);
       letter-spacing: 1px;
       text-transform: uppercase;
       margin-bottom: 24px;
@@ -361,7 +370,7 @@
     }
     .footer-copy {
       font-size: 13px;
-      color: rgba(255,255,240,0.35);
+      color: rgba(255,255,240,0.65);
       letter-spacing: 1px;
       margin-bottom: 10px;
     }
@@ -373,7 +382,7 @@
     }
     .footer-links a {
       font-size: 12px;
-      color: rgba(255,215,0,0.4);
+      color: rgba(255,215,0,0.65);
       text-decoration: none;
       letter-spacing: 1px;
       transition: color 0.2s;
@@ -403,7 +412,8 @@
 
   <header class="blog-header">
     <a href="https://dhamakablocks.com" class="back-link">← dhamakablocks.com</a>
-    <a href="https://play.google.com/apps/testing/com.dhamakagames.dhamakablocks" class="join-beta-btn" rel="noopener">Join Beta</a>
+    <a href="https://play.google.com/apps/testing/com.dhamakagames.dhamakablocks" class="join-beta-btn" target="_blank" rel="noopener noreferrer">Join Beta</a>
+    <div id="reading-progress" class="progress-bar" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
   </header>
 
   <main class="blog-main">
@@ -524,7 +534,7 @@
       <!-- CTA -->
       <div class="cta-section reveal">
         <p>Ready to put this into practice? Dhamaka Blocks is in closed beta on Android right now.</p>
-        <a href="https://play.google.com/apps/testing/com.dhamakagames.dhamakablocks" class="cta-btn" rel="noopener">Join the Beta — Free</a>
+        <a href="https://play.google.com/apps/testing/com.dhamakagames.dhamakablocks" class="cta-btn" target="_blank" rel="noopener noreferrer">Join the Beta — Free</a>
         <p style="margin-top:16px; font-size:14px; color:rgba(255,255,240,0.4);">Available on Android · Free to play · dhamakablocks.com</p>
       </div>
 
@@ -559,7 +569,7 @@
 
   <!-- Sticky CTA (mobile only) -->
   <div class="sticky-cta">
-    <a href="https://play.google.com/apps/testing/com.dhamakagames.dhamakablocks" rel="noopener">🎆 Join Beta — Free Android Game</a>
+    <a href="https://play.google.com/apps/testing/com.dhamakagames.dhamakablocks" target="_blank" rel="noopener noreferrer">🎆 Join Beta — Free Android Game</a>
   </div>
 
   <footer>
@@ -576,6 +586,27 @@
   <div class="rainbow-bottom"></div>
 
   <script>
+    /* Reading progress bar */
+    (function() {
+      const bar = document.getElementById('reading-progress');
+      if (!bar) return;
+      let ticking = false;
+
+      window.addEventListener('scroll', function() {
+        if (!ticking) {
+          window.requestAnimationFrame(function() {
+            const winScroll = window.scrollY;
+            const height = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+            bar.style.width = scrolled + "%";
+            bar.setAttribute('aria-valuenow', Math.round(scrolled));
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+    })();
+
     /**
      * Performance Optimization: Scroll Reveal
      * 1. Uses IntersectionObserver for efficient scroll tracking.
