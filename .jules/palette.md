@@ -6,4 +6,8 @@
 
 ## 2026-04-14 - Dark Theme Contrast and Motion
 **Learning:** Dark-themed interfaces often struggle with WCAG contrast requirements for secondary text. Low-opacity text on dark backgrounds significantly impacts legibility. Additionally, smooth scrolling and decorative animations must be explicitly opt-in for users without motion sensitivities.
-**Action:** Use opacities of at least 0.6 for secondary text on dark backgrounds and always wrap motion-based styles in `@media (prefers-reduced-motion: no-preference)`.
+**Action:** Use opacities of at least 0.65 for secondary text on dark backgrounds to ensure WCAG AA compliance and always wrap motion-based styles in `@media (prefers-reduced-motion: no-preference)`.
+
+## 2025-05-15 - Blog UX and Reading Indicators
+**Learning:** For content-heavy pages like blog posts, providing a visual reading progress indicator adds a touch of delight and helps users manage their expectations. High-contrast secondary text (0.65+ opacity) is essential for long-form readability in dark themes.
+**Action:** Implement a performant (rAF-based) progress bar in the sticky header for all blog posts and ensure all meta-text meets contrast standards.
