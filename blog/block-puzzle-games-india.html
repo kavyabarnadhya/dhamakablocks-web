@@ -544,19 +544,40 @@
   <div class="rainbow-bottom"></div>
 
   <script>
-    /* Reading progress bar */
+    /**
+     * Performance Optimization: Reading Progress Bar
+     * 1. Caches total scrollable height outside the scroll handler to prevent Forced Synchronous Layout (FSL).
+     * 2. Uses state tracking to skip redundant DOM writes (style and attributes).
+     * 3. Wrapped in requestAnimationFrame for smooth execution.
+     */
     (function() {
       const bar = document.getElementById("reading-progress");
       if (!bar) return;
       let ticking = false;
+      let lastScrolled = -1;
+
+      // Cache scroll height to avoid FSL during scroll events
+      let maxScroll = 0;
+      function updateMaxScroll() {
+        maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      }
+      updateMaxScroll();
+      window.addEventListener("resize", updateMaxScroll);
+      window.addEventListener("load", updateMaxScroll);
+
       window.addEventListener("scroll", function() {
         if (!ticking) {
           window.requestAnimationFrame(function() {
             const winScroll = window.scrollY;
-            const height = document.documentElement.scrollHeight - window.innerHeight;
-            const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
-            bar.style.width = scrolled + "%";
-            bar.setAttribute("aria-valuenow", Math.round(scrolled));
+            const scrolled = maxScroll > 0 ? (winScroll / maxScroll) * 100 : 0;
+            const rounded = Math.round(scrolled);
+
+            // Only update DOM if the rounded percentage has changed
+            if (rounded !== lastScrolled) {
+              bar.style.width = scrolled + "%";
+              bar.setAttribute("aria-valuenow", rounded);
+              lastScrolled = rounded;
+            }
             ticking = false;
           });
           ticking = true;
