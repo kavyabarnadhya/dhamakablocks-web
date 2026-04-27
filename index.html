@@ -667,55 +667,42 @@ section {
 #screenshots {
   background: var(--dark);
 }
-.screens-scroll {
+.screens-row {
   display: flex;
   gap: 20px;
-  overflow-x: auto;
-  padding: 8px 4px 24px;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255,215,0,0.2) transparent;
-  -webkit-overflow-scrolling: touch;
+  justify-content: center;
+  flex-wrap: wrap;
 }
-.screens-scroll::-webkit-scrollbar { height: 4px; }
-.screens-scroll::-webkit-scrollbar-thumb {
-  background: rgba(255,215,0,0.2);
-  border-radius: 2px;
-}
-.phone-card {
-  flex-shrink: 0;
-  width: 160px;
-  background: #110600;
-  border: 2px solid rgba(255,215,0,0.2);
-  border-radius: 22px;
-  overflow: hidden;
+.phone-wrap {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: 14px;
 }
-.phone-screen {
-  width: 160px;
-  height: 290px;
+.phone-frame {
+  width: 185px;
+  border-radius: 32px;
   overflow: hidden;
-  background: #0d0400;
-  display: block;
+  background: #0a0300;
+  box-shadow:
+    0 0 0 2px rgba(255,255,255,0.08),
+    0 16px 48px rgba(0,0,0,0.6);
 }
-.phone-screen img {
+.phone-frame img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
   display: block;
 }
-
 .phone-label {
-  text-align: center;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 1px;
-  color: var(--gold);
-  opacity: 0.7;
+  letter-spacing: 2.5px;
+  color: rgba(255,215,0,0.55);
   text-transform: uppercase;
-  padding: 10px 8px;
-  background: #110600;
+  text-align: center;
+}
+@media (max-width: 480px) {
+  .screens-row { gap: 14px; }
+  .phone-frame  { width: 145px; border-radius: 24px; }
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -992,36 +979,32 @@ footer {
       <div class="ornament-dot"></div><div class="ornament-dot"></div><div class="ornament-dot"></div>
       <div class="ornament-line"></div>
     </div>
-    <div class="screens-scroll reveal reveal-delay-2">
+    <div class="screens-row reveal reveal-delay-2">
 
-      <!-- Card 1: Home Screen -->
-      <div class="phone-card">
-        <div class="phone-screen">
-          <img src="images/screen-home.jpg" alt="Dhamaka Blocks home screen showing best score and play button" loading="lazy" decoding="async" width="160" height="290">
+      <div class="phone-wrap">
+        <div class="phone-frame">
+          <img src="images/screen-home.jpg" alt="Dhamaka Blocks home screen showing best score and play button" loading="lazy" decoding="async" width="185">
         </div>
         <div class="phone-label">Home Screen</div>
       </div>
 
-      <!-- Card 2: Game in Progress -->
-      <div class="phone-card">
-        <div class="phone-screen">
-          <img src="images/screen-game.jpg" alt="Dhamaka Blocks game in progress with coloured blocks on the grid" loading="lazy" decoding="async" width="160" height="290">
+      <div class="phone-wrap">
+        <div class="phone-frame">
+          <img src="images/screen-game.jpg" alt="Dhamaka Blocks game in progress with coloured blocks on the grid" loading="lazy" decoding="async" width="185">
         </div>
         <div class="phone-label">Game in Progress</div>
       </div>
 
-      <!-- Card 3: Line Clear! -->
-      <div class="phone-card">
-        <div class="phone-screen">
-          <img src="images/screen-clear.jpg" alt="Dhamaka Blocks line clear moment with score bonus" loading="lazy" decoding="async" width="160" height="290">
+      <div class="phone-wrap">
+        <div class="phone-frame">
+          <img src="images/screen-clear.jpg" alt="Dhamaka Blocks line clear moment with score bonus" loading="lazy" decoding="async" width="185">
         </div>
         <div class="phone-label">Line Clear!</div>
       </div>
 
-      <!-- Card 4: Game Over -->
-      <div class="phone-card">
-        <div class="phone-screen">
-          <img src="images/screen-gameover.jpg" alt="Dhamaka Blocks game over screen with final score" loading="lazy" decoding="async" width="160" height="290">
+      <div class="phone-wrap">
+        <div class="phone-frame">
+          <img src="images/screen-gameover.jpg" alt="Dhamaka Blocks game over screen with final score" loading="lazy" decoding="async" width="185">
         </div>
         <div class="phone-label">Game Over</div>
       </div>
