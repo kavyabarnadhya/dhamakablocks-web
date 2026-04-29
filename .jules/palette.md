@@ -11,3 +11,7 @@
 ## 2025-05-15 - Blog UX and Reading Indicators
 **Learning:** For content-heavy pages like blog posts, providing a visual reading progress indicator adds a touch of delight and helps users manage their expectations. High-contrast secondary text (0.65+ opacity) is essential for long-form readability in dark themes.
 **Action:** Implement a performant (rAF-based) progress bar in the sticky header for all blog posts and ensure all meta-text meets contrast standards.
+
+## 2025-05-16 - Tactile Feedback and A11y Consistency
+**Learning:** Secondary navigation hubs (like the Blog index) often lag behind the main landing page in terms of accessibility and interaction polish. Tactile `:active` states (slight transforms) significantly improve the perceived responsiveness of buttons and cards.
+**Action:** Ensure all interactive elements have `:focus-visible` and `:active` states, and always provide a "Skip to main content" link on every top-level page.

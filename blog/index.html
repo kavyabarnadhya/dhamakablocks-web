@@ -95,6 +95,26 @@
       box-shadow: 0 4px 16px rgba(255,153,51,0.3);
     }
     .join-beta-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,153,51,0.45); }
+    .join-beta-btn:active { transform: translateY(0); }
+
+    /* Accessibility */
+    .skip-link {
+      position: absolute;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--saffron);
+      color: var(--dark);
+      padding: 12px 24px;
+      z-index: 1000;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 0 0 12px 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      transition: top 0.3s ease;
+    }
+    .skip-link:focus { top: 0; }
+    *:focus-visible { outline: 3px solid var(--gold); outline-offset: 4px; }
 
     /* Hero */
     .blog-hero {
@@ -197,6 +217,7 @@
       border-color: rgba(255,215,0,0.35);
       box-shadow: 0 12px 40px rgba(255,153,51,0.12);
     }
+    .article-card:active { transform: translateY(-1px); }
     .article-tag {
       display: inline-block;
       font-size: 11px;
@@ -331,6 +352,7 @@
       transition: transform 0.2s, box-shadow 0.2s;
     }
     .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 0 0 5px rgba(255,215,0,0.3), 0 12px 36px rgba(255,153,51,0.5); }
+    .cta-btn:active { transform: translateY(0); }
 
     /* Sticky CTA */
     .sticky-cta { position: fixed; bottom: 4px; left: 0; right: 0; z-index: 90; padding: 0 12px 8px; display: none; }
@@ -373,6 +395,7 @@
   </style>
 </head>
 <body>
+  <a href="#blog-main" class="skip-link">Skip to main content</a>
   <div class="rainbow-top"></div>
 
   <header class="blog-header">
@@ -397,7 +420,7 @@
     </div>
   </div>
 
-  <main class="blog-main">
+  <main class="blog-main" id="blog-main" tabindex="-1">
 
     <p class="section-label">All Guides</p>
 
