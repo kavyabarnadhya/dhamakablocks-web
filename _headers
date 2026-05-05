@@ -3,10 +3,10 @@
   X-Content-Type-Options: nosniff
   X-XSS-Protection: 0
   Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: accelerometer=(), battery=(), browsing-topics=(), camera=(), display-capture=(), fullscreen=(self), geolocation=(), gyroscope=(), interest-cohort=(), magnetometer=(), microphone=(), payment=(), sync-xhr=(), usb=()
+  Permissions-Policy: accelerometer=(), ambient-light-sensor=(), attribution-reporting=(), autoplay=(), battery=(), browsing-topics=(), camera=(), display-capture=(), fullscreen=(), geolocation=(), gyroscope=(), hid=(), idle-detection=(), interest-cohort=(), join-ad-interest-group=(), magnetometer=(), microphone=(), payment=(), run-ad-auction=(), serial=(), sync-xhr=(), usb=(), window-management=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
   X-Permitted-Cross-Domain-Policies: none
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Resource-Policy: same-origin
-  # CSP hardened: base-uri set to none, unused AdMob domains and data: scheme removed to minimize attack surface
-  Content-Security-Policy: default-src 'self'; object-src 'none'; base-uri 'none'; upgrade-insecure-requests; frame-ancestors 'none'; form-action 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; img-src 'self'; connect-src 'self' https://cloudflareinsights.com; frame-src 'none';
+  # CSP hardened: base-uri set to none and unused worker/manifest/prefetch-src disabled to minimize attack surface
+  Content-Security-Policy: default-src 'self'; object-src 'none'; base-uri 'none'; upgrade-insecure-requests; frame-ancestors 'none'; form-action 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; img-src 'self'; connect-src 'self' https://cloudflareinsights.com; frame-src 'none'; worker-src 'none'; manifest-src 'none'; prefetch-src 'none';
