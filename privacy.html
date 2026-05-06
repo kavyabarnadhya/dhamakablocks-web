@@ -51,6 +51,31 @@
     background: linear-gradient(90deg, #8B0000, #FF9933, #FFD700, #FF9933, #8B0000);
   }
 
+  /* Accessibility */
+  .skip-link {
+    position: absolute;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--saffron);
+    color: var(--dark);
+    padding: 12px 24px;
+    z-index: 1000;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    transition: top 0.3s ease;
+  }
+  .skip-link:focus {
+    top: 0;
+  }
+
+  *:focus-visible {
+    outline: 3px solid var(--gold);
+    outline-offset: 4px;
+  }
+
   header {
     text-align: center;
     padding: 48px 24px 32px;
@@ -119,6 +144,7 @@
     text-decoration: none;
   }
   a:hover { text-decoration: underline; }
+  a:active { opacity: 0.7; }
 
   .contact-box {
     margin-top: 40px;
@@ -141,6 +167,9 @@
 </head>
 <body>
 
+<!-- Skip to content for accessibility -->
+<a href="#main" class="skip-link">Skip to main content</a>
+
 <div class="rainbow"></div>
 
 <header>
@@ -148,7 +177,7 @@
   <div class="subtitle">By Dhamaka Games</div>
 </header>
 
-<div class="container">
+  <div class="container" id="main" tabindex="-1">
 
   <h1>Privacy Policy</h1>
   <div class="effective">Effective date: April 2026 &nbsp;·&nbsp; Last updated: April 2026 (GDPR section added)</div>

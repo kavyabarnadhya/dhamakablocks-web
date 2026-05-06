@@ -114,7 +114,9 @@ body::before {
   background-clip: text;
   letter-spacing: 1px;
   text-decoration: none;
+  transition: transform 0.2s;
 }
+.nav-logo:active { transform: scale(0.95); }
 
 /* ── Accessibility ─────────────────────────────────────────── */
 .skip-link {
@@ -155,6 +157,7 @@ body::before {
   transition: color 0.2s;
 }
 .nav-links a:hover { color: var(--gold); }
+.nav-links a:active { transform: scale(0.95); }
 .nav-links a.active {
   color: var(--gold);
   position: relative;
@@ -401,6 +404,7 @@ section {
   transition: opacity 0.2s;
 }
 .hero-scroll-arrow:hover { opacity: 1; }
+.hero-scroll-arrow:active { transform: translateX(-50%) translateY(2px); }
 .scroll-arrow-text {
   font-size: 10px;
   letter-spacing: 3px;
@@ -463,6 +467,9 @@ section {
   transform: translateY(-3px);
   box-shadow: 0 0 0 5px rgba(255,215,0,0.35), 0 12px 40px rgba(255,153,51,0.5);
 }
+.beta-btn:active {
+  transform: translateY(0);
+}
 .beta-note {
   font-size: 13px;
   color: rgba(255,255,240,0.6);
@@ -514,6 +521,7 @@ section {
   white-space: nowrap;
 }
 .email-submit:hover { opacity: 0.88; }
+.email-submit:active { transform: scale(0.98); }
 .form-msg {
   display: none;
   padding: 12px 20px;
@@ -638,6 +646,9 @@ section {
   transform: translateY(-3px);
   border-color: rgba(255,215,0,0.4);
 }
+.feature-card:active {
+  transform: translateY(-1px);
+}
 .feature-emoji {
   font-size: 26px;
   margin-bottom: 10px;
@@ -733,6 +744,7 @@ section {
   transition: transform 0.2s, opacity 0.2s;
 }
 .social-btn:hover { transform: translateY(-2px); opacity: 0.9; }
+.social-btn:active { transform: translateY(0); }
 .social-btn.instagram {
   background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
   color: #fff;
@@ -777,6 +789,7 @@ footer {
   transition: color 0.2s;
 }
 .footer-links a:hover { color: var(--gold); }
+.footer-links a:active { transform: scale(0.95); }
 
 /* UPDATE comment anchor visibility */
 /* <!-- UPDATE AT LAUNCH: Add Play Store download button here --> */

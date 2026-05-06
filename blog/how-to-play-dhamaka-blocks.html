@@ -104,6 +104,30 @@
       box-shadow: 0 4px 16px rgba(255,153,51,0.3);
     }
     .join-beta-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,153,51,0.45); }
+    .join-beta-btn:active { transform: translateY(0); }
+
+    /* Accessibility */
+    .skip-link {
+      position: absolute;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--saffron);
+      color: var(--dark);
+      padding: 12px 24px;
+      z-index: 1000;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 0 0 12px 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      transition: top 0.3s ease;
+    }
+    .skip-link:focus { top: 0; }
+
+    *:focus-visible {
+      outline: 3px solid var(--gold);
+      outline-offset: 4px;
+    }
 
     /* Main content */
     .blog-main {
@@ -285,6 +309,7 @@
       transform: translateY(-3px);
       box-shadow: 0 0 0 5px rgba(255,215,0,0.3), 0 12px 36px rgba(255,153,51,0.5);
     }
+    .cta-btn:active { transform: translateY(0); }
 
     /* Related articles */
     .related-grid {
@@ -388,6 +413,7 @@
       transition: color 0.2s;
     }
     .footer-links a:hover { color: var(--gold); }
+    .footer-links a:active { transform: scale(0.95); }
 
     /* Reveal animation */
     .reveal {
@@ -408,6 +434,7 @@
   </style>
 </head>
 <body>
+  <a href="#blog-main" class="skip-link">Skip to main content</a>
   <div class="rainbow-top"></div>
 
   <header class="blog-header">
@@ -416,7 +443,7 @@
     <div id="reading-progress" class="progress-bar" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
   </header>
 
-  <main class="blog-main">
+  <main class="blog-main" id="blog-main" tabindex="-1">
     <article>
       <p class="post-meta">Beginner Guide · Dhamaka Blocks</p>
       <h1 class="page-title">How to Play Dhamaka Blocks</h1>
