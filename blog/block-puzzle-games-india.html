@@ -76,8 +76,14 @@
       left: 0;
       height: 2px;
       background: linear-gradient(90deg, var(--saffron), var(--gold));
-      width: 0%;
-      transition: width 0.05s linear;
+      width: 100%;
+      /* Performance Optimization:
+         Using transform instead of width avoids Forced Synchronous Layout (FSL)
+         and repaints by offloading updates to the compositor thread. */
+      transform: scaleX(0);
+      transform-origin: left;
+      will-change: transform;
+      transition: transform 0.05s linear;
     }
     .back-link { color: var(--gold); font-weight: 700; text-decoration: none; font-size: 14px; letter-spacing: 0.5px; transition: color 0.2s; }
     .back-link:hover { color: var(--saffron); }
@@ -601,7 +607,9 @@
 
             // Only update DOM if the rounded percentage has changed
             if (rounded !== lastScrolled) {
-              bar.style.width = scrolled + "%";
+              // Using transform (scaleX) instead of width avoids triggering
+              // the layout engine, making the update significantly more efficient.
+              bar.style.transform = "scaleX(" + (scrolled / 100).toFixed(3) + ")";
               bar.setAttribute("aria-valuenow", rounded);
               lastScrolled = rounded;
             }
