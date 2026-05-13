@@ -15,3 +15,7 @@
 ## 2025-05-16 - Tactile Feedback and A11y Consistency
 **Learning:** Secondary navigation hubs (like the Blog index) often lag behind the main landing page in terms of accessibility and interaction polish. Tactile `:active` states (slight transforms) significantly improve the perceived responsiveness of buttons and cards.
 **Action:** Ensure all interactive elements have `:focus-visible` and `:active` states, and always provide a "Skip to main content" link on every top-level page.
+
+## 2026-05-17 - Breadcrumbs and Content Expectations
+**Learning:** For content-driven hubs, a simple "Back" link is often insufficient for hierarchical navigation. Users benefit from breadcrumbs that clearly define the path (e.g., Home / All Guides). Additionally, providing estimated reading times on both index cards and individual posts helps users commit to long-form content by setting clear expectations.
+**Action:** Implement breadcrumb patterns in the header of nested pages and include reading time estimates (approx. 200 wpm) for all editorial content.
