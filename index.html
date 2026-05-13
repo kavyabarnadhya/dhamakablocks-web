@@ -791,6 +791,37 @@ footer {
 .footer-links a:hover { color: var(--gold); }
 .footer-links a:active { transform: scale(0.95); }
 
+.all-guides-btn {
+  display: inline-block;
+  padding: 12px 32px;
+  border: 1px solid rgba(255,215,0,0.3);
+  border-radius: 50px;
+  color: var(--gold);
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: border-color 0.2s, color 0.2s, transform 0.2s;
+}
+.all-guides-btn:hover {
+  border-color: rgba(255,215,0,0.7);
+  color: var(--gold);
+}
+.all-guides-btn:active {
+  transform: scale(0.95);
+}
+
+.read-time {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255,215,0,0.4);
+  margin-bottom: 6px;
+  display: block;
+}
+
 /* UPDATE comment anchor visibility */
 /* <!-- UPDATE AT LAUNCH: Add Play Store download button here --> */
 </style>
@@ -1064,28 +1095,32 @@ footer {
     <p class="section-sub reveal reveal-delay-2">Learn how to play, score higher, and master every level</p>
     <div class="features-grid reveal reveal-delay-3">
       <a href="/blog/how-to-play-dhamaka-blocks.html" class="feature-card" style="text-decoration:none;display:block;">
-        <div class="feature-emoji">🎮</div>
+        <div class="feature-emoji" aria-hidden="true">🎮</div>
+        <span class="read-time">5 min read</span>
         <div class="feature-title">How to Play</div>
         <div class="feature-desc">Rules, drag-drop mechanics, line clears, scoring and difficulty levels — the complete beginner's guide.</div>
       </a>
       <a href="/blog/dhamaka-blocks-tips-and-tricks.html" class="feature-card" style="text-decoration:none;display:block;">
-        <div class="feature-emoji">🏆</div>
+        <div class="feature-emoji" aria-hidden="true">🏆</div>
+        <span class="read-time">6 min read</span>
         <div class="feature-title">Tips &amp; Tricks</div>
         <div class="feature-desc">7 expert strategies — corner technique, combo chains, and how to avoid the most common mistakes.</div>
       </a>
       <a href="/blog/how-to-increase-score-dhamaka-blocks.html" class="feature-card" style="text-decoration:none;display:block;">
-        <div class="feature-emoji">📈</div>
+        <div class="feature-emoji" aria-hidden="true">📈</div>
+        <span class="read-time">8 min read</span>
         <div class="feature-title">Beat Your High Score</div>
         <div class="feature-desc">Deep dive into the scoring formula, multi-line clear setup, and a turn-by-turn 500+ point walkthrough.</div>
       </a>
       <a href="/blog/block-puzzle-games-india.html" class="feature-card" style="text-decoration:none;display:block;">
-        <div class="feature-emoji">🇮🇳</div>
+        <div class="feature-emoji" aria-hidden="true">🇮🇳</div>
+        <span class="read-time">5 min read</span>
         <div class="feature-title">Block Puzzles in India</div>
         <div class="feature-desc">How Dhamaka Blocks compares to Block Blast, 1010! and other top Android picks for Indian players.</div>
       </a>
     </div>
     <div style="text-align:center;margin-top:32px;" class="reveal">
-      <a href="/blog/" style="display:inline-block;padding:12px 32px;border:1px solid rgba(255,215,0,0.3);border-radius:50px;color:var(--gold);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:14px;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;transition:border-color 0.2s,color 0.2s;" onmouseover="this.style.borderColor='rgba(255,215,0,0.7)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='rgba(255,215,0,0.3)'">View All Guides →</a>
+      <a href="/blog/" class="all-guides-btn">View All Guides →</a>
     </div>
   </div>
 </section>

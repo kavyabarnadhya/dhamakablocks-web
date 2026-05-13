@@ -85,15 +85,25 @@
       will-change: transform;
       transition: transform 0.05s linear;
     }
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
     .back-link {
       color: var(--gold);
       font-weight: 700;
       text-decoration: none;
       font-size: 14px;
       letter-spacing: 0.5px;
-      transition: color 0.2s;
+      transition: color 0.2s, transform 0.2s;
     }
     .back-link:hover { color: var(--saffron); }
+    .back-link:active { transform: scale(0.95); }
+    .breadcrumb .sep {
+      color: rgba(255,215,0,0.3);
+      font-size: 12px;
+    }
     .join-beta-btn {
       padding: 10px 24px;
       background: linear-gradient(135deg, var(--saffron), var(--gold));
@@ -397,14 +407,18 @@
   <div class="rainbow-top"></div>
 
   <header class="blog-header">
-    <a href="https://dhamakablocks.com" class="back-link">← dhamakablocks.com</a>
-    <a href="https://play.google.com/apps/testing/com.dhamakagames.dhamakablocks" class="join-beta-btn" target="_blank" rel="noopener noreferrer">Join Beta</a>
+    <div class="breadcrumb">
+      <a href="https://dhamakablocks.com" class="back-link">Home</a>
+      <span class="sep" aria-hidden="true">/</span>
+      <a href="/blog/" class="back-link">All Guides</a>
+    </div>
+    <a href="https://play.google.com/store/apps/details?id=com.dhamakagames.dhamakablocks" class="join-beta-btn" target="_blank" rel="noopener noreferrer">Get the Game</a>
       <div id="reading-progress" class="progress-bar" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
   </header>
 
   <main class="blog-main" id="blog-main" tabindex="-1">
     <article>
-      <p class="post-meta">Strategy Guide · Dhamaka Blocks</p>
+      <p class="post-meta">Strategy Guide · 6 min read</p>
       <h1 class="page-title">Dhamaka Blocks Tips and Tricks</h1>
       <div class="ornament">
         <div class="ornament-line"></div>
