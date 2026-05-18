@@ -13,3 +13,7 @@
 ## 2026-04-15 - Reading Progress Bar Optimization
 **Learning:** Calculating `document.documentElement.scrollHeight` inside a scroll handler is a "Forced Synchronous Layout" (FSL) trigger. Even if the calculation is wrapped in `requestAnimationFrame`, performing it on every scroll frame when the document height hasn't changed is wasteful. Additionally, updating `style.width` and `aria-valuenow` on every scroll event, even when the rounded percentage hasn't changed, causes unnecessary DOM pressure.
 **Action:** Cache the maximum scrollable height outside the scroll handler (update on `resize` and `load`). Implement a state check (`rounded !== lastScrolled`) to ensure DOM writes only occur when the user has scrolled significantly enough to change the percentage.
+
+## 2026-04-16 - Resize Event Debouncing & Font-Ready Timing
+**Learning:** Frequent `resize` events can trigger expensive layout calculations (like `offsetTop` or `scrollHeight`) dozens of times per second, causing layout thrashing and main-thread pressure. Additionally, calculating offsets before fonts are loaded can lead to inaccurate values after typography reflows.
+**Action:** Always debounce `resize` event handlers that perform layout reads. Use `document.fonts.ready.then()` to ensure layout-dependent metadata is recalculated as soon as the text layout is stable.

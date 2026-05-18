@@ -570,8 +570,18 @@
       function updateMaxScroll() {
         maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       }
+
+      // Performance: Debounce resize events to prevent layout thrashing
+      function debounce(fn, ms) {
+        let timeout;
+        return function() {
+          clearTimeout(timeout);
+          timeout = setTimeout(() => fn.apply(this, arguments), ms);
+        };
+      }
+
       updateMaxScroll();
-      window.addEventListener("resize", updateMaxScroll);
+      window.addEventListener("resize", debounce(updateMaxScroll, 100));
       window.addEventListener("load", updateMaxScroll);
 
       window.addEventListener("scroll", function() {
