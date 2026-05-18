@@ -418,6 +418,7 @@ section {
   border-bottom: 2px solid var(--gold);
   transform: rotate(45deg);
   margin-top: 2px;
+  will-change: transform; /* Performance: hint compositor for smooth animation */
 }
 @media (prefers-reduced-motion: no-preference) {
   .scroll-arrow-icon {
@@ -1185,9 +1186,23 @@ footer {
       top: section.offsetTop - 100
     }));
   }
+
+  // Performance: Debounce resize events to prevent layout thrashing
+  function debounce(fn, ms) {
+    let timeout;
+    return function() {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => fn.apply(this, arguments), ms);
+    };
+  }
+
   updateOffsets();
-  window.addEventListener('resize', updateOffsets);
+  window.addEventListener('resize', debounce(updateOffsets, 100));
   window.addEventListener('load', updateOffsets);
+  // Ensure accurate offsets after typography is settled
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(updateOffsets);
+  }
 
   window.addEventListener('scroll', function () {
     if (!ticking) {
