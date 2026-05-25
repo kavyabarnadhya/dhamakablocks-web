@@ -75,6 +75,7 @@ body::before {
   height: 4px;
   background: linear-gradient(90deg, var(--deep-red), var(--saffron), var(--gold), var(--saffron), var(--deep-red));
   z-index: 100;
+  will-change: transform; /* Performance: promote to own layer for smooth scrolling */
 }
 .rainbow-top  { top: 0; }
 .rainbow-bottom { bottom: 0; }
@@ -91,6 +92,7 @@ body::before {
   transform: translateY(-100%);
   transition: transform 0.3s ease;
   padding: 0 24px;
+  will-change: transform; /* Performance: promote to own layer for smooth scrolling */
 }
 #nav.visible,
 #nav:focus-within {
@@ -1172,7 +1174,8 @@ footer {
   // Cache nav link data to avoid repeated DOM reads during scroll
   const linkData = Array.from(navLinks).map(link => ({
     el: link,
-    href: link.getAttribute('href')
+    href: link.getAttribute('href'),
+    active: false // State tracking: avoid redundant DOM reads
   }));
   let ticking = false;
   let lastCurrent = null;
@@ -1232,10 +1235,12 @@ footer {
 
           for (let i = 0; i < linkData.length; i++) {
             const item = linkData[i];
-            const isActive = item.href === hash;
+            const shouldBeActive = item.href === hash;
 
-            if (item.el.classList.contains('active') !== isActive) {
-              if (isActive) {
+            // Only update DOM if the state has changed (state tracking)
+            if (item.active !== shouldBeActive) {
+              item.active = shouldBeActive;
+              if (shouldBeActive) {
                 item.el.classList.add('active');
                 item.el.setAttribute('aria-current', 'page');
               } else {
