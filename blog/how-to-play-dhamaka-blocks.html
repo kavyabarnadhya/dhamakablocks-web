@@ -54,6 +54,7 @@
       height: 4px;
       background: linear-gradient(90deg, var(--deep-red), var(--saffron), var(--gold), var(--saffron), var(--deep-red));
       z-index: 100;
+      will-change: transform; /* Performance: promote to own layer for smooth scrolling */
     }
     .rainbow-top { top: 0; }
     .rainbow-bottom { bottom: 0; }
@@ -70,6 +71,7 @@
       z-index: 50;
       background: rgba(26,10,0,0.92);
       backdrop-filter: blur(8px);
+      will-change: transform; /* Performance: promote to own layer for smooth scrolling */
     }
     .progress-bar {
       position: absolute;
