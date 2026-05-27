@@ -19,3 +19,7 @@
 ## 2026-05-17 - Breadcrumbs and Content Expectations
 **Learning:** For content-driven hubs, a simple "Back" link is often insufficient for hierarchical navigation. Users benefit from breadcrumbs that clearly define the path (e.g., Home / All Guides). Additionally, providing estimated reading times on both index cards and individual posts helps users commit to long-form content by setting clear expectations.
 **Action:** Implement breadcrumb patterns in the header of nested pages and include reading time estimates (approx. 200 wpm) for all editorial content.
+
+## 2026-05-18 - Accessibility Consistency and Conversion Paths
+**Learning:** In static, content-heavy sites, metadata like reading times often fails accessibility contrast checks when using standard "muted" opacities (e.g., 0.4). Furthermore, editorial content (blog posts) often contains outdated CTAs (like "Join Beta") compared to the main landing page.
+**Action:** Use a minimum gold opacity of 0.7 for secondary metadata on dark backgrounds to ensure WCAG AA compliance. Periodically audit and unify all CTA text and links (e.g., to the public Play Store) across editorial content to ensure a consistent and modern conversion path.
