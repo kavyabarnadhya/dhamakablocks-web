@@ -31,7 +31,9 @@
       --card-border: rgba(255,215,0,0.18);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: no-preference) {
+      html { scroll-behavior: smooth; }
+    }
     body {
       font-family: 'Rajdhani', sans-serif;
       background: linear-gradient(180deg, #1a0a00, #2d1200);
@@ -213,7 +215,7 @@
       font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 1px;
-      color: rgba(255,215,0,0.4);
+      color: rgba(255,215,0,0.7);
       margin-bottom: 12px;
       display: block;
       font-weight: 700;

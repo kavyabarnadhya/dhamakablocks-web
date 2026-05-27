@@ -31,7 +31,9 @@
       --card-border: rgba(255,215,0,0.18);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: no-preference) {
+      html { scroll-behavior: smooth; }
+    }
     body {
       font-family: 'Rajdhani', sans-serif;
       background: linear-gradient(180deg, #1a0a00, #2d1200);
@@ -330,8 +332,9 @@
     }
     .related-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--saffron), var(--gold)); }
     .related-card:hover { transform: translateY(-3px); border-color: rgba(255,215,0,0.35); }
+    .related-card:active { transform: scale(0.98); }
     .related-card-title { font-family: 'Cinzel', serif; color: var(--gold); font-size: 13px; font-weight: 700; line-height: 1.4; margin-bottom: 8px; }
-    .related-card-desc { font-size: 13px; color: rgba(255,255,240,0.5); line-height: 1.5; }
+    .related-card-desc { font-size: 13px; color: rgba(255,255,240,0.7); line-height: 1.5; }
     .related-card-link { display: inline-block; margin-top: 10px; font-size: 12px; color: var(--saffron); font-weight: 700; letter-spacing: 0.5px; }
 
     .sticky-cta { position: fixed; bottom: 4px; left: 0; right: 0; z-index: 90; padding: 0 12px 8px; display: none; }
@@ -548,8 +551,8 @@
 
       <!-- CTA -->
       <div class="cta-section reveal">
-        <p>Try India's own block puzzle game — Dhamaka Blocks is in closed beta on Android right now.</p>
-        <a href="https://play.google.com/apps/testing/com.dhamakagames.dhamakablocks" class="cta-btn" target="_blank" rel="noopener noreferrer">Join the Beta — Free</a>
+        <p>Try India's own block puzzle game — Dhamaka Blocks is free on Android right now.</p>
+        <a href="https://play.google.com/store/apps/details?id=com.dhamakagames.dhamakablocks" class="cta-btn" target="_blank" rel="noopener noreferrer">Get the Game — Free</a>
         <p style="margin-top:16px; font-size:14px; color:rgba(255,255,240,0.4);">Available on Android · Free to play · dhamakablocks.com</p>
       </div>
 
@@ -583,7 +586,7 @@
   </main>
 
   <div class="sticky-cta">
-    <a href="https://play.google.com/apps/testing/com.dhamakagames.dhamakablocks" target="_blank" rel="noopener noreferrer">🎆 Join Beta — Free Android Game</a>
+    <a href="https://play.google.com/store/apps/details?id=com.dhamakagames.dhamakablocks" target="_blank" rel="noopener noreferrer">🎆 Get the Game — Free on Android</a>
   </div>
 
   <footer>
