@@ -66,6 +66,8 @@ body::before {
   background-size: 22px 22px;
   pointer-events: none;
   z-index: 0;
+  /* Performance: promote background to compositor layer to avoid repaints during scroll */
+  will-change: transform;
 }
 
 /* ── Rainbow bars ───────────────────────────────────────────── */
@@ -376,6 +378,8 @@ section {
   width: fit-content;
   opacity: 0.5;
   animation: fadeUp 0.6s 0.55s ease both;
+  /* Performance: isolate layout and paint for the block grid */
+  contain: layout paint;
 }
 .bp-cell {
   width: 28px; height: 28px;
@@ -680,6 +684,9 @@ section {
 ══════════════════════════════════════════════════════════════ */
 #screenshots {
   background: var(--dark);
+  /* Performance: skip rendering until near viewport; intrinsic size based on 4 columns of images */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1000px;
 }
 .screens-row {
   display: flex;
@@ -823,6 +830,12 @@ footer {
   color: rgba(255,215,0,0.7);
   margin-bottom: 6px;
   display: block;
+}
+
+#blog {
+  /* Performance: skip rendering until near viewport; intrinsic size based on 4-card grid */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
 }
 
 /* UPDATE comment anchor visibility */
@@ -1263,7 +1276,11 @@ footer {
   const arrow = document.getElementById('scrollArrow');
   const beta  = document.getElementById('beta');
   if (!arrow || !beta) return;
-  function scrollToBeta() { beta.scrollIntoView({ behavior: 'smooth' }); }
+  function scrollToBeta() {
+    // Performance & Accessibility: Respect user motion preferences
+    const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    beta.scrollIntoView({ behavior: isReduced ? 'auto' : 'smooth' });
+  }
   arrow.addEventListener('click', scrollToBeta);
   arrow.addEventListener('keydown', function (e) {
     if (e.key === 'Enter' || e.key === ' ') scrollToBeta();
