@@ -78,6 +78,9 @@
       will-change: transform; /* Performance: promote to own layer for smooth scrolling */
     }
     .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       color: var(--gold);
       font-weight: 700;
       text-decoration: none;
@@ -85,7 +88,12 @@
       letter-spacing: 0.5px;
       transition: color 0.2s;
     }
+    .back-link::before {
+      content: '←';
+      transition: transform 0.2s ease;
+    }
     .back-link:hover { color: var(--saffron); }
+    .back-link:hover::before { transform: translateX(-4px); }
     .back-link:active { transform: scale(0.95); }
     .join-beta-btn {
       padding: 10px 24px;
@@ -105,21 +113,6 @@
     .join-beta-btn:active { transform: scale(0.98); }
 
     /* Accessibility */
-    .skip-link {
-      position: absolute;
-      top: -100px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--saffron);
-      color: var(--dark);
-      padding: 12px 24px;
-      z-index: 1000;
-      font-weight: 700;
-      text-decoration: none;
-      border-radius: 0 0 12px 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-      transition: top 0.3s ease;
-    }
     .skip-link {
       position: absolute;
       top: -100px;
@@ -249,7 +242,7 @@
       border-color: rgba(255,215,0,0.35);
       box-shadow: 0 12px 40px rgba(255,153,51,0.12);
     }
-    .article-card:active { transform: translateY(-1px); }
+    .article-card:active { transform: scale(0.98); }
     .article-tag {
       display: inline-block;
       font-size: 11px;
@@ -433,7 +426,7 @@
   <div class="rainbow-top"></div>
 
   <header class="blog-header">
-    <a href="https://dhamakablocks.com" class="back-link" aria-label="Return to home page">← dhamakablocks.com</a>
+    <a href="https://dhamakablocks.com" class="back-link" aria-label="Return to home page">dhamakablocks.com</a>
     <a href="https://play.google.com/store/apps/details?id=com.dhamakagames.dhamakablocks" class="join-beta-btn" target="_blank" rel="noopener noreferrer">Get the Game</a>
   </header>
 
