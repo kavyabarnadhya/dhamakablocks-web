@@ -1167,25 +1167,46 @@ footer {
 <script>
 /* ── Floating particles ──────────────────────────────────── */
 (function () {
-  // Performance & Accessibility: Skip particles if user prefers reduced motion
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  /**
+   * Performance Optimization: Decorative Particles
+   * 1. Skips particles if user prefers reduced motion for accessibility.
+   * 2. Defers execution using requestIdleCallback to prioritize critical rendering.
+   * 3. Implements adaptive count (12 for mobile, 22 for desktop) to save memory.
+   * Expected Impact: Reduces Long Tasks during load by moving non-critical DOM work.
+   */
+  const initParticles = () => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  const colors = ['#FF9933','#FFD700','#00827F','#C41E3A','#FF6B35'];
-  const wrap = document.getElementById('particles');
-  const frag = document.createDocumentFragment();
-  for (let i = 0; i < 22; i++) {
-    const p = document.createElement('div');
-    p.className = 'particle';
-    const size = Math.random() * 6 + 3;
-    p.style.cssText =
-      'width:' + size + 'px;height:' + size + 'px;' +
-      'left:' + (Math.random() * 100) + '%;' +
-      'background:' + colors[Math.floor(Math.random() * colors.length)] + ';' +
-      'animation-duration:' + (Math.random() * 12 + 8) + 's;' +
-      'animation-delay:' + (Math.random() * 10) + 's;';
-    frag.appendChild(p);
+    const colors = ['#FF9933', '#FFD700', '#00827F', '#C41E3A', '#FF6B35'];
+    const wrap = document.getElementById('particles');
+    if (!wrap) return;
+
+    const frag = document.createDocumentFragment();
+    // Adaptive count: 12 on small screens, 22 on desktop
+    const count = window.innerWidth < 480 ? 12 : 22;
+
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const size = Math.random() * 6 + 3;
+      p.style.cssText = `
+        width: ${size}px;
+        height: ${size}px;
+        left: ${Math.random() * 100}%;
+        background: ${colors[Math.floor(Math.random() * colors.length)]};
+        animation-duration: ${Math.random() * 12 + 8}s;
+        animation-delay: ${Math.random() * 10}s;
+      `;
+      frag.appendChild(p);
+    }
+    wrap.appendChild(frag);
+  };
+
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(initParticles, { timeout: 2000 });
+  } else {
+    setTimeout(initParticles, 500);
   }
-  wrap.appendChild(frag);
 })();
 
 /* ── Sticky nav & Scroll-Spy ─────────────────────────────── */

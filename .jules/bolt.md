@@ -21,3 +21,7 @@
 ## 2026-04-18 - Compositor Layer Promotion & Deferred Rendering
 **Learning:** Promoting fixed backgrounds with `will-change: transform` prevents expensive full-page repaints during scroll by creating a separate compositor layer. `content-visibility: auto` with `contain-intrinsic-size: auto [height]` significantly reduces initial rendering cost by skipping the layout and paint of below-the-fold sections until they are needed.
 **Action:** Use `will-change: transform` on fixed/sticky elements that don't change frequently to isolate them from scroll repaints. Apply `content-visibility: auto` to heavy below-the-fold sections and provide a plausible intrinsic size to prevent layout shifts.
+
+## 2026-04-20 - Decorative Script Deferral & Adaptive Workloads
+**Learning:** Initializing non-critical decorative elements (like particles) during the load sequence increases Total Blocking Time (TBT) and delays the First Contentful Paint. Deferring this work using `requestIdleCallback` allows the browser to prioritize critical path rendering. Additionally, implementing adaptive resource counts for mobile devices reduces the number of compositor layers and memory pressure on lower-end hardware.
+**Action:** Always defer non-essential DOM manipulations using `requestIdleCallback` (with a `setTimeout` fallback). Use viewport-based conditional logic to scale the complexity of decorative effects, ensuring a smooth experience across all device tiers.
