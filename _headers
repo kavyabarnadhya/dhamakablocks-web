@@ -10,5 +10,7 @@
   X-Permitted-Cross-Domain-Policies: none
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Resource-Policy: same-origin
+  # COEP require-corp is safe as Google Fonts and Cloudflare Insights send 'cross-origin' CORP headers.
+  Cross-Origin-Embedder-Policy: require-corp
   # CSP hardened: base-uri set to none and unused worker/manifest/prefetch-src disabled to minimize attack surface
   Content-Security-Policy: default-src 'self'; object-src 'none'; base-uri 'none'; upgrade-insecure-requests; frame-ancestors 'none'; form-action 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; img-src 'self'; connect-src 'self' https://cloudflareinsights.com; frame-src 'none'; worker-src 'none'; manifest-src 'none'; prefetch-src 'none'; require-trusted-types-for 'script';
