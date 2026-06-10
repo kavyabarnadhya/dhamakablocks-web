@@ -475,7 +475,7 @@ section {
   box-shadow: 0 0 0 5px rgba(255,215,0,0.35), 0 12px 40px rgba(255,153,51,0.5);
 }
 .beta-btn:active {
-  transform: translateY(0);
+  transform: translateY(0) scale(0.98);
 }
 .beta-note {
   font-size: 13px;
@@ -654,7 +654,7 @@ section {
   border-color: rgba(255,215,0,0.4);
 }
 .feature-card:active {
-  transform: translateY(-1px);
+  transform: translateY(-1px) scale(0.98);
 }
 .feature-emoji {
   font-size: 26px;
@@ -713,6 +713,10 @@ section {
   width: 100%;
   height: auto;
   display: block;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.phone-wrap:hover .phone-frame img {
+  transform: scale(1.06);
 }
 .phone-label {
   font-size: 10px;
@@ -754,7 +758,7 @@ section {
   transition: transform 0.2s, opacity 0.2s;
 }
 .social-btn:hover { transform: translateY(-2px); opacity: 0.9; }
-.social-btn:active { transform: translateY(0); }
+.social-btn:active { transform: translateY(0) scale(0.98); }
 .social-btn.instagram {
   background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
   color: #fff;
