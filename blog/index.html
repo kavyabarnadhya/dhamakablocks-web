@@ -87,6 +87,8 @@
       font-size: 14px;
       letter-spacing: 0.5px;
       transition: color 0.2s;
+      position: relative;
+      z-index: 1;
     }
     .back-link::before {
       content: '←';
@@ -94,7 +96,7 @@
     }
     .back-link:hover { color: var(--saffron); }
     .back-link:hover::before { transform: translateX(-4px); }
-    .back-link:active { transform: scale(0.95); }
+    .back-link:active { transform: scale(0.95); opacity: 0.8; }
     .join-beta-btn {
       padding: 10px 24px;
       background: linear-gradient(135deg, var(--saffron), var(--gold));
@@ -377,7 +379,7 @@
       transition: transform 0.2s, box-shadow 0.2s;
     }
     .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 0 0 5px rgba(255,215,0,0.3), 0 12px 36px rgba(255,153,51,0.5); }
-    .cta-btn:active { transform: translateY(0); }
+    .cta-btn:active { transform: translateY(0) scale(0.98); }
 
     /* Sticky CTA */
     .sticky-cta { position: fixed; bottom: 4px; left: 0; right: 0; z-index: 90; padding: 0 12px 8px; display: none; }
@@ -426,7 +428,7 @@
   <div class="rainbow-top"></div>
 
   <header class="blog-header">
-    <a href="https://dhamakablocks.com" class="back-link" aria-label="Return to home page">dhamakablocks.com</a>
+    <a href="/" class="back-link" aria-label="Return to home page">Home</a>
     <a href="https://play.google.com/store/apps/details?id=com.dhamakagames.dhamakablocks" class="join-beta-btn" target="_blank" rel="noopener noreferrer">Get the Game</a>
   </header>
 
@@ -510,9 +512,9 @@
   <footer>
     <p class="footer-copy">© 2026 Dhamaka Games</p>
     <div class="footer-links">
-      <a href="https://dhamakablocks.com">Home</a>
+      <a href="/">Home</a>
       <span style="color:rgba(255,215,0,0.2)">•</span>
-      <a href="https://dhamakablocks.com/privacy">Privacy Policy</a>
+      <a href="/privacy">Privacy Policy</a>
       <span style="color:rgba(255,215,0,0.2)">•</span>
       <a href="/blog/">Blog</a>
     </div>

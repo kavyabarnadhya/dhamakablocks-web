@@ -96,7 +96,7 @@
       align-items: center;
       gap: 10px;
     }
-    .back-link { display: inline-flex; align-items: center; gap: 6px;
+    .back-link { display: inline-flex; align-items: center; gap: 6px; position: relative; z-index: 1;
       color: var(--gold);
       font-weight: 700;
       text-decoration: none;
@@ -107,7 +107,7 @@
     .back-link:hover { color: var(--saffron); }
     .back-link::before { content: "←"; transition: transform 0.2s ease; }
     .back-link:hover::before { transform: translateX(-4px); }
-    .back-link:active { transform: scale(0.95); }
+    .back-link:active { transform: scale(0.95); opacity: 0.8; }
     .breadcrumb .sep {
       color: rgba(255,215,0,0.3);
       font-size: 12px;
@@ -127,7 +127,7 @@
       box-shadow: 0 4px 16px rgba(255,153,51,0.3);
     }
     .join-beta-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,153,51,0.45); }
-    .join-beta-btn:active { transform: translateY(0); }
+    .join-beta-btn:active { transform: scale(0.98); }
 
     /* Accessibility */
     .skip-link {
@@ -324,7 +324,7 @@
       transition: transform 0.2s, box-shadow 0.2s;
     }
     .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 0 0 5px rgba(255,215,0,0.3), 0 12px 36px rgba(255,153,51,0.5); }
-    .cta-btn:active { transform: translateY(0); }
+    .cta-btn:active { transform: translateY(0) scale(0.98); }
 
     .related-grid {
       display: grid;
@@ -387,6 +387,7 @@
       padding: 0 12px 8px;
       display: none;
     }
+    .sticky-cta a:active { transform: scale(0.98); }
     .sticky-cta a {
       display: block;
       text-align: center;
@@ -433,7 +434,7 @@
 
   <header class="blog-header">
     <div class="breadcrumb">
-      <a href="https://dhamakablocks.com" class="back-link">Home</a>
+      <a href="/" class="back-link">Home</a>
       <span class="sep" aria-hidden="true">/</span>
       <a href="/blog/" class="back-link">All Guides</a>
     </div>
@@ -567,9 +568,9 @@
   <footer>
     <p class="footer-copy">© 2026 Dhamaka Games</p>
     <div class="footer-links">
-      <a href="https://dhamakablocks.com">Home</a>
+      <a href="/">Home</a>
       <span style="color:rgba(255,215,0,0.2)">•</span>
-      <a href="https://dhamakablocks.com/privacy">Privacy Policy</a>
+      <a href="/privacy">Privacy Policy</a>
       <span style="color:rgba(255,215,0,0.2)">•</span>
       <a href="/blog/">Blog</a>
     </div>
