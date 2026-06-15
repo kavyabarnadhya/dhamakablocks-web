@@ -23,7 +23,9 @@
 <meta name="theme-color" content="#FF9933">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Rajdhani:wght@400;600;700&display=swap">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Rajdhani:wght@400;600;700&display=swap" fetchpriority="high">
 <style>
 
 /* ── Reset & Variables ─────────────────────────────────────── */
@@ -578,6 +580,9 @@ section {
 ══════════════════════════════════════════════════════════════ */
 #how {
   background: var(--dark);
+  /* Performance: skip rendering until near viewport */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 400px;
 }
 .steps-grid {
   display: flex;
@@ -636,6 +641,9 @@ section {
 ══════════════════════════════════════════════════════════════ */
 #features {
   background: linear-gradient(160deg, var(--dark2) 0%, var(--dark) 100%);
+  /* Performance: skip rendering until near viewport */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
 }
 .features-grid {
   display: grid;
@@ -737,6 +745,9 @@ section {
 #social {
   background: linear-gradient(160deg, var(--dark2) 0%, #1f0e00 100%);
   text-align: center;
+  /* Performance: skip rendering until near viewport */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 300px;
 }
 .social-buttons {
   display: flex;

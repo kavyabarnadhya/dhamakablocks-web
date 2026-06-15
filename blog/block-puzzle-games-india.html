@@ -17,7 +17,9 @@
   <!-- Performance: Preconnect to font origins to reduce Time to First Font (TTFF) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Rajdhani:wght@400;600;700&display=swap" />
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Rajdhani:wght@400;600;700&display=swap" fetchpriority="high" />
   <style>
     :root {
       --saffron: #FF9933;
@@ -333,6 +335,7 @@
       display: block;
       position: relative;
       overflow: hidden;
+      will-change: transform; /* Performance: promote to own layer for smooth hover animations */
     }
     .related-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--saffron), var(--gold)); }
     .related-card:hover { transform: translateY(-3px); border-color: rgba(255,215,0,0.35); }
