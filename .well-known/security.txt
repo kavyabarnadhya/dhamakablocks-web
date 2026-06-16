@@ -1,4 +1,5 @@
 Contact: mailto:dhamakagames@gmail.com
 Expires: 2027-05-18T00:00:00.000Z
 Preferred-Languages: en, hi
+Policy: https://dhamakablocks.com/privacy
 Canonical: https://dhamakablocks.com/.well-known/security.txt
