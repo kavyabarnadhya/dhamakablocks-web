@@ -656,6 +656,7 @@ section {
   border-radius: 14px;
   padding: 24px 20px;
   transition: transform 0.2s, border-color 0.2s;
+  will-change: transform; /* Performance: promote to own layer for smooth hover animations */
 }
 .feature-card:hover {
   transform: translateY(-3px);
@@ -1335,20 +1336,35 @@ footer {
 
 /* ── Scroll reveal (IntersectionObserver) ────────────────── */
 (function () {
-  const els = document.querySelectorAll('.reveal');
-  if (!('IntersectionObserver' in window)) {
-    els.forEach(function (el) { el.classList.add('visible'); });
-    return;
+  /**
+   * Performance Optimization: Scroll Reveal
+   * 1. Uses IntersectionObserver for efficient scroll tracking.
+   * 2. Defers initialization using requestIdleCallback to move non-critical DOM work out of the load sequence.
+   * 3. Calls unobserve() after reveal to stop tracking and reduce main thread overhead.
+   * Expected Impact: Reduces TBT during load by prioritizing critical rendering over decorative reveals.
+   */
+  const initReveal = () => {
+    const els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(el => el.classList.add('visible'));
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    els.forEach(el => observer.observe(el));
+  };
+
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(initReveal, { timeout: 2000 });
+  } else {
+    setTimeout(initReveal, 500);
   }
-  const observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.12 });
-  els.forEach(function (el) { observer.observe(el); });
 })();
 
 </script>

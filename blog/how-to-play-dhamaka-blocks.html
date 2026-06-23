@@ -711,25 +711,33 @@
     /**
      * Performance Optimization: Scroll Reveal
      * 1. Uses IntersectionObserver for efficient scroll tracking.
-     * 2. Calls unobserve() after reveal to stop tracking and reduce main thread overhead.
-     * 3. Provides an immediate fallback for non-supporting browsers.
-     * Expected Impact: Reduces Long Tasks during scroll by eliminating redundant intersection checks.
+     * 2. Defers initialization using requestIdleCallback to move non-critical DOM work out of the load sequence.
+     * 3. Calls unobserve() after reveal to stop tracking and reduce main thread overhead.
+     * Expected Impact: Reduces TBT during load by prioritizing critical rendering over decorative reveals.
      */
     (function() {
-      const els = document.querySelectorAll('.reveal');
-      if (!('IntersectionObserver' in window)) {
-        els.forEach(el => el.classList.add('visible'));
-        return;
+      const initReveal = () => {
+        const els = document.querySelectorAll('.reveal');
+        if (!('IntersectionObserver' in window)) {
+          els.forEach(el => el.classList.add('visible'));
+          return;
+        }
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(e => {
+            if (e.isIntersecting) {
+              e.target.classList.add('visible');
+              observer.unobserve(e.target);
+            }
+          });
+        }, { threshold: 0.1 });
+        els.forEach(el => observer.observe(el));
+      };
+
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(initReveal, { timeout: 2000 });
+      } else {
+        setTimeout(initReveal, 500);
       }
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            e.target.classList.add('visible');
-            observer.unobserve(e.target);
-          }
-        });
-      }, { threshold: 0.1 });
-      els.forEach(el => observer.observe(el));
     })();
   </script>
 </body>
