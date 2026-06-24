@@ -23,3 +23,7 @@
 ## 2026-05-18 - Accessibility Consistency and Conversion Paths
 **Learning:** In static, content-heavy sites, metadata like reading times often fails accessibility contrast checks when using standard "muted" opacities (e.g., 0.4). Furthermore, editorial content (blog posts) often contains outdated CTAs (like "Join Beta") compared to the main landing page.
 **Action:** Use a minimum gold opacity of 0.7 for secondary metadata on dark backgrounds to ensure WCAG AA compliance. Periodically audit and unify all CTA text and links (e.g., to the public Play Store) across editorial content to ensure a consistent and modern conversion path.
+
+## 2026-05-19 - Accessibility Polish and Focus-Visible Consistency
+**Learning:** Keyboard users often lack the same visual affordances as mouse users when interactive elements (like cards or icon-links) use transform-based hover effects. Additionally, semantic navigation indicators like `aria-current="page"` are frequently missing in static footers, reducing context for screen reader users.
+**Action:** Always pair `:hover` transform animations with `:focus-visible` equivalents for all interactive cards and links, and ensure all navigation footers use `aria-current="page"` for the active route.

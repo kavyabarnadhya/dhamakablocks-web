@@ -107,9 +107,11 @@
       letter-spacing: 0.5px;
       transition: color 0.2s, transform 0.2s;
     }
-    .back-link:hover { color: var(--saffron); }
+    .back-link:hover,
+    .back-link:focus-visible { color: var(--saffron); }
     .back-link::before { content: "←"; transition: transform 0.2s ease; }
-    .back-link:hover::before { transform: translateX(-4px); }
+    .back-link:hover::before,
+    .back-link:focus-visible::before { transform: translateX(-4px); }
     .back-link:active { transform: scale(0.95); opacity: 0.8; }
     .breadcrumb .sep {
       color: rgba(255,215,0,0.3);
@@ -363,7 +365,8 @@
       height: 2px;
       background: linear-gradient(90deg, var(--saffron), var(--gold));
     }
-    .related-card:hover { transform: translateY(-3px); border-color: rgba(255,215,0,0.35); }
+    .related-card:hover,
+    .related-card:focus-visible { transform: translateY(-3px); border-color: rgba(255,215,0,0.35); }
     .related-card:active { transform: scale(0.98); }
     .related-card-title {
       font-family: 'Cinzel', serif;
@@ -392,7 +395,8 @@
       content: "→";
       transition: transform 0.2s ease;
     }
-    .related-card:hover .related-card-link::after {
+    .related-card:hover .related-card-link::after,
+    .related-card:focus-visible .related-card-link::after {
       transform: translateX(4px);
     }
 
