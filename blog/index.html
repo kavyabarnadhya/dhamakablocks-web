@@ -96,8 +96,10 @@
       content: '←';
       transition: transform 0.2s ease;
     }
-    .back-link:hover { color: var(--saffron); }
-    .back-link:hover::before { transform: translateX(-4px); }
+    .back-link:hover,
+    .back-link:focus-visible { color: var(--saffron); }
+    .back-link:hover::before,
+    .back-link:focus-visible::before { transform: translateX(-4px); }
     .back-link:active { transform: scale(0.95); opacity: 0.8; }
     .join-beta-btn {
       padding: 10px 24px;
@@ -200,7 +202,7 @@
       font-weight: 700;
       letter-spacing: 2px;
       text-transform: uppercase;
-      color: rgba(255,215,0,0.45);
+      color: rgba(255,215,0,0.7);
       margin-bottom: 24px;
     }
     .articles-grid {
@@ -242,7 +244,8 @@
       background: linear-gradient(90deg, var(--saffron), var(--gold));
       transition: opacity 0.2s;
     }
-    .article-card:hover {
+    .article-card:hover,
+    .article-card:focus-visible {
       transform: translateY(-4px);
       border-color: rgba(255,215,0,0.35);
       box-shadow: 0 12px 40px rgba(255,153,51,0.12);
@@ -438,7 +441,7 @@
   <!-- Hero -->
   <div class="blog-hero reveal">
     <div class="blog-eyebrow">
-      <span style="width:7px;height:7px;border-radius:50%;background:var(--saffron);display:inline-block;"></span>
+      <span style="width:7px;height:7px;border-radius:50%;background:var(--saffron);display:inline-block;" aria-hidden="true"></span>
       Official Blog
     </div>
     <h1 class="blog-hero-title">Dhamaka Blocks Blog</h1>
@@ -517,7 +520,7 @@
     <div class="footer-links">
       <a href="/" aria-label="Return to home page">Home</a>
       <span style="color:rgba(255,215,0,0.2)" aria-hidden="true">•</span>
-      <a href="/blog/">Blog</a>
+      <a href="/blog/" aria-current="page">Blog</a>
       <span style="color:rgba(255,215,0,0.2)" aria-hidden="true">•</span>
       <a href="/privacy">Privacy Policy</a>
     </div>

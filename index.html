@@ -481,7 +481,7 @@ section {
 }
 .beta-note {
   font-size: 13px;
-  color: rgba(255,255,240,0.6);
+  color: rgba(255,255,240,0.7);
   letter-spacing: 0.5px;
 }
 /* Email signup form */
@@ -658,7 +658,8 @@ section {
   transition: transform 0.2s, border-color 0.2s;
   will-change: transform; /* Performance: promote to own layer for smooth hover animations */
 }
-.feature-card:hover {
+.feature-card:hover,
+.feature-card:focus-visible {
   transform: translateY(-3px);
   border-color: rgba(255,215,0,0.4);
 }
@@ -769,7 +770,8 @@ section {
   font-family: 'Rajdhani', sans-serif;
   transition: transform 0.2s, opacity 0.2s;
 }
-.social-btn:hover { transform: translateY(-2px); opacity: 0.9; }
+.social-btn:hover,
+.social-btn:focus-visible { transform: translateY(-2px); opacity: 0.9; }
 .social-btn:active { transform: translateY(0) scale(0.98); }
 .social-btn.instagram {
   background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
@@ -797,7 +799,7 @@ footer {
 }
 .footer-copy {
   font-size: 13px;
-  color: rgba(255,255,240,0.6);
+  color: rgba(255,255,240,0.7);
   letter-spacing: 1px;
   margin-bottom: 8px;
 }
@@ -1172,7 +1174,7 @@ footer {
 <footer>
   <p class="footer-copy">© 2026 Dhamaka Games</p>
   <div class="footer-links">
-    <a href="/" aria-label="Return to home page">Home</a>
+    <a href="/" aria-label="Return to home page" aria-current="page">Home</a>
     <span style="color:rgba(255,215,0,0.2)" aria-hidden="true">•</span>
     <a href="/blog/">Blog</a>
     <span style="color:rgba(255,215,0,0.2)" aria-hidden="true">•</span>
