@@ -210,6 +210,9 @@
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 24px;
       margin-bottom: 56px;
+      /* Performance Optimization: Skip rendering until near viewport */
+      content-visibility: auto;
+      contain-intrinsic-size: auto 900px;
     }
 
     .read-time {
