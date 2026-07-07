@@ -11,3 +11,8 @@ This journal contains only CRITICAL security learnings as per the Sentinel's mis
 **Vulnerability:** Unnecessarily broad browser feature permissions increasing the potential attack surface.
 **Learning:** Hardening `Permissions-Policy` to disable modern browser features (e.g., `shared-storage`, `captured-surface-control`) is an effective defense-in-depth measure. However, managing extremely long header lines (1200+ characters) in configuration files like `_headers` can exceed LLM tool output limits, requiring targeted string manipulation (e.g., `sed`, `cut`) to read and verify the state accurately.
 **Prevention:** Standardize a comprehensive `Permissions-Policy` deny-list for all static projects and use robust line-parsing techniques for header configuration management.
+
+## 2026-05-18 - Enhanced Permissions-Policy Hardening
+**Vulnerability:** Potential attack surface from modern browser features (fenced frames) and legacy SOP bypasses (document.domain).
+**Learning:** Hardening the `Permissions-Policy` beyond the standard set to include `document-domain`, `fenced-frame-api`, and execution throttling directives (`execution-while-not-rendered`, `execution-while-out-of-viewport`) provides a more robust defense-in-depth posture for static sites.
+**Prevention:** Explicitly disable `document-domain`, `fenced-frame-api`, and background execution in the global security header configuration.
