@@ -122,6 +122,8 @@ body::before {
   text-decoration: none;
   transition: transform 0.2s;
 }
+.nav-logo:hover,
+.nav-logo:focus-visible { transform: scale(1.05); }
 .nav-logo:active { transform: scale(0.95); }
 
 /* ── Accessibility ─────────────────────────────────────────── */
@@ -162,7 +164,8 @@ body::before {
   text-transform: uppercase;
   transition: color 0.2s;
 }
-.nav-links a:hover { color: var(--gold); }
+.nav-links a:hover,
+.nav-links a:focus-visible { color: var(--gold); }
 .nav-links a:active { transform: scale(0.95); }
 .nav-links a.active {
   color: var(--gold);
@@ -178,7 +181,8 @@ body::before {
   background: var(--gold);
 }
 .nav-blog-link { color: #00b8b4 !important; }
-.nav-blog-link:hover { color: #00a89e !important; }
+.nav-blog-link:hover,
+.nav-blog-link:focus-visible { color: #00a89e !important; }
 @media (max-width: 480px) {
   .nav-links { gap: 14px; }
   .nav-links a { font-size: 11px; letter-spacing: 0.5px; }
@@ -411,7 +415,8 @@ section {
   opacity: 0.6;
   transition: opacity 0.2s;
 }
-.hero-scroll-arrow:hover { opacity: 1; }
+.hero-scroll-arrow:hover,
+.hero-scroll-arrow:focus-visible { opacity: 1; }
 .hero-scroll-arrow:active { transform: translateX(-50%) translateY(2px); }
 .scroll-arrow-text {
   font-size: 10px;
@@ -472,7 +477,8 @@ section {
   box-shadow: 0 0 0 3px rgba(255,215,0,0.25), 0 8px 32px rgba(255,153,51,0.35);
   transition: transform 0.2s, box-shadow 0.2s;
 }
-.beta-btn:hover {
+.beta-btn:hover,
+.beta-btn:focus-visible {
   transform: translateY(-3px);
   box-shadow: 0 0 0 5px rgba(255,215,0,0.35), 0 12px 40px rgba(255,153,51,0.5);
 }
@@ -529,7 +535,8 @@ section {
   transition: opacity 0.2s;
   white-space: nowrap;
 }
-.email-submit:hover { opacity: 0.88; }
+.email-submit:hover,
+.email-submit:focus-visible { opacity: 0.88; }
 .email-submit:active { transform: scale(0.98); }
 .form-msg {
   display: none;
@@ -816,7 +823,8 @@ footer {
   letter-spacing: 1px;
   transition: color 0.2s;
 }
-.footer-links a:hover { color: var(--gold); }
+.footer-links a:hover,
+.footer-links a:focus-visible { color: var(--gold); }
 .footer-links a:active { transform: scale(0.95); }
 
 .all-guides-btn {
@@ -839,11 +847,13 @@ footer {
   content: '→';
   transition: transform 0.2s ease;
 }
-.all-guides-btn:hover {
+.all-guides-btn:hover,
+.all-guides-btn:focus-visible {
   border-color: rgba(255,215,0,0.7);
   color: var(--gold);
 }
-.all-guides-btn:hover::after {
+.all-guides-btn:hover::after,
+.all-guides-btn:focus-visible::after {
   transform: translateX(4px);
 }
 .all-guides-btn:active {
