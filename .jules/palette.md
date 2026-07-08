@@ -27,3 +27,7 @@
 ## 2026-05-19 - Accessibility Polish and Focus-Visible Consistency
 **Learning:** Keyboard users often lack the same visual affordances as mouse users when interactive elements (like cards or icon-links) use transform-based hover effects. Additionally, semantic navigation indicators like `aria-current="page"` are frequently missing in static footers, reducing context for screen reader users.
 **Action:** Always pair `:hover` transform animations with `:focus-visible` equivalents for all interactive cards and links, and ensure all navigation footers use `aria-current="page"` for the active route.
+
+## 2026-07-08 - Focus-Visible Parity and Tactile Logos
+**Learning:** When elements use CSS transforms (like `translateY` or `scale`) on hover, keyboard users lose visual affordance if these aren't mirrored in `:focus-visible`. Additionally, logos benefit from subtle tactile feedback (scaling) on interaction to signal they are interactive hubs.
+**Action:** Always pair `:hover` transform and shadow effects with `:focus-visible` equivalents for all buttons, cards, and links. Implement a consistent `scale(1.05)` tactile effect for main site logos to improve interaction clarity.
