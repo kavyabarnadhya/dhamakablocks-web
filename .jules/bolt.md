@@ -29,3 +29,7 @@
 ## 2026-04-22 - Strategic Resource Prioritization
 **Learning:** Using `fetchpriority="high"` on render-blocking font stylesheets allows the browser to prioritize them over other non-critical assets (like background images or deferred scripts), reducing the Time to First Meaningful Paint. Combining this with `dns-prefetch` for the font origin further reduces the critical path latency by resolving the domain early.
 **Action:** Use `fetchpriority="high"` for critical CSS and fonts in the `<head>`. Always implement `dns-prefetch` for external font providers (e.g., `fonts.gstatic.com`) to minimize DNS resolution time during the resource discovery phase.
+
+## 2026-04-24 - Content Visibility & Font-Aware Progress Bars
+**Learning:** `content-visibility: auto` is highly effective for deferring the rendering of heavy footer components and related article grids, reducing initial paint costs. For scroll-progress indicators, calculating offsets must wait for `document.fonts.ready` to prevent inaccuracies caused by font-related layout shifts. Layer promotion (`will-change: transform`) on sticky CTAs prevents redundant repaints of the article content during scroll.
+**Action:** Default to `content-visibility: auto` for complex below-the-fold components like footers and article grids. Wrap all layout-dependent initialization logic for progress bars or scroll-spy in `document.fonts.ready`. Use `will-change: transform` to promote sticky call-to-action elements to their own compositor layers.

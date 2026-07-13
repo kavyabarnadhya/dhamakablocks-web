@@ -803,6 +803,9 @@ footer {
   text-align: center;
   padding: 32px 24px 48px;
   border-top: 1px solid rgba(255,215,0,0.08);
+  /* Performance: skip rendering until near viewport */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 100px;
 }
 .footer-copy {
   font-size: 13px;
