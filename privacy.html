@@ -20,6 +20,7 @@
 <meta name="twitter:image" content="https://dhamakablocks.com/images/screen-home.jpg">
 <!-- Canonical -->
 <link rel="canonical" href="https://dhamakablocks.com/privacy">
+<meta name="theme-color" content="#FF9933">
 <!-- Performance: Preconnect to font origins to reduce Time to First Font (TTFF) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -47,12 +48,33 @@
     font-family: 'Rajdhani', sans-serif;
     font-size: 16px;
     line-height: 1.7;
+    overflow-x: hidden;
   }
 
-  .rainbow {
-    width: 100%; height: 4px;
-    background: linear-gradient(90deg, #8B0000, #FF9933, #FFD700, #FF9933, #8B0000);
+  /* ── Mandala dot background ─────────────────────────────────── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(255,215,0,0.1) 1px, transparent 1px);
+    background-size: 22px 22px;
+    pointer-events: none;
+    z-index: 0;
+    /* Performance: promote background to compositor layer to avoid repaints during scroll */
+    will-change: transform;
   }
+
+  /* ── Rainbow bars ───────────────────────────────────────────── */
+  .rainbow-top, .rainbow-bottom {
+    position: fixed;
+    left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #8B0000, var(--saffron), var(--gold), var(--saffron), #8B0000);
+    z-index: 100;
+    will-change: transform; /* Performance: promote to own layer for smooth scrolling */
+  }
+  .rainbow-top  { top: 0; }
+  .rainbow-bottom { bottom: 0; }
 
   /* Accessibility */
   .skip-link {
@@ -201,7 +223,7 @@
 <!-- Skip to content for accessibility -->
 <a href="#main" class="skip-link">Skip to main content</a>
 
-<div class="rainbow"></div>
+<div class="rainbow-top"></div>
 
 <header>
   <a href="/" class="logo" aria-label="Return to home page">DHAMAKA BLOCKS</a>
@@ -324,6 +346,8 @@
     <a href="/privacy" aria-current="page">Privacy Policy</a>
   </div>
 </footer>
+
+<div class="rainbow-bottom"></div>
 
 </body>
 </html>

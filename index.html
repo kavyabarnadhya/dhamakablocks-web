@@ -607,6 +607,16 @@ section {
   text-align: center;
   position: relative;
   overflow: hidden;
+  transition: transform 0.2s, border-color 0.2s;
+  will-change: transform;
+}
+.step-card:hover,
+.step-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: rgba(255,215,0,0.4);
+}
+.step-card:active {
+  transform: translateY(-1px) scale(0.98);
 }
 .step-card::before {
   content: '';
@@ -630,6 +640,12 @@ section {
   font-size: 28px;
   margin-bottom: 10px;
   display: block;
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  will-change: transform;
+}
+.step-card:hover .step-icon,
+.step-card:focus-within .step-icon {
+  transform: scale(1.15) rotate(8deg);
 }
 .step-text {
   font-size: 15px;
@@ -677,6 +693,12 @@ section {
   font-size: 26px;
   margin-bottom: 10px;
   display: block;
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  will-change: transform;
+}
+.feature-card:hover .feature-emoji,
+.feature-card:focus-within .feature-emoji {
+  transform: scale(1.15) rotate(8deg);
 }
 .feature-title {
   font-family: 'Cinzel', serif;
@@ -780,6 +802,15 @@ section {
 .social-btn:hover,
 .social-btn:focus-visible { transform: translateY(-2px); opacity: 0.9; }
 .social-btn:active { transform: translateY(0) scale(0.98); }
+.social-btn [aria-hidden="true"] {
+  display: inline-block;
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  will-change: transform;
+}
+.social-btn:hover [aria-hidden="true"],
+.social-btn:focus-visible [aria-hidden="true"] {
+  transform: scale(1.2) rotate(12deg);
+}
 .social-btn.instagram {
   background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
   color: #fff;

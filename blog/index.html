@@ -14,6 +14,7 @@
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Dhamaka Blocks Blog — Tips, Guides and Game Updates" />
   <meta name="twitter:description" content="Official blog for Dhamaka Blocks — India's block puzzle game. Find tips, tricks, guides and game updates here." />
+  <meta name="theme-color" content="#FF9933">
   <!-- Performance: Preconnect to font origins to reduce Time to First Font (TTFF) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -336,6 +337,12 @@
       flex-shrink: 0;
       line-height: 1;
       margin-top: 4px;
+      transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      will-change: transform;
+    }
+    .article-card.featured:hover .featured-icon,
+    .article-card.featured:focus-within .featured-icon {
+      transform: scale(1.15) rotate(8deg);
     }
     .article-card.featured .article-title { font-size: 22px; }
     .article-card.featured .article-desc { font-size: 15px; }
@@ -344,6 +351,17 @@
       .article-card.featured { flex-direction: column; gap: 0; }
       .featured-icon { display: none; }
       .article-card.featured::before { height: 3px; width: auto; bottom: auto; right: 0; }
+    }
+
+    /* ── Tactile icon animations ─────────────────────────────────── */
+    .feature-emoji {
+      display: inline-block;
+      transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      will-change: transform;
+    }
+    .article-card:hover .feature-emoji,
+    .article-card:focus-within .feature-emoji {
+      transform: scale(1.15) rotate(8deg);
     }
 
     /* CTA section */
