@@ -13,7 +13,7 @@
   # COEP require-corp is safe as Google Fonts and Cloudflare Insights send 'cross-origin' CORP headers.
   Cross-Origin-Embedder-Policy: require-corp
   # CSP hardened: base-uri set to none and unused worker/manifest/prefetch/media-src disabled to minimize attack surface
-  Content-Security-Policy: default-src 'self'; object-src 'none'; base-uri 'none'; upgrade-insecure-requests; frame-ancestors 'none'; form-action 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; img-src 'self'; connect-src 'self' https://cloudflareinsights.com; frame-src 'none'; fenced-frame-src 'none'; worker-src 'none'; manifest-src 'none'; prefetch-src 'none'; media-src 'none'; trusted-types 'none'; require-trusted-types-for 'script';
+  Content-Security-Policy: default-src 'self'; object-src 'none'; base-uri 'none'; upgrade-insecure-requests; frame-ancestors 'none'; form-action 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://www.googletagmanager.com; img-src 'self'; connect-src 'self' https://cloudflareinsights.com https://www.google-analytics.com https://region1.google-analytics.com; frame-src 'none'; fenced-frame-src 'none'; worker-src 'none'; manifest-src 'none'; prefetch-src 'none'; media-src 'none'; trusted-types 'none'; require-trusted-types-for 'script';
 
 /images/*
   # Performance: Aggressive caching for static game screenshots and assets
