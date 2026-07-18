@@ -489,7 +489,7 @@
 
   <main class="blog-main" id="blog-main" tabindex="-1">
     <article>
-      <p class="post-meta">Advanced Strategy · 8 min read</p>
+      <p class="post-meta">Advanced Strategy · 9 min read</p>
       <h1 class="page-title">How to Get a High Score in Dhamaka Blocks</h1>
       <div class="ornament">
         <div class="ornament-line"></div>
@@ -518,29 +518,48 @@
             <tbody>
               <tr><td>Base points</td><td>1 pt per cell placed</td><td>Every placement</td></tr>
               <tr><td>1-line clear bonus</td><td>+10 pts</td><td>Complete any row or column</td></tr>
-              <tr><td>2-line clear bonus</td><td>+30 pts</td><td>Two lines cleared with one piece</td></tr>
-              <tr><td>3-line clear bonus</td><td>+60 pts</td><td>Three lines cleared with one piece</td></tr>
-              <tr><td>4-line clear bonus</td><td>+100 pts</td><td>Four lines cleared with one piece</td></tr>
-              <tr class="highlight"><td>5+ line clear bonus</td><td>+150 pts</td><td>Five or more lines cleared with one piece</td></tr>
-              <tr><td>Combo ×1.5</td><td>All pts × 1.5</td><td>2 consecutive clearing turns</td></tr>
-              <tr class="highlight"><td>Combo ×2</td><td>All pts × 2</td><td>3+ consecutive clearing turns</td></tr>
+              <tr><td>2-line clear bonus</td><td>+35 pts</td><td>Two lines cleared with one piece</td></tr>
+              <tr><td>3-line clear bonus</td><td>+75 pts</td><td>Three lines cleared with one piece</td></tr>
+              <tr><td>4-line clear bonus</td><td>+130 pts</td><td>Four lines cleared with one piece</td></tr>
+              <tr><td>5+ line clear bonus</td><td>+200 pts</td><td>Five or more lines cleared with one piece</td></tr>
+              <tr class="highlight"><td>Full board clear</td><td>+500 pts flat</td><td>The entire 8×8 grid is empty after a clear</td></tr>
             </tbody>
           </table>
         </div>
 
-        <p>The key insight: a single well-timed placement that clears 4 lines while a ×2 combo is active scores <strong>(base cells + 100 bonus) × 2</strong>. A 3×3 square clearing two rows and one column while at ×2 combo scores approximately <strong>(9 + 60) × 2 = 138 points from one move</strong>. That is the difference between a 200-point game and a 500-point game.</p>
+        <p>On top of the bonus table, a <strong>combo multiplier</strong> (covered next) scales the line-clear bonus based on how many turns in a row you've cleared at least one line. The key insight: a single well-timed placement that clears 4 lines on your 4th consecutive clearing turn scores <strong>base cells + (130 bonus × 5.0)</strong> — 650 bonus points from one move alone. That is the difference between a 200-point game and a 1,000-point game.</p>
       </section>
 
       <!-- Section 2 -->
       <section class="reveal">
         <h2>The Combo Multiplier — Your Biggest Score Driver</h2>
-        <p>The combo multiplier is what separates casual players from high scorers. To keep a combo alive, you need to clear at least one line every single turn — not every few turns. This requires building parallel lines simultaneously.</p>
+        <p>The combo multiplier is what separates casual players from high scorers. To keep a combo alive, you need to clear at least one line every single turn — not every few turns. This requires building parallel lines simultaneously. The multiplier climbs across six tiers the longer your streak runs:</p>
+
+        <div class="score-card">
+          <table class="score-table">
+            <thead>
+              <tr>
+                <th>Consecutive Clearing Turns</th>
+                <th>Multiplier</th>
+                <th>Voice Cue</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1 turn</td><td>1.0×</td><td>—</td></tr>
+              <tr><td>2 turns</td><td>2.0×</td><td>AMAZING</td></tr>
+              <tr><td>3 turns</td><td>3.5×</td><td>ON FIRE</td></tr>
+              <tr><td>4 turns</td><td>5.0×</td><td>UNSTOPPABLE</td></tr>
+              <tr><td>5 turns</td><td>7.0×</td><td>LEGENDARY</td></tr>
+              <tr class="highlight"><td>6+ turns</td><td>10.0×</td><td>UNREAL</td></tr>
+            </tbody>
+          </table>
+        </div>
 
         <h3>How to Set Up a Combo Chain</h3>
         <p>The core technique is to work on two separate lines at the same time rather than completing one fully before starting the next. Here is how it looks in practice:</p>
 
         <div class="combo-example">
-          <div class="combo-example-title">Sample 5-turn combo chain</div>
+          <div class="combo-example-title">Sample 6-turn combo chain</div>
           <div class="combo-row">
             <span class="combo-turn">Turn 1</span>
             <span class="combo-desc">Place pieces to fill row 7 to 7/8 and start filling column 2</span>
@@ -549,33 +568,38 @@
           <div class="combo-row">
             <span class="combo-turn">Turn 2</span>
             <span class="combo-desc">Complete row 7 — 1 line clear. Continue column 2 to 6/8</span>
-            <span class="combo-pts">+10 bonus, ×1</span>
+            <span class="combo-pts">+10 bonus, ×1.0</span>
           </div>
           <div class="combo-row">
             <span class="combo-turn">Turn 3</span>
             <span class="combo-desc">Complete column 2 — 1 line clear. Start row 3 in parallel</span>
-            <span class="combo-pts">+10 bonus, ×1.5</span>
+            <span class="combo-pts">+10 × 2.0 = 20 pts</span>
           </div>
           <div class="combo-row">
             <span class="combo-turn">Turn 4</span>
             <span class="combo-desc">Complete row 3 while also finishing column 6 — 2-line clear</span>
-            <span class="combo-pts">+30 bonus, ×2</span>
+            <span class="combo-pts">+35 × 3.5 = 122 pts</span>
           </div>
           <div class="combo-row">
             <span class="combo-turn">Turn 5</span>
             <span class="combo-desc">3×3 square placed, clears row 5 and column 4 — 2-line clear</span>
-            <span class="combo-pts">+(9+30) ×2 = 78 pts</span>
+            <span class="combo-pts">+35 × 5.0 = 175 pts</span>
+          </div>
+          <div class="combo-row">
+            <span class="combo-turn">Turn 6</span>
+            <span class="combo-desc">One more single-line clear to extend the streak to 6 turns</span>
+            <span class="combo-pts">+10 × 10.0 = 100 pts</span>
           </div>
         </div>
 
-        <p>Notice that from turn 3 onward, the ×2 multiplier doubles everything. Each turn you extend the streak, the multiplier keeps compounding. Let the streak break once and you reset to ×1 — every subsequent clear is worth half as much until you rebuild.</p>
+        <p>Notice how sharply the multiplier compounds from turn 4 onward. Every turn you extend the streak is worth dramatically more than the last — reaching the 6-turn "UNREAL" tier turns even a modest single-line clear into a 100-point swing. Let the streak break once and you reset to 1.0× — rebuilding from scratch costs you the compounding, so protecting an active streak is worth more than chasing one big piece.</p>
       </section>
 
       <!-- Section 3 -->
       <section class="reveal">
         <h2>The Corner-First Strategy</h2>
         <p>The corner-first approach is not just about grid management — it is a scoring strategy. When you anchor your placements in a corner and build outward in a wave, you create the conditions for multi-line clears. Here is why:</p>
-        <p>As you fill a corner region, rows and columns in that area approach completion simultaneously. A single piece placed in the right spot can complete both the row and column it lands in at once. That is a guaranteed 2-line clear bonus (+30) instead of two separate 1-line clears (+10 each). Two lines at once beats two lines separately by 10 points before multipliers, and with a ×2 combo active, the gap widens to 20 points per placement.</p>
+        <p>As you fill a corner region, rows and columns in that area approach completion simultaneously. A single piece placed in the right spot can complete both the row and column it lands in at once. That is a guaranteed 2-line clear bonus (+35) instead of two separate 1-line clears (+10 each). Two lines at once beats two lines separately by 15 points before the combo multiplier — and once your streak is running at 3.5× or higher, that 15-point gap becomes 50+ points per placement.</p>
 
         <h3>Recommended Opening Sequence</h3>
         <ol>
@@ -589,11 +613,11 @@
       <!-- Section 4 -->
       <section class="reveal">
         <h2>Setting Up Multi-Line Clears</h2>
-        <p>A multi-line clear — clearing two or more lines with a single piece placement — is worth disproportionately more than sequential single-line clears. The 3-line bonus (+60) versus three separate 1-line clears (+30 total) doubles the bonus points from that moment. With a ×2 multiplier active, the difference is 120 bonus points versus 60.</p>
+        <p>A multi-line clear — clearing two or more lines with a single piece placement — is worth disproportionately more than sequential single-line clears. The 3-line bonus (+75) versus three separate 1-line clears (+30 total) is already two and a half times the points from that one moment, and every point of that gap gets multiplied again by your combo tier. At a 5.0× streak, the difference is 375 bonus points versus 150.</p>
 
         <h3>The Intersection Technique</h3>
         <p>The most reliable way to engineer multi-line clears is to leave the intersection cell of a nearly-complete row and column unfilled. When both the row and column are at 7/8, the one remaining cell they share is the intersection. Placing any piece that covers that cell clears both simultaneously.</p>
-        <p>For example: row 4 is full except column 3, and column 3 is full except row 4. The cell at (row 4, column 3) is the intersection. A 1×1 single block placed there clears both lines at once for a 2-line clear bonus (+30) plus 1 base point.</p>
+        <p>For example: row 4 is full except column 3, and column 3 is full except row 4. The cell at (row 4, column 3) is the intersection. A 1×1 single block placed there clears both lines at once for a 2-line clear bonus (+35) plus 1 base point.</p>
 
         <h3>The L-Shape Double Clear</h3>
         <p>L-shaped pieces are the workhorses of multi-line clears. An L that has its corner at the intersection of two nearly-complete lines can fill the last cell of both the row and column simultaneously — while also contributing cells to a third line you are building in parallel. This is the most efficient move type in the game for score density.</p>
@@ -601,18 +625,24 @@
 
       <!-- Section 5 -->
       <section class="reveal">
-        <h2>Level 5 Score Explosion</h2>
-        <p>Reaching level 5 (500+ points) is not just a milestone — it changes the game's economy. At level 5, all 12 piece types are available, including the 3×3 square. The 3×3 places 9 cells at once, generating 9 base points in a single move. More importantly, a 3×3 placed at the right time can clear 3, 4, or even 5 lines simultaneously.</p>
+        <h2>The 3×3 Square and Boosters — Your Advanced Score Levers</h2>
+        <p>The 3×3 square unlocks the moment you cross 200 points into Level 2 — not at the top of the level ladder — so it's available for the vast majority of every run. It places 9 cells at once, generating 9 base points in a single move, and because it spans three rows and three columns at once, a well-placed 3×3 is the single most likely piece to trigger a multi-line clear.</p>
+        <p>A 3×3 placed to clear 3 lines on your 4th consecutive clearing turn: <strong>9 base + (75 bonus × 5.0) = 384 points from one move</strong>. That single move is worth more than most players' entire first 100 points.</p>
 
-        <h3>Why Scores Accelerate at Level 5</h3>
-        <p>Three factors compound once you reach level 5. First, the 3×3 piece generates more base points per placement than any other piece (9 points versus 1–5 for most pieces). Second, the larger pieces are more likely to complete multiple lines at once because they span more rows and columns. Third, if you have maintained a combo streak into level 5, the ×2 multiplier is active — and every high-value multi-line clear is doubled.</p>
-        <p>A well-placed 3×3 at level 5 with ×2 combo and 3-line clear: <strong>(9 base + 60 bonus) × 2 = 138 points from one move</strong>. That single move is worth more than your entire first 30 points at level 1.</p>
-
-        <h3>How to Reach Level 5 Faster</h3>
+        <h3>Boosters Change the Math</h3>
+        <p>v2.6.0 added three coin-funded boosters that give you direct control over the variables above, rather than just hoping the right piece appears:</p>
         <ul>
-          <li>Prioritise multi-line clears over single-line clears — the bonus points accelerate your score faster than base points alone.</li>
-          <li>Keep the combo active from level 2 onward — the ×1.5 multiplier at 2 consecutive clears meaningfully speeds your progression from 50 to 150 points.</li>
-          <li>Do not use the continue mechanic before level 3 unless your score is already above 150. Starting fresh with improved strategy is usually more efficient.</li>
+          <li><strong>REFRESH (40 coins)</strong> — if your current tray has no piece that sets up a multi-line clear, refreshing it can hand you exactly the shape you need instead of wasting a turn on a suboptimal placement.</li>
+          <li><strong>UNDO (30 coins)</strong> — reverses your last placement. Use it the instant you realise a placement broke a combo streak you were building, before the multiplier resets.</li>
+          <li><strong>BOMB (60 coins)</strong> — clears a 3×3 area of filled cells around a tapped cell. It doesn't score points itself, but it can carve out the open 3×3 zone you need to safely land the piece above, or rescue a fragmented grid that would otherwise end your run before you reach a big combo.</li>
+        </ul>
+        <p>None of these cost you a turn's placement, so spending coins on the right booster at the right moment is often more efficient than playing around a bad tray or a broken combo.</p>
+
+        <h3>How to Score Faster Overall</h3>
+        <ul>
+          <li>Prioritise multi-line clears over single-line clears — the bonus points and the compounding combo multiplier accelerate your score far faster than base points alone.</li>
+          <li>Keep the combo active from Level 1 onward — the jump from 1.0× to 2.0× at just two consecutive clears is the single biggest early-game swing in the game.</li>
+          <li>Save coins for a REFRESH or BOMB when you're mid-combo and the tray or grid threatens to break your streak — protecting an active streak is usually worth more than the coins themselves.</li>
         </ul>
       </section>
 
@@ -634,39 +664,39 @@
             <div class="step-num">2</div>
             <div class="step-title">Turns 4–6: First Clears, Start Combo (Score: ~55)</div>
           </div>
-          <p>Extend along rows 7 and 8. Use the second tray to get both rows to 7/8 full. On turn 6, place the piece that completes row 8. That is your first line clear (+10 bonus). Combo begins. Score jumps to ~55 with the bonus.</p>
+          <p>Extend along rows 7 and 8. Use the second tray to get both rows to 7/8 full. On turn 6, place the piece that completes row 8. That is your first line clear (+10 bonus at 1.0×). Combo streak begins. Score jumps to ~55 with the bonus.</p>
         </div>
 
         <div class="walkthrough-step reveal">
           <div class="step-header">
             <div class="step-num">3</div>
-            <div class="step-title">Turns 7–9: Sustain Combo at ×1.5 (Score: ~110)</div>
+            <div class="step-title">Turns 7–9: Sustain the Streak to 2.0× (Score: ~130)</div>
           </div>
-          <p>Complete row 7 on turn 7 — second consecutive clear, combo moves to ×1.5. Start working on column 1 in parallel. Complete it on turn 9. At ×1.5, each bonus is worth 50% more. Score: ~110, level 2 unlocked.</p>
+          <p>Complete row 7 on turn 7 — second consecutive clear, multiplier jumps to 2.0×. Start working on column 1 in parallel. Complete it on turn 9 for another 2.0× bonus. Score: ~130, closing in on Level 2 (200 points).</p>
         </div>
 
         <div class="walkthrough-step reveal">
           <div class="step-header">
             <div class="step-num">4</div>
-            <div class="step-title">Turns 10–13: Reach ×2 Multiplier (Score: ~210)</div>
+            <div class="step-title">Turns 10–13: Reach 3.5× and Level 2 (Score: ~260)</div>
           </div>
-          <p>Three consecutive clears locks in the ×2 multiplier. Target the intersection technique: set up row 5 and column 5 to both be at 7/8, then clear both simultaneously with one piece for a 2-line bonus (+30) at ×2 = 60 bonus points in one move. Score: ~210, level 3 reached.</p>
+          <p>A third consecutive clear locks in 3.5×. Target the intersection technique: set up row 5 and column 5 to both be at 7/8, then clear both simultaneously with one piece for a 2-line bonus (+35) at 3.5× = 122 bonus points in one move. Score: ~260 — Level 2 reached, the 3×3 square is now in the piece pool.</p>
         </div>
 
         <div class="walkthrough-step reveal">
           <div class="step-header">
             <div class="step-num">5</div>
-            <div class="step-title">Turns 14–20: Compound the Multiplier (Score: ~350)</div>
+            <div class="step-title">Turns 14–20: Compound the Multiplier (Score: ~550)</div>
           </div>
-          <p>Keep the combo alive. At ×2, aim for a 2-line clear every 2–3 turns using the L-shape double clear technique. By turn 20 you should be in level 4 (300+ points) with the combo still active. Each multi-line clear now adds 60–100 bonus points doubled to 120–200.</p>
+          <p>Keep the combo alive toward the 5.0× and 7.0× tiers. If the tray stops giving you setup pieces, spend 40 coins on REFRESH rather than break the streak. Each 2-line clear now adds 35 bonus points multiplied 5–7×, worth 175–245 points per placement. By turn 20 you should be past Level 3 (500 points) with the streak still running.</p>
         </div>
 
         <div class="walkthrough-step reveal">
           <div class="step-header">
             <div class="step-num">6</div>
-            <div class="step-title">Turn 21+: Level 5 Endgame (Score: 500+)</div>
+            <div class="step-title">Turn 21+: The 3×3 Endgame Play (Score: 1,000+)</div>
           </div>
-          <p>The 3×3 square appears. You have left a 3×3 open zone in the top-right corner. Place it there, clearing 3 lines simultaneously (+60 bonus at ×2 = 120 bonus + 18 base × 2 = 36 base). That one move generates 156 points. With continued multi-line clears, 500 total is within reach in the next 3–5 turns.</p>
+          <p>You have kept a 3×3 open zone free in the top-right corner since Level 2. When the 3×3 piece appears in your tray, place it there, clearing 3 lines simultaneously (75 bonus × 7.0 = 525 bonus, plus 9 base cells × 7.0 = 63). That one move generates roughly 588 points. If the grid gets fragmented before you can land it, a 60-coin BOMB can clear the landing zone without costing you a turn. With continued multi-line clears, 1,000+ total is within reach in the next 3–5 turns.</p>
         </div>
       </section>
 

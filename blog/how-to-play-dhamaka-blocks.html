@@ -503,7 +503,7 @@
 
   <main class="blog-main" id="blog-main" tabindex="-1">
     <article>
-      <p class="post-meta">Beginner Guide · 5 min read</p>
+      <p class="post-meta">Beginner Guide · 7 min read</p>
       <h1 class="page-title">How to Play Dhamaka Blocks</h1>
       <div class="ornament">
         <div class="ornament-line"></div>
@@ -556,27 +556,40 @@
           </thead>
           <tbody>
             <tr><td>1 line (row or column)</td><td>+10 pts</td></tr>
-            <tr><td>2 lines simultaneously</td><td>+30 pts</td></tr>
-            <tr><td>3 lines simultaneously</td><td>+60 pts</td></tr>
-            <tr><td>4 lines simultaneously</td><td>+100 pts</td></tr>
-            <tr class="highlight"><td>5+ lines simultaneously</td><td>+150 pts</td></tr>
+            <tr><td>2 lines simultaneously</td><td>+35 pts</td></tr>
+            <tr><td>3 lines simultaneously</td><td>+75 pts</td></tr>
+            <tr><td>4 lines simultaneously</td><td>+130 pts</td></tr>
+            <tr class="highlight"><td>5+ lines simultaneously</td><td>+200 pts</td></tr>
           </tbody>
         </table>
-        <p>Simultaneous means cleared by placing a single piece — for example, placing one piece that completes two rows and one column counts as 3 lines (60 bonus points).</p>
+        <p>Simultaneous means cleared by placing a single piece — for example, placing one piece that completes two rows and one column counts as 3 lines (75 bonus points). Clear the entire 8×8 board in one move and you earn a flat <strong>+500 bonus</strong> on top of everything else — rare, but spectacular when it happens.</p>
 
         <h3>Combo Multiplier</h3>
-        <p>If you clear at least one line two turns in a row, a combo multiplier activates on all points scored during that streak:</p>
-        <ul>
-          <li><strong>2 consecutive clears:</strong> 1.5× multiplier on all points</li>
-          <li><strong>3 or more consecutive clears:</strong> 2× multiplier on all points</li>
-        </ul>
-        <p>This is the biggest lever in the game. A well-set-up combo streak at level 5 can swing hundreds of points in a single turn.</p>
+        <p>Every turn you clear at least one line, your consecutive-clear streak grows and a multiplier applies to the line-clear bonus for that turn. Miss a clear on any turn and the streak resets to 1.0×.</p>
+        <table class="score-table">
+          <thead>
+            <tr>
+              <th>Consecutive Clearing Turns</th>
+              <th>Multiplier</th>
+              <th>Voice Cue</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1 turn</td><td>1.0×</td><td>—</td></tr>
+            <tr><td>2 turns</td><td>2.0×</td><td>AMAZING</td></tr>
+            <tr><td>3 turns</td><td>3.5×</td><td>ON FIRE</td></tr>
+            <tr><td>4 turns</td><td>5.0×</td><td>UNSTOPPABLE</td></tr>
+            <tr><td>5 turns</td><td>7.0×</td><td>LEGENDARY</td></tr>
+            <tr class="highlight"><td>6+ turns</td><td>10.0×</td><td>UNREAL</td></tr>
+          </tbody>
+        </table>
+        <p>This is the biggest lever in the game. A 6-turn streak turns a modest 75-point triple clear into 750 points from bonus alone — keeping the streak alive is worth far more than any single big piece.</p>
       </section>
 
       <!-- Section 4 -->
       <section class="reveal">
         <h2>Difficulty Levels</h2>
-        <p>Dhamaka Blocks uses a score-based progression system. As your score climbs, the piece set expands to include more complex shapes, making the game more challenging and more rewarding.</p>
+        <p>Dhamaka Blocks uses a score-based progression system gated at <strong>200 / 500 / 1,000 / 2,000</strong> points. Almost every piece shape is available right from Level 1 — the one exception is the 3×3 square, which unlocks at Level 2. As you climb levels, the small "relief" pieces that bail you out of tight spots also get rarer, so the puzzle gets genuinely harder even though the piece set barely changes.</p>
         <table class="score-table">
           <thead>
             <tr>
@@ -586,14 +599,14 @@
             </tr>
           </thead>
           <tbody>
-            <tr><td>Level 1</td><td>0 – 49 pts</td><td>Basic shapes only (1×1, 1×2, L-shapes)</td></tr>
-            <tr><td>Level 2</td><td>50 – 149 pts</td><td>More variety — T-shapes, 2×2 squares</td></tr>
-            <tr><td>Level 3</td><td>150 – 299 pts</td><td>All medium shapes including longer pieces</td></tr>
-            <tr><td>Level 4</td><td>300 – 499 pts</td><td>Complex pieces unlock — zigzags, longer Ls</td></tr>
-            <tr class="highlight"><td>Level 5</td><td>500+ pts</td><td>All 12 piece types including the 3×3 square</td></tr>
+            <tr><td>Level 1</td><td>0 – 199 pts</td><td>All 15 piece types except the 3×3 square, with frequent easy singles</td></tr>
+            <tr class="highlight"><td>Level 2</td><td>200 – 499 pts</td><td>3×3 square unlocks — the full 15-piece set is now in play</td></tr>
+            <tr><td>Level 3</td><td>500 – 999 pts</td><td>Full piece set, easy singles noticeably rarer</td></tr>
+            <tr><td>Level 4</td><td>1,000 – 1,999 pts</td><td>Full piece set, fewer relief pieces — grid management matters more</td></tr>
+            <tr><td>Level 5</td><td>2,000+ pts</td><td>Full piece set at its toughest relief-piece frequency</td></tr>
           </tbody>
         </table>
-        <p>The 3×3 square is the largest piece in the game — it occupies 9 cells in a single placement. Reaching level 5 is a sign you have mastered the earlier game, but the 3×3 requires careful grid management or it will end your run.</p>
+        <p>The 3×3 square is the largest piece in the game — it occupies 9 cells in a single placement. From Level 2 onward, keep at least one open 3×3 zone somewhere on the grid so you always have a home for it.</p>
       </section>
 
       <!-- Section 5 -->
@@ -614,6 +627,43 @@
           <div class="info-card-title">First game goal</div>
           <p style="margin-bottom:0;">Do not aim for a high score on your first game. Instead, aim to simply survive long enough to reach 50 points and see level 2. Once you understand the piece variety, strategy becomes natural.</p>
         </div>
+      </section>
+
+      <!-- Section 6 -->
+      <section class="reveal">
+        <h2>Coins, Boosters &amp; Board Themes</h2>
+        <p>Beyond the core grid loop, Dhamaka Blocks has a coin economy that rewards regular play and lets you buy tactical help mid-game or cosmetic board themes.</p>
+
+        <h3>Earning Coins</h3>
+        <ul>
+          <li><strong>End of every game:</strong> you earn 1 coin per 100 points scored, up to a cap of 50 coins per game.</li>
+          <li><strong>Daily Reward:</strong> claim once per day from the home screen for an escalating 7-day cycle — 25, 40, 60, 80, 120, 160, then <strong>400 coins</strong> on Day 7. Miss a day and the cycle resets back to Day 1, so the streak is worth protecting.</li>
+        </ul>
+        <div class="info-card">
+          <div class="info-card-title">Milestone chests</div>
+          <p style="margin-bottom:0;">Separately from the 7-day cycle, your <em>lifetime</em> total of daily-reward claims unlocks one-time bonus chests: 150 coins at 7 total days, 400 coins plus a free <strong>Aurora</strong> theme at 30 total days, and 800 coins plus a free <strong>Monsoon</strong> theme at 100 total days. These milestones never reset, even if your daily streak breaks.</p>
+        </div>
+
+        <h3>Boosters</h3>
+        <p>Boosters are bought with coins and used mid-game from the booster bar. There's no daily limit — just your coin balance.</p>
+        <table class="score-table">
+          <thead>
+            <tr>
+              <th>Booster</th>
+              <th>Cost</th>
+              <th>What It Does</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>UNDO</td><td>30 coins</td><td>Reverses your most recent placement — one level of undo only</td></tr>
+            <tr><td>REFRESH</td><td>40 coins</td><td>Discards your current tray and deals 3 fresh pieces</td></tr>
+            <tr class="highlight"><td>BOMB</td><td>60 coins</td><td>Arm it, then tap any filled cell to clear a 3×3 area around it</td></tr>
+          </tbody>
+        </table>
+        <p>All three boosters are also available during the brief "last chance" window when a game would otherwise end — a genuine escape hatch if you have the coins to spend.</p>
+
+        <h3>Board Themes</h3>
+        <p>Seven board themes are available across three tiers: <strong>Basic</strong> (Ember, free by default — a recolor), <strong>Signature</strong> (Midnight, Peacock, Sunset, Frost — 400 to 1,200 coins, adds themed line-clear effects and tray styling), and <strong>Prestige</strong> (Monsoon at 2,400 coins, adds an animated ambient background on top of everything Signature offers). Aurora, the other Prestige theme, can't be bought — it's exclusive to the 30-day milestone chest above.</p>
       </section>
 
       <!-- CTA -->

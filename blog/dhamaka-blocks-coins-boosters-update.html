@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Best Block Puzzle Games in India 2026 — Android Picks</title>
-  <meta name="description" content="Looking for the best block puzzle games in India? Here are the top picks for Android in 2026, including an Indian-made block puzzle game on the Play Store." />
-  <link rel="canonical" href="https://dhamakablocks.com/blog/block-puzzle-games-india.html" />
-  <meta property="og:title" content="Best Block Puzzle Games in India 2026 — Android Picks" />
-  <meta property="og:description" content="Looking for the best block puzzle games in India? Here are the top picks for Android in 2026, including an Indian-made block puzzle game on the Play Store." />
-  <meta property="og:url" content="https://dhamakablocks.com/blog/block-puzzle-games-india.html" />
+  <title>New Update: Coins, Boosters &amp; Board Themes — Dhamaka Blocks</title>
+  <meta name="description" content="Dhamaka Blocks' biggest update yet: a daily coin economy, three new boosters (BOMB, UNDO, REFRESH), and seven unlockable board themes. Here's what's new." />
+  <link rel="canonical" href="https://dhamakablocks.com/blog/dhamaka-blocks-coins-boosters-update.html" />
+  <meta property="og:title" content="New Update: Coins, Boosters &amp; Board Themes — Dhamaka Blocks" />
+  <meta property="og:description" content="Dhamaka Blocks' biggest update yet: a daily coin economy, three new boosters (BOMB, UNDO, REFRESH), and seven unlockable board themes. Here's what's new." />
+  <meta property="og:url" content="https://dhamakablocks.com/blog/dhamaka-blocks-coins-boosters-update.html" />
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="Dhamaka Blocks" />
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Best Block Puzzle Games in India 2026 — Android Picks" />
-  <meta name="twitter:description" content="Looking for the best block puzzle games in India? Here are the top picks for Android in 2026, including an Indian-made block puzzle game on the Play Store." />
+  <meta name="twitter:title" content="New Update: Coins, Boosters &amp; Board Themes — Dhamaka Blocks" />
+  <meta name="twitter:description" content="Dhamaka Blocks' biggest update yet: a daily coin economy, three new boosters (BOMB, UNDO, REFRESH), and seven unlockable board themes. Here's what's new." />
   <meta name="theme-color" content="#FF9933">
   <!-- Performance: Preconnect to font origins to reduce Time to First Font (TTFF) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -86,19 +86,12 @@
       height: 2px;
       background: linear-gradient(90deg, var(--saffron), var(--gold));
       width: 100%;
-      /* Performance Optimization:
-         Using transform instead of width avoids Forced Synchronous Layout (FSL)
-         and repaints by offloading updates to the compositor thread. */
       transform: scaleX(0);
       transform-origin: left;
       will-change: transform;
       transition: transform 0.05s linear;
     }
-    .breadcrumb {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+    .breadcrumb { display: flex; align-items: center; gap: 10px; }
     .back-link { display: inline-flex; align-items: center; gap: 6px; position: relative; z-index: 1;
       color: var(--gold);
       font-weight: 700;
@@ -113,10 +106,7 @@
     .back-link:hover::before,
     .back-link:focus-visible::before { transform: translateX(-4px); }
     .back-link:active { transform: scale(0.95); opacity: 0.8; }
-    .breadcrumb .sep {
-      color: rgba(255,215,0,0.3);
-      font-size: 12px;
-    }
+    .breadcrumb .sep { color: rgba(255,215,0,0.3); font-size: 12px; }
     .join-beta-btn {
       padding: 10px 24px;
       background: linear-gradient(135deg, var(--saffron), var(--gold));
@@ -135,7 +125,6 @@
     .join-beta-btn:focus-visible { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,153,51,0.45); }
     .join-beta-btn:active { transform: scale(0.98); }
 
-    /* Accessibility */
     .skip-link {
       position: absolute;
       top: -100px;
@@ -152,11 +141,7 @@
       transition: top 0.3s ease;
     }
     .skip-link:focus { top: 0; }
-
-    *:focus-visible {
-      outline: 3px solid var(--gold);
-      outline-offset: 4px;
-    }
+    *:focus-visible { outline: 3px solid var(--gold); outline-offset: 4px; }
 
     .blog-main {
       max-width: 760px;
@@ -177,13 +162,7 @@
       line-height: 1.15;
       margin-bottom: 16px;
     }
-    .ornament {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 0 0 40px;
-      max-width: 280px;
-    }
+    .ornament { display: flex; align-items: center; gap: 10px; margin: 0 0 40px; max-width: 280px; }
     .ornament-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,215,0,0.35), transparent); }
     .ornament-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); opacity: 0.5; }
     h2 {
@@ -200,101 +179,68 @@
     ul, ol { padding-left: 24px; margin-bottom: 20px; }
     li { font-size: 16px; line-height: 1.75; color: rgba(255,255,240,0.82); margin-bottom: 8px; }
     strong { color: var(--gold); }
+    em { color: var(--saffron); font-style: normal; font-weight: 700; }
 
-    /* Game comparison cards */
-    .game-card {
+    .score-table { width: 100%; border-collapse: collapse; margin: 20px 0 28px; font-size: 15px; }
+    .score-table th {
+      font-family: 'Cinzel', serif;
+      color: var(--gold);
+      font-size: 13px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 12px 16px;
+      background: rgba(255,215,0,0.06);
+      border: 1px solid rgba(255,215,0,0.12);
+      text-align: left;
+    }
+    .score-table td { padding: 11px 16px; border: 1px solid rgba(255,215,0,0.08); color: rgba(255,255,240,0.82); }
+    .score-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+    .score-table .highlight td { color: var(--saffron); font-weight: 700; }
+
+    .info-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 16px;
-      padding: 24px 24px 20px;
-      margin-bottom: 20px;
+      padding: 28px 28px 24px;
+      margin: 28px 0;
       position: relative;
       overflow: hidden;
     }
-    .game-card::before {
+    .info-card::before {
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 3px;
+      background: linear-gradient(90deg, var(--saffron), var(--gold));
     }
-    .game-card.global::before { background: linear-gradient(90deg, #555, #888); }
-    .game-card.india::before { background: linear-gradient(90deg, var(--saffron), var(--gold)); }
-    .game-card-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 12px;
-      flex-wrap: wrap;
-    }
-    .game-title {
+    .info-card-title {
       font-family: 'Cinzel', serif;
-      font-size: 17px;
-      font-weight: 700;
       color: var(--gold);
-    }
-    .game-badge {
-      font-size: 11px;
+      font-size: 14px;
       font-weight: 700;
       letter-spacing: 1px;
       text-transform: uppercase;
-      padding: 4px 10px;
-      border-radius: 20px;
-      white-space: nowrap;
+      margin-bottom: 12px;
     }
-    .badge-global { background: rgba(150,150,150,0.12); border: 1px solid rgba(150,150,150,0.25); color: rgba(255,255,240,0.5); }
-    .badge-india { background: rgba(255,153,51,0.12); border: 1px solid rgba(255,153,51,0.3); color: var(--saffron); }
-    .badge-soon { background: rgba(0,130,127,0.12); border: 1px solid rgba(0,130,127,0.3); color: #4ecdc4; }
-    .game-card p { margin-bottom: 8px; font-size: 15px; }
-    .pro-con-row { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 12px; }
-    .pros, .cons { flex: 1; min-width: 140px; }
-    .pros h4, .cons h4 { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
-    .pros h4 { color: #4ecdc4; }
-    .cons h4 { color: rgba(255,255,240,0.7); }
-    .pros li, .cons li { font-size: 14px; color: rgba(255,255,240,0.7); margin-bottom: 4px; }
 
-    /* Feature checklist */
-    .checklist { list-style: none; padding-left: 0; }
-    .checklist li {
-      padding: 10px 16px 10px 40px;
-      background: rgba(255,255,255,0.025);
-      border: 1px solid rgba(255,215,0,0.08);
+    .whats-new-list { list-style: none; padding-left: 0; margin-bottom: 28px; }
+    .whats-new-list li {
+      padding: 12px 16px 12px 44px;
+      background: rgba(255,153,51,0.06);
+      border: 1px solid rgba(255,153,51,0.18);
       border-radius: 10px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       position: relative;
       font-size: 15px;
-      color: rgba(255,255,240,0.78);
+      color: rgba(255,255,240,0.85);
     }
-    .checklist li::before { position: absolute; left: 14px; top: 10px; font-size: 15px; }
-    .checklist li.yes::before { content: '✓'; color: #4ecdc4; font-weight: 700; }
-    .checklist li.no::before { content: '✗'; color: rgba(255,255,255,0.2); }
-
-    /* Culture highlight */
-    .culture-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 14px;
-      margin: 20px 0;
+    .whats-new-list li::before {
+      content: '✨';
+      position: absolute;
+      left: 14px;
+      top: 11px;
+      font-size: 15px;
     }
-    .culture-item {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 18px 16px;
-      text-align: center;
-    }
-    .culture-emoji {
-      font-size: 26px;
-      margin-bottom: 8px;
-      transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      will-change: transform;
-      display: inline-block;
-    }
-    .culture-item:hover .culture-emoji {
-      transform: scale(1.15) rotate(8deg);
-    }
-    .culture-label { font-family: 'Cinzel', serif; font-size: 12px; color: var(--gold); font-weight: 700; letter-spacing: 0.5px; margin-bottom: 4px; }
-    .culture-desc { font-size: 13px; color: rgba(255,255,240,0.5); line-height: 1.4; }
 
     .cta-section {
       background: var(--card-bg);
@@ -338,7 +284,6 @@
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 16px;
       margin-top: 16px;
-      /* Performance: skip rendering until near viewport */
       content-visibility: auto;
       contain-intrinsic-size: auto 300px;
     }
@@ -352,32 +297,24 @@
       display: block;
       position: relative;
       overflow: hidden;
-      will-change: transform; /* Performance: promote to own layer for smooth hover animations */
+      will-change: transform;
     }
-    .related-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--saffron), var(--gold)); }
+    .related-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--saffron), var(--gold));
+    }
     .related-card:hover,
     .related-card:focus-visible { transform: translateY(-3px); border-color: rgba(255,215,0,0.35); }
     .related-card:active { transform: scale(0.98); }
     .related-card-title { font-family: 'Cinzel', serif; color: var(--gold); font-size: 13px; font-weight: 700; line-height: 1.4; margin-bottom: 8px; }
     .related-card-desc { font-size: 13px; color: rgba(255,255,240,0.7); line-height: 1.5; }
-    .related-card-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      margin-top: 10px;
-      font-size: 12px;
-      color: var(--saffron);
-      font-weight: 700;
-      letter-spacing: 0.5px;
-    }
-    .related-card-link::after {
-      content: "→";
-      transition: transform 0.2s ease;
-    }
+    .related-card-link { display: inline-flex; align-items: center; gap: 4px; margin-top: 10px; font-size: 12px; color: var(--saffron); font-weight: 700; letter-spacing: 0.5px; }
+    .related-card-link::after { content: "→"; transition: transform 0.2s ease; }
     .related-card:hover .related-card-link::after,
-    .related-card:focus-visible .related-card-link::after {
-      transform: translateX(4px);
-    }
+    .related-card:focus-visible .related-card-link::after { transform: translateX(4px); }
 
     .sticky-cta {
       position: fixed;
@@ -386,7 +323,6 @@
       z-index: 90;
       padding: 0 12px 8px;
       display: none;
-      /* Performance: promote to own layer for smooth scrolling */
       will-change: transform;
     }
     .sticky-cta a:active { transform: scale(0.98); }
@@ -413,7 +349,6 @@
       text-align: center;
       padding: 32px 24px 56px;
       border-top: 1px solid rgba(255,215,0,0.08);
-      /* Performance: skip rendering until near viewport */
       content-visibility: auto;
       contain-intrinsic-size: auto 100px;
     }
@@ -426,12 +361,14 @@
 
     .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
 
     @media (max-width: 480px) {
       .blog-main { padding: 32px 18px 140px; }
       h2 { font-size: 18px; }
-      .game-card { padding: 18px 16px 16px; }
-      .pro-con-row { flex-direction: column; gap: 12px; }
+      .score-table th, .score-table td { padding: 9px 10px; font-size: 14px; }
     }
   </style>
 </head>
@@ -446,13 +383,13 @@
       <a href="/blog/" class="back-link">All Guides</a>
     </div>
     <a href="https://play.google.com/store/apps/details?id=com.dhamakagames.dhamakablocks" class="join-beta-btn" target="_blank" rel="noopener noreferrer">Get the Game</a>
-      <div id="reading-progress" class="progress-bar" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+    <div id="reading-progress" class="progress-bar" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
   </header>
 
   <main class="blog-main" id="blog-main" tabindex="-1">
     <article>
-      <p class="post-meta">Game Guide · 5 min read</p>
-      <h1 class="page-title">Best Block Puzzle Games in India (2026)</h1>
+      <p class="post-meta">Game Update · 4 min read</p>
+      <h1 class="page-title">Coins, Boosters &amp; Board Themes Have Arrived</h1>
       <div class="ornament">
         <div class="ornament-line"></div>
         <div class="ornament-dot"></div>
@@ -461,160 +398,69 @@
         <div class="ornament-line"></div>
       </div>
 
-      <!-- Section 1 -->
       <section class="reveal">
-        <h2>Why Block Puzzle Games Are Popular in India</h2>
-        <p>Block puzzle games have built a dedicated following across India for three very practical reasons. First, they work completely offline — no Wi-Fi, no mobile data, no problem. In a country where network quality varies significantly between cities, towns, and commutes, an offline-first game is not just convenient, it is essential.</p>
-        <p>Second, there is no skill barrier. Block puzzles do not require fast reflexes, knowledge of fighting game combos, or hours of tutorial content. A 10-year-old and a 60-year-old can both pick up the same game and enjoy it immediately. Third, a single session lasts exactly as long as you want — three minutes on the metro or forty-five minutes at home before bed. That flexibility makes block puzzles one of the most-played casual game categories on the Indian Play Store.</p>
-      </section>
-
-      <!-- Section 2 -->
-      <section class="reveal">
-        <h2>What to Look for in a Block Puzzle Game</h2>
-        <p>Not all block puzzle games are built equally. Here is what separates a great experience from a frustrating one:</p>
-        <ul class="checklist">
-          <li class="yes"><strong>Full offline support</strong> — the game should work with zero connectivity, including score saving.</li>
-          <li class="yes"><strong>No forced ads during gameplay</strong> — interstitial ads that interrupt a game in progress are the fastest way to ruin flow state. Ads should be opt-in only.</li>
-          <li class="yes"><strong>Smooth drag controls</strong> — the core interaction in a block puzzle game is dragging a piece to a cell. On budget Android devices with lower-resolution displays, imprecise drag handling causes misplacement frustration. Good implementations use a visual offset so you can see the piece above your finger.</li>
-          <li class="yes"><strong>Score persistence</strong> — your high score should survive app restarts, updates, and device changes.</li>
-          <li class="no"><strong>Avoid: pay-to-remove-ads for core gameplay</strong> — continues and optional boosters monetised with ads are fair; gating the base experience behind payment is not.</li>
-          <li class="no"><strong>Avoid: push notifications for daily energy or lives</strong> — block puzzles should be timeless, not energy-gated.</li>
+        <p>Dhamaka Blocks just shipped its biggest update since launch. Every game you play now earns coins, and those coins unlock real tactical power — three new boosters to rescue a run or protect a combo streak, and seven board themes to make your grid look exactly the way you want.</p>
+        <ul class="whats-new-list">
+          <li><strong>A daily coin economy</strong> — earn coins from every game plus an escalating 7-day Daily Reward cycle</li>
+          <li><strong>Three boosters</strong> — REFRESH, UNDO and BOMB, spendable any time you have the coins</li>
+          <li><strong>Seven board themes</strong> across three tiers, from a free recolor up to a fully animated Prestige board</li>
+          <li><strong>Long-term milestone chests</strong> that reward players who keep coming back, with two exclusive free themes</li>
         </ul>
       </section>
 
-      <!-- Section 3 -->
       <section class="reveal">
-        <h2>Top Block Puzzle Games for Android in India</h2>
-        <p>Here is an honest comparison of the most popular options available on the Play Store in 2026, along with what makes each one suited (or not) to Indian players.</p>
-
-        <div class="game-card global reveal">
-          <div class="game-card-header">
-            <div class="game-title">Block Blast!</div>
-            <span class="game-badge badge-global">Global #1</span>
-          </div>
-          <p>The current worldwide leader in block puzzle downloads. Block Blast uses a classic 8×8 grid with straightforward piece placement and line clearing. It is polished, stable, and has a large global player base with leaderboards.</p>
-          <div class="pro-con-row">
-            <div class="pros">
-              <h4>Strengths</h4>
-              <ul>
-                <li>Very stable and well-tested</li>
-                <li>Offline capable</li>
-                <li>Large community</li>
-              </ul>
-            </div>
-            <div class="cons">
-              <h4>Limitations</h4>
-              <ul>
-                <li>Generic Western visual style</li>
-                <li>No regional customisation</li>
-                <li>Ad frequency can be heavy</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="game-card global reveal">
-          <div class="game-card-header">
-            <div class="game-title">1010!</div>
-            <span class="game-badge badge-global">Classic</span>
-          </div>
-          <p>One of the original popularisers of the modern block puzzle format. 1010! uses a 10×10 grid and a minimalist design that has aged well. It remains one of the cleanest implementations of the genre.</p>
-          <div class="pro-con-row">
-            <div class="pros">
-              <h4>Strengths</h4>
-              <ul>
-                <li>Clean, distraction-free UI</li>
-                <li>Larger 10×10 grid</li>
-                <li>No time pressure</li>
-              </ul>
-            </div>
-            <div class="cons">
-              <h4>Limitations</h4>
-              <ul>
-                <li>Minimal scoring depth</li>
-                <li>No combo system</li>
-                <li>No Indian language or cultural elements</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="game-card india reveal">
-          <div class="game-card-header">
-            <div class="game-title">Dhamaka Blocks</div>
-            <span class="game-badge badge-soon">Beta — Made in India</span>
-          </div>
-          <p>The only block puzzle game on the Play Store designed specifically for Indian players. Built by Dhamaka Games, an Indian studio, Dhamaka Blocks brings the familiar 8×8 block puzzle formula to life with saffron, gold, and peacock green visuals, rangoli-inspired design, and Indian percussion sounds. It adds a combo multiplier system, daily streaks, and a score sharing card built for WhatsApp.</p>
-          <div class="pro-con-row">
-            <div class="pros">
-              <h4>Strengths</h4>
-              <ul>
-                <li>Indian festive visual design</li>
-                <li>Combo multiplier system</li>
-                <li>WhatsApp score sharing</li>
-                <li>Daily streak feature</li>
-                <li>Made in India</li>
-              </ul>
-            </div>
-            <div class="cons">
-              <h4>Limitations</h4>
-              <ul>
-                <li>Currently in beta</li>
-                <li>Android only for now</li>
-              </ul>
-            </div>
-          </div>
+        <h2>How You Earn Coins</h2>
+        <p>Coins now come from two places. First, every game you finish pays out roughly 1 coin per 100 points scored, capped at 50 coins per game — so better runs earn more. Second, the home screen has a new <strong>Daily Reward</strong> you can claim once per day, on an escalating 7-day cycle:</p>
+        <table class="score-table">
+          <thead>
+            <tr><th>Cycle Day</th><th>Coins</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Day 1</td><td>25</td></tr>
+            <tr><td>Day 2</td><td>40</td></tr>
+            <tr><td>Day 3</td><td>60</td></tr>
+            <tr><td>Day 4</td><td>80</td></tr>
+            <tr><td>Day 5</td><td>120</td></tr>
+            <tr><td>Day 6</td><td>160</td></tr>
+            <tr class="highlight"><td>Day 7</td><td>400</td></tr>
+          </tbody>
+        </table>
+        <p>Miss a day and the cycle resets to Day 1 — so the streak is worth protecting, especially as Day 7 gets close.</p>
+        <div class="info-card">
+          <div class="info-card-title">Milestone chests</div>
+          <p style="margin-bottom:0;">Separately from the resettable 7-day cycle, your lifetime total of daily claims unlocks one-time bonus chests that never reset: 150 coins at 7 total days, 400 coins plus a free <strong>Aurora</strong> theme at 30 total days, and 800 coins plus a free <strong>Monsoon</strong> theme at 100 total days. Progress bars for each milestone are visible right in the Daily Reward sheet.</p>
         </div>
       </section>
 
-      <!-- Section 4 -->
       <section class="reveal">
-        <h2>Why Indian Players Deserve an Indian Game</h2>
-        <p>Every major casual game category — word games, card games, cricket games — now has at least one well-made Indian option. Block puzzle, one of the most-played casual game types on Android in India, did not. Until now.</p>
-        <p>Cultural resonance in games is not decoration. It is the difference between a game that feels borrowed and one that feels like it was made for you. When the colours on your screen are saffron, gold, and peacock green rather than neon blue and white, when the background patterns echo rangoli rather than generic geometric grids, the game lands differently. It feels familiar. It feels like ours.</p>
-
-        <div class="culture-grid">
-          <div class="culture-item">
-            <div class="culture-emoji">🟠</div>
-            <div class="culture-label">Saffron &amp; Gold</div>
-            <div class="culture-desc">The colour palette of Indian festivals, directly in the game UI</div>
-          </div>
-          <div class="culture-item">
-            <div class="culture-emoji">🦚</div>
-            <div class="culture-label">Peacock Green</div>
-            <div class="culture-desc">India's national bird colour as the game's accent palette</div>
-          </div>
-          <div class="culture-item">
-            <div class="culture-emoji">🎨</div>
-            <div class="culture-label">Rangoli Patterns</div>
-            <div class="culture-desc">Dot grid and ornamental motifs inspired by rangoli art</div>
-          </div>
-          <div class="culture-item">
-            <div class="culture-emoji">🥁</div>
-            <div class="culture-label">Indian Percussion</div>
-            <div class="culture-desc">Sound effects rooted in Indian musical tradition</div>
-          </div>
-        </div>
+        <h2>Three New Boosters</h2>
+        <p>Boosters spend coins mid-game to buy you a second chance — no daily limit, just your coin balance. All three also work during the brief "last chance" window if a game would otherwise end.</p>
+        <table class="score-table">
+          <thead>
+            <tr><th>Booster</th><th>Cost</th><th>What It Does</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>UNDO</td><td>30 coins</td><td>Reverses your most recent placement</td></tr>
+            <tr><td>REFRESH</td><td>40 coins</td><td>Discards your current tray for 3 fresh pieces</td></tr>
+            <tr class="highlight"><td>BOMB</td><td>60 coins</td><td>Tap to arm, then tap a filled cell to clear a 3×3 area around it</td></tr>
+          </tbody>
+        </table>
+        <p>BOMB got extra love this update too — it now has a proper explosion effect with stronger haptic feedback, so clearing space actually feels as satisfying as it should.</p>
       </section>
 
-      <!-- Section 5 -->
       <section class="reveal">
-        <h2>How Dhamaka Blocks is Different</h2>
-        <p>Beyond the visual identity, Dhamaka Blocks introduces mechanical depth that generic block puzzle games lack:</p>
+        <h2>Seven Board Themes</h2>
+        <p>The theme shop offers three tiers of visual customisation. <strong>Basic</strong> — Ember, free by default — is a simple recolor. <strong>Signature</strong> — Midnight, Peacock, Sunset and Frost, from 400 to 1,200 coins — adds themed line-clear effects and tray styling on top. <strong>Prestige</strong> — Monsoon at 2,400 coins — adds a fully animated ambient background on top of everything Signature offers. The other Prestige theme, Aurora, isn't for sale at all — it's exclusive to the 30-day milestone chest above.</p>
+      </section>
 
-        <h3>Combo Multiplier System</h3>
-        <p>Clearing lines on consecutive turns climbs a 6-tier multiplier ladder, from 2.0× at two consecutive clears up to 10.0× at six or more. This rewards strategic play — players who set up combo chains score dramatically more than those who clear lines at random. It creates a skill ceiling that keeps experienced players engaged long after the basics become easy. A coin economy, boosters (BOMB, UNDO, REFRESH) and unlockable board themes add another layer of strategy and progression on top.</p>
-
-        <h3>Daily Streak</h3>
-        <p>A streak badge on the home screen tracks how many days in a row you have played. Unlike energy-based systems that punish you for missing a day, the streak in Dhamaka Blocks is a positive motivator — a record of consistency you can be proud of, not a gate that stops you from playing.</p>
-
-        <h3>Score Sharing Card for WhatsApp</h3>
-        <p>When you finish a game, Dhamaka Blocks generates a score sharing card formatted for WhatsApp — India's primary social messaging platform. Sharing a high score with friends and family is a one-tap action. This small feature transforms a solo game into a social one, which is how casual games spread in India.</p>
+      <section class="reveal">
+        <h2>Also in This Update</h2>
+        <p>Alongside the headline features, this release includes an animated logo intro on cold start, unified accessibility semantics across the Settings screen, tray and piece-preview rendering performance improvements, and hardened PII protection across logging and analytics.</p>
       </section>
 
       <!-- CTA -->
       <div class="cta-section reveal">
-        <p>Try India's own block puzzle game — Dhamaka Blocks is free on Android right now.</p>
+        <p>Update or install Dhamaka Blocks now to start earning coins today.</p>
         <a href="https://play.google.com/store/apps/details?id=com.dhamakagames.dhamakablocks" class="cta-btn" target="_blank" rel="noopener noreferrer">Get the Game — Free</a>
         <p style="margin-top:16px; font-size:14px; color:rgba(255,255,240,0.4);">Available on Android · Free to play · dhamakablocks.com</p>
       </div>
@@ -625,17 +471,17 @@
         <div class="related-grid">
           <a href="how-to-play-dhamaka-blocks.html" class="related-card">
             <div class="related-card-title">How to Play Dhamaka Blocks</div>
-            <div class="related-card-desc">Complete beginner's guide — rules, scoring, difficulty levels and first-game tips.</div>
+            <div class="related-card-desc">Complete beginner's guide — rules, scoring, difficulty levels, coins, boosters and themes.</div>
             <span class="related-card-link">Read more</span>
           </a>
           <a href="dhamaka-blocks-tips-and-tricks.html" class="related-card">
             <div class="related-card-title">Tips &amp; Tricks</div>
-            <div class="related-card-desc">7 expert tips including combo setup, corner strategy, and how to use the continue.</div>
+            <div class="related-card-desc">8 expert tips including combo setup, corner strategy, and how to spend your coins wisely.</div>
             <span class="related-card-link">Read more</span>
           </a>
           <a href="how-to-increase-score-dhamaka-blocks.html" class="related-card">
             <div class="related-card-title">How to Get a High Score</div>
-            <div class="related-card-desc">Deep dive into the scoring system and a sample 500+ point game walkthrough.</div>
+            <div class="related-card-desc">Deep dive into the scoring system, the 6-tier combo multiplier, and boosters as score levers.</div>
             <span class="related-card-link">Read more</span>
           </a>
           <a href="index.html" class="related-card">
@@ -648,6 +494,7 @@
     </article>
   </main>
 
+  <!-- Sticky CTA (mobile only) -->
   <div class="sticky-cta">
     <a href="https://play.google.com/store/apps/details?id=com.dhamakagames.dhamakablocks" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">🎆</span> Get the Game — Free on Android</a>
   </div>
@@ -673,18 +520,16 @@
      * 3. Wrapped in requestAnimationFrame for smooth execution.
      */
     (function() {
-      const bar = document.getElementById("reading-progress");
+      const bar = document.getElementById('reading-progress');
       if (!bar) return;
       let ticking = false;
       let lastScrolled = -1;
 
-      // Cache scroll height to avoid FSL during scroll events
       let maxScroll = 0;
       function updateMaxScroll() {
         maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       }
 
-      // Performance: Debounce resize events to prevent layout thrashing
       function debounce(fn, ms) {
         let timeout;
         return function() {
@@ -694,26 +539,22 @@
       }
 
       updateMaxScroll();
-      window.addEventListener("resize", debounce(updateMaxScroll, 100));
-      window.addEventListener("load", updateMaxScroll);
-      // Ensure accurate offsets after typography is settled
+      window.addEventListener('resize', debounce(updateMaxScroll, 100));
+      window.addEventListener('load', updateMaxScroll);
       if (document.fonts && document.fonts.ready) {
         document.fonts.ready.then(updateMaxScroll);
       }
 
-      window.addEventListener("scroll", function() {
+      window.addEventListener('scroll', function() {
         if (!ticking) {
           window.requestAnimationFrame(function() {
             const winScroll = window.scrollY;
             const scrolled = maxScroll > 0 ? (winScroll / maxScroll) * 100 : 0;
             const rounded = Math.round(scrolled);
 
-            // Only update DOM if the rounded percentage has changed
             if (rounded !== lastScrolled) {
-              // Using transform (scaleX) instead of width avoids triggering
-              // the layout engine, making the update significantly more efficient.
               bar.style.transform = "scaleX(" + (scrolled / 100).toFixed(3) + ")";
-              bar.setAttribute("aria-valuenow", rounded);
+              bar.setAttribute('aria-valuenow', rounded);
               lastScrolled = rounded;
             }
             ticking = false;
@@ -722,12 +563,12 @@
         }
       }, { passive: true });
     })();
+
     /**
      * Performance Optimization: Scroll Reveal
      * 1. Uses IntersectionObserver for efficient scroll tracking.
      * 2. Defers initialization using requestIdleCallback to move non-critical DOM work out of the load sequence.
      * 3. Calls unobserve() after reveal to stop tracking and reduce main thread overhead.
-     * Expected Impact: Reduces TBT during load by prioritizing critical rendering over decorative reveals.
      */
     (function() {
       const initReveal = () => {
