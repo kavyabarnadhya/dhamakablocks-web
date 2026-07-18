@@ -9,6 +9,33 @@
   var scriptLoaded = false;
   var lastFocused = null;
 
+  // Attached first, before anything that can throw (e.g. localStorage in
+  // Safari private mode), so the reopen link always works even if consent
+  // persistence fails.
+  document.addEventListener('click', function (e) {
+    if (e.target && e.target.id === 'cookie-prefs-link') {
+      e.preventDefault();
+      showBanner();
+    }
+  });
+
+  function readConsent() {
+    try {
+      return localStorage.getItem(CONSENT_KEY);
+    } catch (err) {
+      return null;
+    }
+  }
+
+  function writeConsent(value) {
+    try {
+      localStorage.setItem(CONSENT_KEY, value);
+    } catch (err) {
+      // Storage unavailable (private browsing, blocked cookies, etc.) —
+      // consent still applies for this page load via Consent Mode below.
+    }
+  }
+
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
   window.gtag = gtag;
@@ -27,13 +54,13 @@
   }
 
   function grant() {
-    localStorage.setItem(CONSENT_KEY, 'granted');
+    writeConsent('granted');
     gtag('consent', 'update', { analytics_storage: 'granted' });
     loadGtagScript();
   }
 
   function deny() {
-    localStorage.setItem(CONSENT_KEY, 'denied');
+    writeConsent('denied');
     gtag('consent', 'update', { analytics_storage: 'denied' });
   }
 
@@ -127,7 +154,7 @@
     banner.focus();
   }
 
-  var stored = localStorage.getItem(CONSENT_KEY);
+  var stored = readConsent();
   if (stored === 'granted') {
     gtag('consent', 'update', { analytics_storage: 'granted' });
     loadGtagScript();
@@ -138,11 +165,4 @@
       showBanner();
     }
   }
-
-  document.addEventListener('click', function (e) {
-    if (e.target && e.target.id === 'cookie-prefs-link') {
-      e.preventDefault();
-      showBanner();
-    }
-  });
 })();
