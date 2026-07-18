@@ -42,6 +42,20 @@
 
   gtag('consent', 'default', { analytics_storage: 'denied' });
 
+  var GTAG_URL = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+  var ttPolicy = null;
+  if (window.trustedTypes && trustedTypes.createPolicy) {
+    // _headers CSP sets trusted-types to this exact policy name — the
+    // createScriptURL check below is the only thing allowed to produce a
+    // script URL on this page, and it only ever accepts this one GA URL.
+    ttPolicy = trustedTypes.createPolicy('dhamaka-ga-loader', {
+      createScriptURL: function (url) {
+        if (url !== GTAG_URL) throw new Error('Blocked unexpected script URL');
+        return url;
+      }
+    });
+  }
+
   // gtag('js'/'config') are only queued once consent is actually granted —
   // they must come *after* the 'consent update: granted' call in dataLayer,
   // otherwise gtag.js processes 'config' while still seeing denied consent
@@ -54,7 +68,7 @@
     gtag('config', GA_ID);
     var script = document.createElement('script');
     script.async = true;
-    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    script.src = ttPolicy ? ttPolicy.createScriptURL(GTAG_URL) : GTAG_URL;
     document.head.appendChild(script);
   }
 
