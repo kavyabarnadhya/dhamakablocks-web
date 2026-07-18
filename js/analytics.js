@@ -4,7 +4,7 @@
 // choice persists in localStorage and can be reopened via any element with
 // id="cookie-prefs-link" (see footer link on every page).
 (function () {
-  var GA_ID = 'G-2QXVHNP2J4';
+  var GA_ID = 'G-8RS9296QXS';
   var CONSENT_KEY = 'dhamaka-ga-consent';
   var scriptLoaded = false;
   var lastFocused = null;
