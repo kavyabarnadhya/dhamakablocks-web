@@ -41,12 +41,17 @@
   window.gtag = gtag;
 
   gtag('consent', 'default', { analytics_storage: 'denied' });
-  gtag('js', new Date());
-  gtag('config', GA_ID);
 
+  // gtag('js'/'config') are only queued once consent is actually granted —
+  // they must come *after* the 'consent update: granted' call in dataLayer,
+  // otherwise gtag.js processes 'config' while still seeing denied consent
+  // (queue order, not real time, is what the library replays) and never
+  // sends the initial page_view even after consent flips to granted.
   function loadGtagScript() {
     if (scriptLoaded) return;
     scriptLoaded = true;
+    gtag('js', new Date());
+    gtag('config', GA_ID);
     var script = document.createElement('script');
     script.async = true;
     script.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
