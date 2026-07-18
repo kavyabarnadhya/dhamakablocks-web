@@ -1,43 +1,53 @@
 // Google Analytics (GA4) loader with Consent Mode v2.
-// Analytics storage defaults to denied; only granted after explicit user action.
-// Consent choice persists in localStorage so the banner shows once.
+// gtag.js itself is only fetched once the user grants consent (Basic Consent
+// Mode) — no request to Google happens before a decision is made. Consent
+// choice persists in localStorage and can be reopened via any element with
+// id="cookie-prefs-link" (see footer link on every page).
 (function () {
   var GA_ID = 'G-2QXVHNP2J4';
   var CONSENT_KEY = 'dhamaka-ga-consent';
+  var scriptLoaded = false;
+  var lastFocused = null;
 
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
   window.gtag = gtag;
 
-  gtag('consent', 'default', {
-    analytics_storage: 'denied',
-    ad_storage: 'denied',
-    wait_for_update: 500
-  });
-
+  gtag('consent', 'default', { analytics_storage: 'denied' });
   gtag('js', new Date());
   gtag('config', GA_ID);
 
-  var script = document.createElement('script');
-  script.async = true;
-  script.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
-  document.head.appendChild(script);
-
-  var stored = localStorage.getItem(CONSENT_KEY);
-  if (stored === 'granted') {
-    gtag('consent', 'update', { analytics_storage: 'granted' });
-    return;
+  function loadGtagScript() {
+    if (scriptLoaded) return;
+    scriptLoaded = true;
+    var script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.appendChild(script);
   }
-  if (stored === 'denied') {
-    return;
+
+  function grant() {
+    localStorage.setItem(CONSENT_KEY, 'granted');
+    gtag('consent', 'update', { analytics_storage: 'granted' });
+    loadGtagScript();
+  }
+
+  function deny() {
+    localStorage.setItem(CONSENT_KEY, 'denied');
+    gtag('consent', 'update', { analytics_storage: 'denied' });
   }
 
   function showBanner() {
+    if (document.getElementById('dhamaka-cookie-banner')) return;
+    lastFocused = document.activeElement;
+
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     var banner = document.createElement('div');
+    banner.id = 'dhamaka-cookie-banner';
     banner.setAttribute('role', 'dialog');
     banner.setAttribute('aria-label', 'Cookie consent');
+    banner.setAttribute('tabindex', '-1');
     banner.style.cssText =
       'position:fixed;left:0;right:0;bottom:0;z-index:9999;' +
       'background:#1a1a1a;color:#f5f5f5;padding:16px 20px;' +
@@ -60,34 +70,79 @@
     var actions = document.createElement('div');
     actions.style.cssText = 'display:flex;gap:8px;flex-shrink:0;';
 
-    function makeButton(label, granted) {
+    function closeBanner() {
+      banner.remove();
+      document.removeEventListener('keydown', onKeydown, true);
+      if (lastFocused && typeof lastFocused.focus === 'function') {
+        lastFocused.focus();
+      }
+    }
+
+    function makeButton(label, onClick) {
       var btn = document.createElement('button');
       btn.type = 'button';
       btn.textContent = label;
+      var isPrimary = label === 'Accept';
       btn.style.cssText =
         'padding:8px 16px;border-radius:6px;border:none;cursor:pointer;font-size:14px;font-weight:600;' +
-        (granted ? 'background:#f5c542;color:#1a1a1a;' : 'background:transparent;color:#f5f5f5;border:1px solid #666;');
+        (isPrimary ? 'background:#f5c542;color:#1a1a1a;' : 'background:transparent;color:#f5f5f5;border:1px solid #666;');
       btn.addEventListener('click', function () {
-        localStorage.setItem(CONSENT_KEY, granted ? 'granted' : 'denied');
-        if (granted) {
-          gtag('consent', 'update', { analytics_storage: 'granted' });
-        }
-        banner.remove();
+        onClick();
+        closeBanner();
       });
       return btn;
     }
 
-    actions.appendChild(makeButton('Reject', false));
-    actions.appendChild(makeButton('Accept', true));
+    var rejectBtn = makeButton('Reject', deny);
+    var acceptBtn = makeButton('Accept', grant);
+    actions.appendChild(rejectBtn);
+    actions.appendChild(acceptBtn);
 
     banner.appendChild(text);
     banner.appendChild(actions);
     document.body.appendChild(banner);
+
+    var focusable = [link, rejectBtn, acceptBtn];
+
+    function onKeydown(e) {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        deny();
+        closeBanner();
+        return;
+      }
+      if (e.key !== 'Tab') return;
+      var currentIndex = focusable.indexOf(document.activeElement);
+      var lastIndex = focusable.length - 1;
+      if (e.shiftKey && (currentIndex <= 0)) {
+        e.preventDefault();
+        focusable[lastIndex].focus();
+      } else if (!e.shiftKey && currentIndex === lastIndex) {
+        e.preventDefault();
+        focusable[0].focus();
+      }
+    }
+    document.addEventListener('keydown', onKeydown, true);
+
+    banner.focus();
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', showBanner);
-  } else {
-    showBanner();
+  var stored = localStorage.getItem(CONSENT_KEY);
+  if (stored === 'granted') {
+    gtag('consent', 'update', { analytics_storage: 'granted' });
+    loadGtagScript();
+  } else if (stored !== 'denied') {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', showBanner);
+    } else {
+      showBanner();
+    }
   }
+
+  document.addEventListener('click', function (e) {
+    if (e.target && e.target.id === 'cookie-prefs-link') {
+      e.preventDefault();
+      showBanner();
+    }
+  });
 })();
