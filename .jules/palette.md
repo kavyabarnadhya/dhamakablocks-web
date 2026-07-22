@@ -31,3 +31,7 @@
 ## 2026-07-08 - Focus-Visible Parity and Tactile Logos
 **Learning:** When elements use CSS transforms (like `translateY` or `scale`) on hover, keyboard users lose visual affordance if these aren't mirrored in `:focus-visible`. Additionally, logos benefit from subtle tactile feedback (scaling) on interaction to signal they are interactive hubs.
 **Action:** Always pair `:hover` transform and shadow effects with `:focus-visible` equivalents for all buttons, cards, and links. Implement a consistent `scale(1.05)` tactile effect for main site logos to improve interaction clarity.
+
+## 2026-07-22 - Scoped CSS and Transition Lifecycles for Dynamic UI
+**Learning:** For static websites lacking global CSS compilation or bundlers, dynamically injected UI elements (such as cookie consent banners) often feel "flat" and disconnected because they lack interactive hover, active, and focus states. Standard inline style objects cannot declare `:hover` or `:focus-visible` pseudo-classes.
+**Action:** Inject a transient, scoped `<style>` block matching the component's lifetime. This enables rich, brand-consistent pseudo-class selectors and high-performance cubic-bezier transitions on hover, active clicks, and keyboard focus, which are automatically cleaned up when the element is dismissed.
