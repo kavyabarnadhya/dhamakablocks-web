@@ -176,7 +176,21 @@
   var stored = readConsent();
   if (stored === 'granted') {
     gtag('consent', 'update', { analytics_storage: 'granted' });
-    loadGtagScript();
+    /**
+     * Performance Optimization: Google Analytics Deferral
+     * 1. Defers script execution and DOM insertion using requestIdleCallback
+     *    with a timeout and fallback to minimize Total Blocking Time (TBT).
+     * 2. Uses ES6 arrow functions for internal callbacks.
+     */
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(() => {
+        loadGtagScript();
+      }, { timeout: 2000 });
+    } else {
+      setTimeout(() => {
+        loadGtagScript();
+      }, 500);
+    }
   } else if (stored !== 'denied') {
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', showBanner);
