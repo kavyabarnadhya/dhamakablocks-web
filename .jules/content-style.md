@@ -85,8 +85,17 @@ never hype-y or clickbait in the body copy (title can be more search-friendly).
 
 ## Topic research (when content-queue.json has no queued items left)
 
-If every item in `content-queue.json` is `published` (or the file has no
-`queued` items at all), do a research pass instead of exiting immediately:
+Trigger condition: no item in `content-queue.json` has `status: "queued"`
+AND `publish_after <= today`. Any other status (`published`, `rejected`,
+`skipped`, or anything else a human may have set) counts as "not eligible"
+and is excluded from consideration — never reconsider or rewrite an item
+that isn't `status: "queued"`, regardless of why it was marked otherwise.
+If no item is currently queued-and-due, but at least one item still has
+`status: "queued"` with a future `publish_after`, that is NOT an empty
+queue — just exit normally (this is the existing no-op path, unchanged).
+Only run the research pass below when zero items have `status: "queued"`
+at all (everything is published/rejected/skipped/etc. — nothing left
+waiting in the pipeline):
 
 1. Use WebSearch to find 2–3 new topic candidates, following the same method
    as the original keyword research: search competitor/ecosystem queries
@@ -106,8 +115,16 @@ If every item in `content-queue.json` is `published` (or the file has no
    `internal_links` (existing post slugs), and a `publish_after` date at
    least 3 days out from today (do not backdate to make it immediately
    eligible — that defeats the review cadence).
-5. Commit the updated `content-queue.json` on its own branch (e.g.
-   `content/queue-refresh-<date>`) and open a PR titled "Add N new topics to
+5. Before creating a branch: check whether a branch named
+   `content/queue-refresh-<today's date, YYYY-MM-DD>` already exists on the
+   remote (`git ls-remote --heads origin | grep queue-refresh-<date>`) or
+   whether an open PR already targets it (`gh pr list --head
+   content/queue-refresh-<date>`). If either exists, that means an earlier
+   run today already started or finished this — do not create a duplicate,
+   do not force-push over it, and do not delete/recreate it. Just stop and
+   report that a queue-refresh for today is already in progress or done.
+   Otherwise, commit the updated `content-queue.json` on a fresh branch
+   `content/queue-refresh-<date>` and open a PR titled "Add N new topics to
    content queue" with a body explaining the search intent behind each new
    entry. This is a separate PR from any post-writing PR — do not mix queue
    research with a generated post in the same PR.
@@ -117,10 +134,13 @@ If every item in `content-queue.json` is `published` (or the file has no
 ## Self-review (post as a PR comment before finishing)
 
 After committing the new post and opening its PR (or the queue-refresh PR),
-run a self-review pass and post the findings as a comment on that same PR
-via `gh pr comment <number> --body "..."` — do not skip this even though you
-already tried to follow the rules while writing. This is a second, explicit
-check, not a formality:
+run a self-review pass and post the findings as a comment on that same PR.
+`gh pr create`'s own output is just a URL, not a labeled PR number — get the
+number explicitly with `gh pr view --head <your-branch-name> --json number
+-q .number` right after creating the PR, then use that number:
+`gh pr comment <number> --body "..."`. Do not skip the self-review even
+though you already tried to follow the rules while writing — this is a
+second, explicit check, not a formality:
 
 1. Re-read every factual sentence in the new/changed content against
    "Confirmed game facts" above. List any claim that doesn't trace to this
