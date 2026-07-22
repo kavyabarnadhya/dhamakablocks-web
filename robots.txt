@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /content-queue.json
+Disallow: /.jules/
+Disallow: /blog/_TEMPLATE.html
 
 Sitemap: https://dhamakablocks.com/sitemap.xml
