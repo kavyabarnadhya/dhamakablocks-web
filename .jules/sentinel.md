@@ -16,3 +16,8 @@ This journal contains only CRITICAL security learnings as per the Sentinel's mis
 **Vulnerability:** Potential attack surface from modern browser features (fenced frames) and legacy SOP bypasses (document.domain).
 **Learning:** Hardening the `Permissions-Policy` beyond the standard set to include `document-domain`, `fenced-frame-api`, and execution throttling directives (`execution-while-not-rendered`, `execution-while-out-of-viewport`) provides a more robust defense-in-depth posture for static sites.
 **Prevention:** Explicitly disable `document-domain`, `fenced-frame-api`, and background execution in the global security header configuration.
+
+## 2026-07-22 - Inline JSON-LD is Safe Under Trusted Types
+**Vulnerability:** Uncertainty over whether adding `<script type="application/ld+json">` structured-data blocks (for SEO/AEO — Article, FAQPage, HowTo, BreadcrumbList, VideoGame schemas) would be blocked by this site's `require-trusted-types-for 'script'` CSP directive, or require a `_headers`/CSP change.
+**Learning:** Trusted Types governs *executable* script sinks (`innerHTML`, `eval`, dynamically injected `<script>` with executable content) — it does not gate static inline JSON-LD data blocks already present at parse time, and `script-src 'self' 'unsafe-inline'` already permits inline `<script>` tags regardless. JSON-LD added no new external origin and required zero `_headers` changes.
+**Prevention:** When adding schema.org structured data to a Trusted-Types-hardened page, confirm the CSP already allows inline script (`'unsafe-inline'` or a matching nonce/hash) and remember Trusted Types only restricts sinks that execute strings as code — data blocks are unaffected.

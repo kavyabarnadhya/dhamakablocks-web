@@ -1,0 +1,74 @@
+[
+  {
+    "slug": "block-puzzle-high-score-when-stuck",
+    "title": "How to Get a High Score in Block Puzzle (When You're Stuck)",
+    "intent": "block puzzle high score, stuck no space, combo strategy",
+    "angle": "Highest-demand evergreen pain point; brand-agnostic entry that funnels to Dhamaka Blocks.",
+    "internal_links": ["how-to-increase-score-dhamaka-blocks", "dhamaka-blocks-tips-and-tricks"],
+    "status": "queued",
+    "publish_after": "2026-07-27"
+  },
+  {
+    "slug": "block-blast-alternatives",
+    "title": "Best Block Blast Alternatives (2026): Free, Offline, No Ads",
+    "intent": "block blast alternative, games like block blast",
+    "angle": "Ride the biggest listicle cluster; lead with Dhamaka as the no-ads, made-in-India pick. Do not reference MOD/cheat/solver tools.",
+    "internal_links": ["block-puzzle-games-india", "dhamaka-blocks-tips-and-tricks"],
+    "status": "queued",
+    "publish_after": "2026-07-30"
+  },
+  {
+    "slug": "woodoku-vs-block-blast",
+    "title": "Woodoku vs Block Blast: Which Is Better? (+ a Third Option)",
+    "intent": "woodoku vs block blast which is better",
+    "angle": "Exact-match comparison query; structured table; slots Dhamaka Blocks in as the third pick.",
+    "internal_links": ["block-puzzle-games-india", "how-to-play-dhamaka-blocks"],
+    "status": "queued",
+    "publish_after": "2026-08-03"
+  },
+  {
+    "slug": "best-offline-block-puzzle-games",
+    "title": "Best Offline Block Puzzle Games (No Wi-Fi, No Ads)",
+    "intent": "offline block puzzle, no wifi games, no ads",
+    "angle": "Owns the differentiator competitors are hated for.",
+    "internal_links": ["block-puzzle-games-india", "how-to-play-dhamaka-blocks"],
+    "status": "queued",
+    "publish_after": "2026-08-06"
+  },
+  {
+    "slug": "block-puzzle-common-mistakes",
+    "title": "Common Block Puzzle Mistakes That Kill Your Score",
+    "intent": "block puzzle mistakes, why do I keep losing",
+    "angle": "Long-tail of the high-score post; mistakes-framed how-to; extractable list + FAQ.",
+    "internal_links": ["block-puzzle-high-score-when-stuck", "dhamaka-blocks-tips-and-tricks"],
+    "status": "queued",
+    "publish_after": "2026-08-10"
+  },
+  {
+    "slug": "is-dhamaka-blocks-free-safe-offline",
+    "title": "Is Dhamaka Blocks Free, Safe & Offline? (FAQ)",
+    "intent": "is X free, is X safe, is X offline (app trust queries)",
+    "angle": "Pure FAQPage-schema post; direct AEO citation bait for app-trust questions.",
+    "internal_links": ["how-to-play-dhamaka-blocks", "dhamaka-blocks-coins-boosters-update"],
+    "status": "queued",
+    "publish_after": "2026-08-13"
+  },
+  {
+    "slug": "combo-multipliers-block-puzzle",
+    "title": "How Combo Multipliers Work in Block Puzzle Games",
+    "intent": "combo multiplier, how scoring works",
+    "angle": "Extractable explainer; internal-links scoring, tips, and the high-score post.",
+    "internal_links": ["how-to-increase-score-dhamaka-blocks", "block-puzzle-high-score-when-stuck"],
+    "status": "queued",
+    "publish_after": "2026-08-17"
+  },
+  {
+    "slug": "made-in-india-mobile-games",
+    "title": "Best Made-in-India Mobile Games (Puzzle Picks)",
+    "intent": "made in india games, indian puzzle games",
+    "angle": "Underserved block-puzzle India niche; cultural moat. Diwali-specific post is scheduled separately, outside this pilot.",
+    "internal_links": ["block-puzzle-games-india"],
+    "status": "queued",
+    "publish_after": "2026-08-20"
+  }
+]

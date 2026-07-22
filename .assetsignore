@@ -1,0 +1,6 @@
+# Internal content-loop scaffolding — not meant to be publicly served.
+# Still tracked in git; the cloud content-loop agent reads these via its own
+# git checkout, not via the deployed site.
+content-queue.json
+.jules/
+blog/_TEMPLATE.html
