@@ -22,6 +22,38 @@
 <meta name="twitter:image" content="https://dhamakablocks.com/images/screen-home.jpg">
 <!-- Canonical -->
 <link rel="canonical" href="https://dhamakablocks.com">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "VideoGame",
+      "name": "Dhamaka Blocks",
+      "description": "An Indian-made block puzzle game. Drag blocks, clear lines, beat your score. Free on Android.",
+      "url": "https://dhamakablocks.com",
+      "image": "https://dhamakablocks.com/images/screen-home.jpg",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "Android",
+      "genre": "Puzzle",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Dhamaka Games"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dhamakablocks.com/" }
+      ]
+    }
+  ]
+}
+</script>
 <meta name="theme-color" content="#FF9933">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -303,7 +335,13 @@ section {
   opacity: 0.85;
   animation: fadeUp 0.6s 0.1s ease both;
 }
+.hero-title-h1 {
+  margin: 0;
+  font-weight: inherit;
+  font-size: inherit;
+}
 .hero-title-dhamaka {
+  display: block;
   font-family: 'Cinzel', serif;
   font-size: clamp(48px, 13vw, 84px);
   font-weight: 900;
@@ -316,6 +354,7 @@ section {
   animation: fadeUp 0.6s 0.2s ease both;
 }
 .hero-title-blocks {
+  display: block;
   font-family: 'Cinzel', serif;
   font-size: clamp(48px, 13vw, 84px);
   font-weight: 900;
@@ -326,6 +365,15 @@ section {
   line-height: 0.95;
   letter-spacing: 14px;
   animation: fadeUp 0.6s 0.3s ease both;
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
 }
 .hero-divider {
   display: flex;
@@ -946,8 +994,11 @@ footer {
 ══════════════════════════════════════════════════════════ -->
 <section id="hero" tabindex="-1">
   <div class="hero-studio"><span aria-hidden="true">🎆</span> Dhamaka Games <span aria-hidden="true">🎆</span></div>
-  <div class="hero-title-dhamaka">DHAMAKA</div>
-  <div class="hero-title-blocks">BLOCKS</div>
+  <h1 class="hero-title-h1">
+    <span class="hero-title-dhamaka">DHAMAKA</span>
+    <span class="hero-title-blocks">BLOCKS</span>
+    <span class="visually-hidden"> — Free Indian Block Puzzle Game for Android</span>
+  </h1>
   <div class="hero-divider">
     <div class="hero-divider-line"></div>
     <div class="hero-divider-dot"></div>
@@ -1016,7 +1067,7 @@ footer {
     </p>
 
     <div class="reveal reveal-delay-3" style="text-align:center; margin-bottom:8px;">
-      <a href="https://play.google.com/store/apps/details?id=com.dhamakagames.dhamakablocks"
+      <a href="https://play.google.com/store/apps/details?id=com.dhamakagames.dhamakablocks&utm_source=home&utm_medium=cta&utm_campaign=homepage"
          class="beta-btn" target="_blank" rel="noopener noreferrer">
         Get it on Google Play
       </a>

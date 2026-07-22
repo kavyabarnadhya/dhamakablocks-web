@@ -1,0 +1,21 @@
+# Dhamaka Blocks
+
+> Free Indian-festive-themed block puzzle game for Android. Drag blocks onto a
+> grid, clear full rows/columns, chain combos, beat your high score. Made in
+> India. Offline play, free to install.
+
+## Key facts
+- Platform: Android (Google Play), free to install
+- Genre: block puzzle (grid drag-and-drop, line-clear, combo scoring)
+- Theme: Indian festive — saffron/gold palette, festival board themes
+- Play Store: https://play.google.com/store/apps/details?id=com.dhamakagames.dhamakablocks
+
+## Guides
+- [How to Play](https://dhamakablocks.com/blog/how-to-play-dhamaka-blocks.html): beginner rules, drag-drop, line clears, scoring
+- [Tips and Tricks](https://dhamakablocks.com/blog/dhamaka-blocks-tips-and-tricks.html): combo multipliers, corner strategy, high score
+- [How Scoring Works](https://dhamakablocks.com/blog/how-to-increase-score-dhamaka-blocks.html): points, bonuses, multipliers
+- [Coins, Boosters & Themes](https://dhamakablocks.com/blog/dhamaka-blocks-coins-boosters-update.html): economy, power-ups, board themes
+- [Best Block Puzzle Games in India 2026](https://dhamakablocks.com/blog/block-puzzle-games-india.html): comparison vs Block Blast, 1010!
+
+## Blog
+- https://dhamakablocks.com/blog/
