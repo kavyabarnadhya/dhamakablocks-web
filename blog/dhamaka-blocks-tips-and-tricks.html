@@ -6,6 +6,7 @@
   <title>Dhamaka Blocks Tips and Tricks — Score Higher Every Game</title>
   <link rel="icon" href="/images/favicon.png" type="image/png">
   <script src="/js/analytics.js" defer></script>
+  <script src="/js/blog.js" defer></script>
   <meta name="description" content="Expert tips and tricks for Dhamaka Blocks. Learn combo multipliers, corner strategy, and how to beat your high score on India's block puzzle game." />
   <link rel="canonical" href="https://dhamakablocks.com/blog/dhamaka-blocks-tips-and-tricks.html" />
   <script type="application/ld+json">
@@ -676,95 +677,5 @@
   </footer>
 
   <div class="rainbow-bottom"></div>
-
-  <script>
-    /**
-     * Performance Optimization: Reading Progress Bar
-     * 1. Caches total scrollable height outside the scroll handler to prevent Forced Synchronous Layout (FSL).
-     * 2. Uses state tracking to skip redundant DOM writes (style and attributes).
-     * 3. Wrapped in requestAnimationFrame for smooth execution.
-     */
-    (function() {
-      const bar = document.getElementById("reading-progress");
-      if (!bar) return;
-      let ticking = false;
-      let lastScrolled = -1;
-
-      // Cache scroll height to avoid FSL during scroll events
-      let maxScroll = 0;
-      function updateMaxScroll() {
-        maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      }
-
-      // Performance: Debounce resize events to prevent layout thrashing
-      function debounce(fn, ms) {
-        let timeout;
-        return function() {
-          clearTimeout(timeout);
-          timeout = setTimeout(() => fn.apply(this, arguments), ms);
-        };
-      }
-
-      updateMaxScroll();
-      window.addEventListener("resize", debounce(updateMaxScroll, 100));
-      window.addEventListener("load", updateMaxScroll);
-      // Ensure accurate offsets after typography is settled
-      if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(updateMaxScroll);
-      }
-
-      window.addEventListener("scroll", function() {
-        if (!ticking) {
-          window.requestAnimationFrame(function() {
-            const winScroll = window.scrollY;
-            const scrolled = maxScroll > 0 ? (winScroll / maxScroll) * 100 : 0;
-            const rounded = Math.round(scrolled);
-
-            // Only update DOM if the rounded percentage has changed
-            if (rounded !== lastScrolled) {
-              // Using transform (scaleX) instead of width avoids triggering
-              // the layout engine, making the update significantly more efficient.
-              bar.style.transform = "scaleX(" + (scrolled / 100).toFixed(3) + ")";
-              bar.setAttribute("aria-valuenow", rounded);
-              lastScrolled = rounded;
-            }
-            ticking = false;
-          });
-          ticking = true;
-        }
-      }, { passive: true });
-    })();
-    /**
-     * Performance Optimization: Scroll Reveal
-     * 1. Uses IntersectionObserver for efficient scroll tracking.
-     * 2. Defers initialization using requestIdleCallback to move non-critical DOM work out of the load sequence.
-     * 3. Calls unobserve() after reveal to stop tracking and reduce main thread overhead.
-     * Expected Impact: Reduces TBT during load by prioritizing critical rendering over decorative reveals.
-     */
-    (function() {
-      const initReveal = () => {
-        const els = document.querySelectorAll('.reveal');
-        if (!('IntersectionObserver' in window)) {
-          els.forEach(el => el.classList.add('visible'));
-          return;
-        }
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(e => {
-            if (e.isIntersecting) {
-              e.target.classList.add('visible');
-              observer.unobserve(e.target);
-            }
-          });
-        }, { threshold: 0.1 });
-        els.forEach(el => observer.observe(el));
-      };
-
-      if ('requestIdleCallback' in window) {
-        window.requestIdleCallback(initReveal, { timeout: 2000 });
-      } else {
-        setTimeout(initReveal, 500);
-      }
-    })();
-  </script>
 </body>
 </html>
