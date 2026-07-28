@@ -6,6 +6,7 @@
   <title>Dhamaka Blocks Blog — Tips, Guides and Game Updates</title>
   <link rel="icon" href="/images/favicon.png" type="image/png">
   <script src="/js/analytics.js" defer></script>
+  <script src="/js/blog.js" defer></script>
   <meta name="description" content="Official blog for Dhamaka Blocks — India's block puzzle game. Find tips, tricks, guides and game updates here." />
   <link rel="canonical" href="https://dhamakablocks.com/blog/" />
   <script type="application/ld+json">
@@ -610,39 +611,5 @@
   </footer>
 
   <div class="rainbow-bottom"></div>
-
-  <script>
-    /**
-     * Performance Optimization: Scroll Reveal
-     * 1. Uses IntersectionObserver for efficient scroll tracking.
-     * 2. Defers initialization using requestIdleCallback to move non-critical DOM work out of the load sequence.
-     * 3. Calls unobserve() after reveal to stop tracking and reduce main thread overhead.
-     * Expected Impact: Reduces TBT during load by prioritizing critical rendering over decorative reveals.
-     */
-    (function() {
-      const initReveal = () => {
-        const els = document.querySelectorAll('.reveal');
-        if (!('IntersectionObserver' in window)) {
-          els.forEach(el => el.classList.add('visible'));
-          return;
-        }
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(e => {
-            if (e.isIntersecting) {
-              e.target.classList.add('visible');
-              observer.unobserve(e.target);
-            }
-          });
-        }, { threshold: 0.08 });
-        els.forEach(el => observer.observe(el));
-      };
-
-      if ('requestIdleCallback' in window) {
-        window.requestIdleCallback(initReveal, { timeout: 2000 });
-      } else {
-        setTimeout(initReveal, 500);
-      }
-    })();
-  </script>
 </body>
 </html>
