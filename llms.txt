@@ -11,12 +11,12 @@
 - Play Store: https://play.google.com/store/apps/details?id=com.dhamakagames.dhamakablocks
 
 ## Guides
-- [How to Get a High Score in Block Puzzle (When You're Stuck)](https://dhamakablocks.com/blog/block-puzzle-high-score-when-stuck.html): grid management, multi-line clears, combo strategy
-- [How to Play](https://dhamakablocks.com/blog/how-to-play-dhamaka-blocks.html): beginner rules, drag-drop, line clears, scoring
-- [Tips and Tricks](https://dhamakablocks.com/blog/dhamaka-blocks-tips-and-tricks.html): combo multipliers, corner strategy, high score
-- [How Scoring Works](https://dhamakablocks.com/blog/how-to-increase-score-dhamaka-blocks.html): points, bonuses, multipliers
-- [Coins, Boosters & Themes](https://dhamakablocks.com/blog/dhamaka-blocks-coins-boosters-update.html): economy, power-ups, board themes
-- [Best Block Puzzle Games in India 2026](https://dhamakablocks.com/blog/block-puzzle-games-india.html): comparison vs Block Blast, 1010!
+- [How to Get a High Score in Block Puzzle (When You're Stuck)](https://dhamakablocks.com/blog/block-puzzle-high-score-when-stuck): grid management, multi-line clears, combo strategy
+- [How to Play](https://dhamakablocks.com/blog/how-to-play-dhamaka-blocks): beginner rules, drag-drop, line clears, scoring
+- [Tips and Tricks](https://dhamakablocks.com/blog/dhamaka-blocks-tips-and-tricks): combo multipliers, corner strategy, high score
+- [How Scoring Works](https://dhamakablocks.com/blog/how-to-increase-score-dhamaka-blocks): points, bonuses, multipliers
+- [Coins, Boosters & Themes](https://dhamakablocks.com/blog/dhamaka-blocks-coins-boosters-update): economy, power-ups, board themes
+- [Best Block Puzzle Games in India 2026](https://dhamakablocks.com/blog/block-puzzle-games-india): comparison vs Block Blast, 1010!
 
 ## Blog
 - https://dhamakablocks.com/blog/
