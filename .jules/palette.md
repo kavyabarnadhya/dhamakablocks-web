@@ -35,3 +35,7 @@
 ## 2026-07-22 - Scoped CSS and Transition Lifecycles for Dynamic UI
 **Learning:** For static websites lacking global CSS compilation or bundlers, dynamically injected UI elements (such as cookie consent banners) often feel "flat" and disconnected because they lack interactive hover, active, and focus states. Standard inline style objects cannot declare `:hover` or `:focus-visible` pseudo-classes.
 **Action:** Inject a transient, scoped `<style>` block matching the component's lifetime. This enables rich, brand-consistent pseudo-class selectors and high-performance cubic-bezier transitions on hover, active clicks, and keyboard focus, which are automatically cleaned up when the element is dismissed.
+
+## 2026-07-29 - Dynamic Dialog Semantics and Clean URL Normalization
+**Learning:** Standardizing triggering elements with appropriate ARIA states (like `role="button"` and `aria-haspopup="dialog"`) is crucial for keyboard/screen reader users, but hardcoding these in multiple static files can create maintenance overhead. Dynamically attaching these attributes via deferred helper scripts ensures high runtime accessibility without static bloat. Additionally, normalizing all internal paths (such as the banner's privacy link) to extensionless clean URLs prevents navigation discrepancies.
+**Action:** Dynamically assign semantic attributes (like `role` and `aria-haspopup`) to static link triggers upon script load, and always normalize dynamically generated internal links to root-relative clean URLs (e.g., `/privacy` instead of `/privacy.html`).
