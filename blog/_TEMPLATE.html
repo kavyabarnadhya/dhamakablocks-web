@@ -2,6 +2,16 @@
   TEMPLATE — not a published page. Do not link to this file or add it to
   sitemap.xml. Copy it to blog/<slug>.html and fill every {{PLACEHOLDER}}.
 
+  IMPORTANT: the physical filename stays blog/<slug>.html, but every URL
+  this page ASSERTS ABOUT ITSELF (canonical, og:url, JSON-LD @id/breadcrumb
+  item) must be extensionless: https://dhamakablocks.com/blog/{{SLUG}} with
+  NO ".html". The server 307-redirects .html URLs to their extensionless
+  form, so a canonical/URL that still says .html is self-contradictory —
+  this exact mismatch was a real GSC-flagged bug once already. Likewise,
+  every internal link to another post (related-guides, nav, etc.) must be
+  an ABSOLUTE path like /blog/<other-slug> — no bare relative filenames
+  (e.g. "other-slug" or "other-slug.html") and no .html suffix.
+
   Rules for whoever (human or agent) fills this in:
   - Exactly one <h1>, matching {{TITLE}}.
   - Each <h2> is a real question or clear topic. The FIRST sentence under it
@@ -12,10 +22,12 @@
   - Every Play Store link gets ?utm_source=blog&utm_medium=<nav|cta|sticky>&utm_campaign={{SLUG}}
   - Include the FAQ section and its FAQPage JSON-LD — do not skip it.
   - Add 2–3 internal links to the posts named in content-queue.json's
-    "internal_links" for this entry, inside "More Guides".
-  - After writing the post, register it: add to sitemap.xml (lastmod = today),
-    add a card to blog/index.html, add a preview card to index.html's
-    "Tips, Guides & Strategies" section, add a line to llms.txt's "## Guides".
+    "internal_links" for this entry, inside "More Guides" — as absolute
+    /blog/<slug> paths (see IMPORTANT note above).
+  - After writing the post, register it: add to sitemap.xml (lastmod = today,
+    extensionless <loc>), add a card to blog/index.html (absolute /blog/<slug>
+    href), add a preview card to index.html's "Tips, Guides & Strategies"
+    section, add a line to llms.txt's "## Guides" (extensionless URL).
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -27,10 +39,10 @@
   <script src="/js/analytics.js" defer></script>
   <script src="/js/blog.js" defer></script>
   <meta name="description" content="{{META_DESCRIPTION}}" />
-  <link rel="canonical" href="https://dhamakablocks.com/blog/{{SLUG}}.html" />
+  <link rel="canonical" href="https://dhamakablocks.com/blog/{{SLUG}}" />
   <meta property="og:title" content="{{TITLE}}" />
   <meta property="og:description" content="{{META_DESCRIPTION}}" />
-  <meta property="og:url" content="https://dhamakablocks.com/blog/{{SLUG}}.html" />
+  <meta property="og:url" content="https://dhamakablocks.com/blog/{{SLUG}}" />
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="Dhamaka Blocks" />
   <meta property="og:image" content="https://dhamakablocks.com/images/screen-home.jpg">
@@ -65,14 +77,14 @@
           "name": "Dhamaka Games",
           "logo": { "@type": "ImageObject", "url": "https://dhamakablocks.com/images/favicon.png" }
         },
-        "mainEntityOfPage": { "@type": "WebPage", "@id": "https://dhamakablocks.com/blog/{{SLUG}}.html" }
+        "mainEntityOfPage": { "@type": "WebPage", "@id": "https://dhamakablocks.com/blog/{{SLUG}}" }
       },
       {
         "@type": "BreadcrumbList",
         "itemListElement": [
           { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dhamakablocks.com/" },
           { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://dhamakablocks.com/blog/" },
-          { "@type": "ListItem", "position": 3, "name": "{{TITLE}}", "item": "https://dhamakablocks.com/blog/{{SLUG}}.html" }
+          { "@type": "ListItem", "position": 3, "name": "{{TITLE}}", "item": "https://dhamakablocks.com/blog/{{SLUG}}" }
         ]
       },
       {
