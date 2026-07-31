@@ -19,6 +19,21 @@
     }
   });
 
+  // Dynamically decorate the Cookie Preferences footer link to be a semantic
+  // dialog trigger for screen readers and keyboard users.
+  function setupPrefsLink() {
+    var prefsLink = document.getElementById('cookie-prefs-link');
+    if (prefsLink) {
+      prefsLink.setAttribute('role', 'button');
+      prefsLink.setAttribute('aria-haspopup', 'dialog');
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupPrefsLink);
+  } else {
+    setupPrefsLink();
+  }
+
   function readConsent() {
     try {
       return localStorage.getItem(CONSENT_KEY);
@@ -121,7 +136,7 @@
     text.textContent = 'We use Google Analytics to understand site traffic. See our ';
 
     var link = document.createElement('a');
-    link.href = '/privacy.html';
+    link.href = '/privacy';
     link.textContent = 'Privacy Policy';
     link.style.cssText = 'color:#f5c542;text-decoration:underline;';
     text.appendChild(link);
