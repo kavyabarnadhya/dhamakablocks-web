@@ -82,6 +82,10 @@ never hype-y or clickbait in the body copy (title can be more search-friendly).
       `internal_links` for that entry
 - [ ] Post registered in `sitemap.xml`, `blog/index.html`, `index.html`
       (blog preview section), and `llms.txt`
+- [ ] A `301` line added to `_redirects` for the post's `.html` filename
+      (e.g. `/blog/<slug>.html /blog/<slug> 301`) — Cloudflare's automatic
+      extension-stripping uses a `307`, which search engines treat as
+      incomplete; the explicit `_redirects` rule forces a proper `301`
 
 ## Topic research (when content-queue.json has no queued items left)
 
