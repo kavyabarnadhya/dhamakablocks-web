@@ -27,7 +27,10 @@
   - After writing the post, register it: add to sitemap.xml (lastmod = today,
     extensionless <loc>), add a card to blog/index.html (absolute /blog/<slug>
     href), add a preview card to index.html's "Tips, Guides & Strategies"
-    section, add a line to llms.txt's "## Guides" (extensionless URL).
+    section, add a line to llms.txt's "## Guides" (extensionless URL), AND
+    add "/blog/{{SLUG}}.html /blog/{{SLUG}} 301" as a new line in _redirects
+    (Cloudflare's automatic .html-stripping uses a 307, which search engines
+    treat as incomplete — this explicit rule forces a proper 301).
 -->
 <!DOCTYPE html>
 <html lang="en">

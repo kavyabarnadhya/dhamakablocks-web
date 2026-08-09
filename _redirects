@@ -1,0 +1,15 @@
+# Explicit 301s for .html -> extensionless blog URLs.
+# Cloudflare Workers assets already strips .html automatically, but with a
+# 307 (temporary) status, which Google Search Console flags as an
+# incomplete/unvalidated redirect. These rules force a proper 301 so search
+# engines fully consolidate the old URL into the canonical one.
+/blog/how-to-play-dhamaka-blocks.html /blog/how-to-play-dhamaka-blocks 301
+/blog/dhamaka-blocks-tips-and-tricks.html /blog/dhamaka-blocks-tips-and-tricks 301
+/blog/how-to-increase-score-dhamaka-blocks.html /blog/how-to-increase-score-dhamaka-blocks 301
+/blog/dhamaka-blocks-coins-boosters-update.html /blog/dhamaka-blocks-coins-boosters-update 301
+/blog/block-puzzle-games-india.html /blog/block-puzzle-games-india 301
+/blog/block-puzzle-high-score-when-stuck.html /blog/block-puzzle-high-score-when-stuck 301
+/blog/block-blast-alternatives.html /blog/block-blast-alternatives 301
+/blog/woodoku-vs-block-blast.html /blog/woodoku-vs-block-blast 301
+/blog/best-offline-block-puzzle-games.html /blog/best-offline-block-puzzle-games 301
+/privacy.html /privacy 301
