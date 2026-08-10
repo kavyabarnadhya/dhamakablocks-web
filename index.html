@@ -1305,6 +1305,12 @@ footer {
         <div class="feature-title">Best Offline Block Puzzle Games</div>
         <div class="feature-desc">No Wi-Fi, no forced ads — how Dhamaka Blocks, Block Blast, 1010!, and Woodoku compare on offline play.</div>
       </a>
+      <a href="/blog/block-puzzle-common-mistakes" class="feature-card" style="text-decoration:none;display:block;">
+        <div class="feature-emoji" aria-hidden="true">⚠️</div>
+        <span class="read-time">6 min read</span>
+        <div class="feature-title">Common Block Puzzle Mistakes</div>
+        <div class="feature-desc">Five habits that quietly kill your score — filling the center too early, ignoring the tray, and breaking your combo streak.</div>
+      </a>
     </div>
     <div style="text-align:center;margin-top:32px;" class="reveal">
       <a href="/blog/" class="all-guides-btn">View All Guides</a>
@@ -1406,7 +1412,10 @@ footer {
     };
   }
 
-  updateOffsets();
+  // Performance Optimization: Defer the initial layout-dependent reads (offsetTop)
+  // using requestAnimationFrame to prevent a Forced Synchronous Layout (FSL)
+  // pass during the initial HTML parsing/rendering critical path.
+  window.requestAnimationFrame(updateOffsets);
   window.addEventListener('resize', debounce(updateOffsets, 100));
   window.addEventListener('load', updateOffsets);
   // Ensure accurate offsets after typography is settled

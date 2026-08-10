@@ -33,3 +33,7 @@
 ## 2026-04-24 - Content Visibility & Font-Aware Progress Bars
 **Learning:** `content-visibility: auto` is highly effective for deferring the rendering of heavy footer components and related article grids, reducing initial paint costs. For scroll-progress indicators, calculating offsets must wait for `document.fonts.ready` to prevent inaccuracies caused by font-related layout shifts. Layer promotion (`will-change: transform`) on sticky CTAs prevents redundant repaints of the article content during scroll.
 **Action:** Default to `content-visibility: auto` for complex below-the-fold components like footers and article grids. Wrap all layout-dependent initialization logic for progress bars or scroll-spy in `document.fonts.ready`. Use `will-change: transform` to promote sticky call-to-action elements to their own compositor layers.
+
+## 2026-08-10 - Initial Page Load Layout Deferral
+**Learning:** Querying layout-dependent properties like `offsetTop` or `scrollHeight` immediately during page load or script execution (even with `defer` scripts) forces the browser to run a synchronous layout and style calculation pass during the HTML parsing phase, increasing First Contentful Paint (FCP) and blocking the main thread.
+**Action:** Always wrap initial, immediate layout and viewport queries inside `window.requestAnimationFrame()` or defer them until after the DOM parsing is completed to protect the critical rendering path.
