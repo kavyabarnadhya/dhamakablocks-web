@@ -30,7 +30,10 @@
       };
     };
 
-    updateMaxScroll();
+    // Performance Optimization: Defer the initial scrollHeight/innerHeight layout queries
+    // using requestAnimationFrame to prevent Forced Synchronous Layout / style re-calculation
+    // during the initial critical page loading sequence.
+    window.requestAnimationFrame(updateMaxScroll);
     window.addEventListener('resize', debounce(updateMaxScroll, 100));
     window.addEventListener('load', updateMaxScroll);
 

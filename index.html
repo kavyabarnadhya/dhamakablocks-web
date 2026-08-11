@@ -1412,7 +1412,10 @@ footer {
     };
   }
 
-  updateOffsets();
+  // Performance Optimization: Defer the initial layout-dependent reads (offsetTop)
+  // using requestAnimationFrame to prevent a Forced Synchronous Layout (FSL)
+  // pass during the initial HTML parsing/rendering critical path.
+  window.requestAnimationFrame(updateOffsets);
   window.addEventListener('resize', debounce(updateOffsets, 100));
   window.addEventListener('load', updateOffsets);
   // Ensure accurate offsets after typography is settled
