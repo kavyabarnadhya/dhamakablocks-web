@@ -1498,7 +1498,10 @@ footer {
   }
   arrow.addEventListener('click', scrollToBeta);
   arrow.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter' || e.key === ' ') scrollToBeta();
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      scrollToBeta();
+    }
   });
 })();
 
