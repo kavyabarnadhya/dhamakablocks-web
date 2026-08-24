@@ -70,5 +70,32 @@
     "internal_links": ["block-puzzle-games-india"],
     "status": "published",
     "publish_after": "2026-08-20"
+  },
+  {
+    "slug": "is-block-puzzle-good-for-your-brain",
+    "title": "Is Block Puzzle Good for Your Brain? What the Research Says",
+    "intent": "block puzzle brain benefits, is block puzzle good for your brain, puzzle games cognitive health",
+    "angle": "App-trust-adjacent PAA query about cognitive benefits; recurring search intent around puzzle games and brain health. Hedge all research claims generically (no fabricated stats), and use Dhamaka's no-timer/no-lives calm design as the differentiator for stress-free brain engagement.",
+    "internal_links": ["block-puzzle-common-mistakes", "block-puzzle-high-score-when-stuck"],
+    "status": "queued",
+    "publish_after": "2026-08-28"
+  },
+  {
+    "slug": "dhamaka-blocks-daily-reward-streak-guide",
+    "title": "How the Daily Reward Streak Works in Dhamaka Blocks",
+    "intent": "dhamaka blocks daily reward, block puzzle login streak, daily reward coins guide",
+    "angle": "Deep-dive on a confirmed-but-underexplored mechanic (the 7-day escalating Daily Reward and lifetime milestone chests); no existing post is dedicated to this despite it being a documented feature.",
+    "internal_links": ["dhamaka-blocks-coins-boosters-update", "how-to-play-dhamaka-blocks"],
+    "status": "queued",
+    "publish_after": "2026-08-31"
+  },
+  {
+    "slug": "block-puzzle-stress-relief-no-timer",
+    "title": "Block Puzzle Games for Stress Relief: Why No Timer, No Lives Wins",
+    "intent": "relaxing block puzzle games, stress relief puzzle games, no timer no pressure games",
+    "angle": "Recurring search intent around puzzle games for relaxation; owns the calm/no-artificial-urgency positioning already established in this blog's tone, distinct from the offline-focused post (connectivity vs. relaxation framing).",
+    "internal_links": ["best-offline-block-puzzle-games", "block-puzzle-high-score-when-stuck"],
+    "status": "queued",
+    "publish_after": "2026-09-03"
   }
 ]
