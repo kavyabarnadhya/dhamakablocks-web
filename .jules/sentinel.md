@@ -21,3 +21,8 @@ This journal contains only CRITICAL security learnings as per the Sentinel's mis
 **Vulnerability:** Uncertainty over whether adding `<script type="application/ld+json">` structured-data blocks (for SEO/AEO — Article, FAQPage, HowTo, BreadcrumbList, VideoGame schemas) would be blocked by this site's `require-trusted-types-for 'script'` CSP directive, or require a `_headers`/CSP change.
 **Learning:** Trusted Types governs *executable* script sinks (`innerHTML`, `eval`, dynamically injected `<script>` with executable content) — it does not gate static inline JSON-LD data blocks already present at parse time, and `script-src 'self' 'unsafe-inline'` already permits inline `<script>` tags regardless. JSON-LD added no new external origin and required zero `_headers` changes.
 **Prevention:** When adding schema.org structured data to a Trusted-Types-hardened page, confirm the CSP already allows inline script (`'unsafe-inline'` or a matching nonce/hash) and remember Trusted Types only restricts sinks that execute strings as code — data blocks are unaffected.
+
+## 2026-08-25 - Complete Elimination of 'unsafe-inline' in Script CSP
+**Vulnerability:** Potential inline script execution and XSS risk due to `'unsafe-inline'` in the `script-src` Content-Security-Policy header.
+**Learning:** Hosting all inline JavaScript in external, browser-cached files (e.g. `/js/home.js`) allows total removal of `'unsafe-inline'` from `script-src` in `_headers` without breaking executable scripts or requiring hashes/nonces.
+**Prevention:** Enforce external deferred script hosting for all JavaScript across pages to keep `script-src` free of `'unsafe-inline'`.
