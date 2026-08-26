@@ -124,6 +124,28 @@
     .back-link:hover::before,
     .back-link:focus-visible::before { transform: translateX(-4px); }
     .back-link:active { transform: scale(0.95); opacity: 0.8; }
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .breadcrumb-link {
+      color: var(--gold);
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+      transition: color 0.2s, transform 0.2s;
+      position: relative;
+      z-index: 1;
+    }
+    .breadcrumb-link:hover,
+    .breadcrumb-link:focus-visible { color: var(--saffron); }
+    .breadcrumb-link:active { transform: scale(0.95); opacity: 0.8; }
+    .breadcrumb .sep {
+      color: rgba(255,215,0,0.3);
+      font-size: 12px;
+    }
     .join-beta-btn {
       padding: 10px 24px;
       background: linear-gradient(135deg, var(--saffron), var(--gold));
@@ -500,7 +522,11 @@
   <div class="rainbow-top"></div>
 
   <header class="blog-header">
-    <a href="/" class="back-link" aria-label="Return to home page">Home</a>
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/" class="back-link" aria-label="Return to home page">Home</a>
+      <span class="sep" aria-hidden="true">/</span>
+      <a href="/blog/" class="breadcrumb-link" aria-current="page">Blog</a>
+    </nav>
     <a href="https://play.google.com/store/apps/details?id=com.dhamakagames.dhamakablocks&utm_source=blog&utm_medium=nav&utm_campaign=blog-index" class="join-beta-btn" target="_blank" rel="noopener noreferrer">Get the Game</a>
   </header>
 
