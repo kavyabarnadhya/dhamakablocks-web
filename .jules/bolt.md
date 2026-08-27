@@ -37,3 +37,7 @@
 ## 2026-08-10 - Initial Page Load Layout Deferral
 **Learning:** Querying layout-dependent properties like `offsetTop` or `scrollHeight` immediately during page load or script execution (even with `defer` scripts) forces the browser to run a synchronous layout and style calculation pass during the HTML parsing phase, increasing First Contentful Paint (FCP) and blocking the main thread.
 **Action:** Always wrap initial, immediate layout and viewport queries inside `window.requestAnimationFrame()` or defer them until after the DOM parsing is completed to protect the critical rendering path.
+
+## 2026-08-24 - Static JavaScript Immutable Caching
+**Learning:** External JavaScript assets served without explicit `Cache-Control` headers force browser revalidation requests (`304 Not Modified`) on every page navigation or return visit. Enforcing immutable long-term caching (`max-age=31536000, immutable`) for static `/js/*` bundles eliminates redundant HTTP revalidation round-trips across all routes.
+**Action:** Always configure `Cache-Control: public, max-age=31536000, immutable` in `_headers` for static JavaScript assets (`/js/*`) alongside image assets (`/images/*`) to maximize browser cache utilization across sessions.

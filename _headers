@@ -18,3 +18,7 @@
 /images/*
   # Performance: Aggressive caching for static game screenshots and assets
   Cache-Control: public, max-age=31536000, immutable
+
+/js/*
+  # Performance: Aggressive caching for static JavaScript assets
+  Cache-Control: public, max-age=31536000, immutable
