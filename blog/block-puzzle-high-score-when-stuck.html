@@ -7,6 +7,8 @@
   <link rel="icon" href="/images/favicon.png" type="image/png">
   <script src="/js/analytics.js" defer></script>
   <script src="/js/blog.js" defer></script>
+  <script src="/js/share.js" defer></script>
+  <script src="/js/score-calculator.js" defer></script>
   <meta name="description" content="Stuck with no space left in a block puzzle game? Learn why grids get stuck, how to recover, and the multi-line clear and combo strategy that raises your score fastest." />
   <link rel="canonical" href="https://dhamakablocks.com/blog/block-puzzle-high-score-when-stuck" />
   <script type="application/ld+json">
@@ -341,6 +343,77 @@
       font-weight: 700;
     }
 
+    /* Score calculator */
+    .score-calc {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 24px;
+      margin: 24px 0;
+    }
+    .score-calc-title {
+      font-family: 'Cinzel', serif;
+      color: var(--gold);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .score-calc-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 18px;
+    }
+    .score-calc-field {
+      flex: 1;
+      min-width: 140px;
+    }
+    .score-calc-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: rgba(255,255,240,0.6);
+      margin-bottom: 8px;
+    }
+    .score-calc-field output {
+      color: var(--saffron);
+      font-weight: 700;
+    }
+    .score-calc-field input[type="range"] {
+      width: 100%;
+      accent-color: var(--saffron);
+    }
+    .score-calc-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: rgba(255,255,240,0.7);
+      margin-bottom: 18px;
+    }
+    .score-calc-checkbox input { accent-color: var(--saffron); }
+    .score-calc-result {
+      background: rgba(255,215,0,0.06);
+      border-radius: 12px;
+      padding: 18px 20px;
+      text-align: center;
+    }
+    .score-calc-result-value {
+      font-family: 'Cinzel', serif;
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--gold);
+      line-height: 1.2;
+    }
+    .score-calc-result-breakdown {
+      font-size: 13px;
+      color: rgba(255,255,240,0.6);
+      margin-top: 6px;
+    }
+
     /* Info card */
     .info-card {
       background: var(--card-bg);
@@ -412,6 +485,49 @@
       box-shadow: 0 0 0 5px rgba(255,215,0,0.3), 0 12px 36px rgba(255,153,51,0.5);
     }
     .cta-btn:active { transform: translateY(0) scale(0.98); }
+
+    /* Share buttons */
+    .share-bar {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 32px 0;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,215,0,0.1);
+    }
+    .share-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,240,0.5);
+      margin-right: 4px;
+    }
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 16px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 30px;
+      color: var(--ivory);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.2s, border-color 0.2s, background 0.2s;
+    }
+    .share-btn:hover,
+    .share-btn:focus-visible {
+      transform: translateY(-2px);
+      border-color: rgba(255,215,0,0.35);
+      background: rgba(255,255,255,0.06);
+    }
+    .share-btn:active { transform: translateY(0) scale(0.97); }
+    .share-btn.copied { border-color: var(--peacock); color: #4ecdc4; }
 
     /* Related articles */
     .related-grid {
@@ -656,6 +772,31 @@
           </tbody>
         </table>
         <p>This is why protecting the streak matters more than chasing a single dramatic clear: a 6-turn streak turns even a modest line-clear bonus into a much bigger score than the same clear taken cold. When you're stuck and scanning the tray for any legal move, prioritise whichever piece keeps a clear possible this turn over one that merely fills space.</p>
+
+        <div class="score-calc">
+          <div class="score-calc-title">Try It Yourself — Score Calculator</div>
+          <div class="score-calc-row">
+            <div class="score-calc-field">
+              <label for="calc-cells">Cells placed this move: <output id="calc-cells-out" data-calc-cells-out>1</output></label>
+              <input type="range" id="calc-cells" min="1" max="9" step="1" value="1" data-calc-cells aria-describedby="calc-cells-out">
+            </div>
+            <div class="score-calc-field">
+              <label for="calc-lines">Lines cleared in one move: <output id="calc-lines-out" data-calc-lines-out>1</output></label>
+              <input type="range" id="calc-lines" min="1" max="5" step="1" value="1" data-calc-lines aria-describedby="calc-lines-out">
+            </div>
+            <div class="score-calc-field">
+              <label for="calc-combo">Consecutive clearing turns: <output id="calc-combo-out" data-calc-combo-out>1</output></label>
+              <input type="range" id="calc-combo" min="1" max="6" step="1" value="1" data-calc-combo aria-describedby="calc-combo-out">
+            </div>
+          </div>
+          <label class="score-calc-checkbox">
+            <input type="checkbox" data-calc-fullboard> This move also clears the entire board (+500)
+          </label>
+          <div class="score-calc-result" role="status" aria-live="polite">
+            <div class="score-calc-result-value" data-calc-result>11 pts</div>
+            <div class="score-calc-result-breakdown" data-calc-breakdown>1 base + 10 bonus × 1.0× combo</div>
+          </div>
+        </div>
       </section>
 
       <!-- Section 5 -->
@@ -702,6 +843,19 @@
       </div>
 
       <!-- Related articles -->
+      <!-- Share -->
+      <div class="share-bar reveal">
+        <span class="share-label">Share this guide</span>
+        <a class="share-btn" target="_blank" rel="noopener noreferrer" href="https://wa.me/?text=How%20to%20Get%20a%20High%20Score%20in%20Block%20Puzzle%20(When%20You%27re%20Stuck)%20https%3A%2F%2Fdhamakablocks.com%2Fblog%2Fblock-puzzle-high-score-when-stuck">
+          <span aria-hidden="true">💬</span> WhatsApp
+        </a>
+        <a class="share-btn" target="_blank" rel="noopener noreferrer" href="https://twitter.com/intent/tweet?text=How%20to%20Get%20a%20High%20Score%20in%20Block%20Puzzle%20(When%20You%27re%20Stuck)&url=https%3A%2F%2Fdhamakablocks.com%2Fblog%2Fblock-puzzle-high-score-when-stuck">
+          <span aria-hidden="true">🐦</span> Twitter/X
+        </a>
+        <button type="button" class="share-btn share-copy-btn" data-share-url="https://dhamakablocks.com/blog/block-puzzle-high-score-when-stuck">
+          <span aria-hidden="true">🔗</span> <span class="share-copy-label">Copy Link</span>
+        </button>
+      </div>
       <section class="reveal">
         <h2>More Guides</h2>
         <div class="related-grid">
