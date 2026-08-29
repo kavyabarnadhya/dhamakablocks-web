@@ -7,6 +7,7 @@
   <link rel="icon" href="/images/favicon.png" type="image/png">
   <script src="/js/analytics.js" defer></script>
   <script src="/js/blog.js" defer></script>
+  <script src="/js/share.js" defer></script>
   <meta name="description" content="5 common block puzzle mistakes that quietly kill your score — filling the center too early, ignoring the tray, breaking your combo streak, and more, with fixes for Dhamaka Blocks and the genre." />
   <link rel="canonical" href="https://dhamakablocks.com/blog/block-puzzle-common-mistakes" />
   <script type="application/ld+json">
@@ -408,6 +409,49 @@
     }
     .cta-btn:active { transform: translateY(0) scale(0.98); }
 
+    /* Share buttons */
+    .share-bar {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 32px 0;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,215,0,0.1);
+    }
+    .share-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,240,0.5);
+      margin-right: 4px;
+    }
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 16px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 30px;
+      color: var(--ivory);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.2s, border-color 0.2s, background 0.2s;
+    }
+    .share-btn:hover,
+    .share-btn:focus-visible {
+      transform: translateY(-2px);
+      border-color: rgba(255,215,0,0.35);
+      background: rgba(255,255,255,0.06);
+    }
+    .share-btn:active { transform: translateY(0) scale(0.97); }
+    .share-btn.copied { border-color: var(--peacock); color: #4ecdc4; }
+
     /* Related articles */
     .related-grid {
       display: grid;
@@ -665,6 +709,19 @@
       </div>
 
       <!-- Related articles -->
+      <!-- Share -->
+      <div class="share-bar reveal">
+        <span class="share-label">Share this guide</span>
+        <a class="share-btn" target="_blank" rel="noopener noreferrer" href="https://wa.me/?text=Common%20Block%20Puzzle%20Mistakes%20That%20Kill%20Your%20Score%20https%3A%2F%2Fdhamakablocks.com%2Fblog%2Fblock-puzzle-common-mistakes">
+          <span aria-hidden="true">💬</span> WhatsApp
+        </a>
+        <a class="share-btn" target="_blank" rel="noopener noreferrer" href="https://twitter.com/intent/tweet?text=Common%20Block%20Puzzle%20Mistakes%20That%20Kill%20Your%20Score&url=https%3A%2F%2Fdhamakablocks.com%2Fblog%2Fblock-puzzle-common-mistakes">
+          <span aria-hidden="true">🐦</span> Twitter/X
+        </a>
+        <button type="button" class="share-btn share-copy-btn" data-share-url="https://dhamakablocks.com/blog/block-puzzle-common-mistakes">
+          <span aria-hidden="true">🔗</span> <span class="share-copy-label">Copy Link</span>
+        </button>
+      </div>
       <section class="reveal">
         <h2>More Guides</h2>
         <div class="related-grid">

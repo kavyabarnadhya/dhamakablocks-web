@@ -21,6 +21,7 @@
     ratings, or stats.
   - Every Play Store link gets ?utm_source=blog&utm_medium=<nav|cta|sticky>&utm_campaign={{SLUG}}
   - Include the FAQ section and its FAQPage JSON-LD — do not skip it.
+  - Include the share bar (WhatsApp/Twitter/Copy Link) — do not skip it.
   - Add 2–3 internal links to the posts named in content-queue.json's
     "internal_links" for this entry, inside "More Guides" — as absolute
     /blog/<slug> paths (see IMPORTANT note above).
@@ -41,6 +42,7 @@
   <link rel="icon" href="/images/favicon.png" type="image/png">
   <script src="/js/analytics.js" defer></script>
   <script src="/js/blog.js" defer></script>
+  <script src="/js/share.js" defer></script>
   <meta name="description" content="{{META_DESCRIPTION}}" />
   <link rel="canonical" href="https://dhamakablocks.com/blog/{{SLUG}}" />
   <meta property="og:title" content="{{TITLE}}" />
@@ -119,7 +121,9 @@
     /* Copy the full <style> block verbatim from an existing post, e.g.
        blog/how-to-play-dhamaka-blocks.html — same design system
        (:root vars, rainbow bars, blog-header, score-table, cta-section,
-       related-grid, sticky-cta, FAQ h2/h3/p styling). Do not invent new CSS. */
+       related-grid, sticky-cta, share-bar, FAQ h2/h3/p styling). Do not
+       invent new CSS — the share-bar/.share-btn rules are already defined
+       in that reference file, copy them too. */
   </style>
 </head>
 <body>
@@ -183,6 +187,23 @@
         <p>{{CLOSING_CTA_LINE}}</p>
         <a href="https://play.google.com/store/apps/details?id=com.dhamakagames.dhamakablocks&utm_source=blog&utm_medium=cta&utm_campaign={{SLUG}}" class="cta-btn" target="_blank" rel="noopener noreferrer">Get the Game — Free</a>
         <p style="margin-top:16px; font-size:14px; color:rgba(255,255,240,0.7);">Available on Android · Free to play · dhamakablocks.com</p>
+      </div>
+
+      <!-- Share: replace the wa.me/twitter URLs' text= and url= params with
+           this post's own URL-encoded {{TITLE}} and canonical URL (no .html,
+           see IMPORTANT note above). data-share-url on the copy button must
+           be the plain (unencoded) canonical URL. -->
+      <div class="share-bar reveal">
+        <span class="share-label">Share this guide</span>
+        <a class="share-btn" target="_blank" rel="noopener noreferrer" href="https://wa.me/?text={{ENCODED_TITLE}}%20{{ENCODED_URL}}">
+          <span aria-hidden="true">💬</span> WhatsApp
+        </a>
+        <a class="share-btn" target="_blank" rel="noopener noreferrer" href="https://twitter.com/intent/tweet?text={{ENCODED_TITLE}}&url={{ENCODED_URL}}">
+          <span aria-hidden="true">🐦</span> Twitter/X
+        </a>
+        <button type="button" class="share-btn share-copy-btn" data-share-url="https://dhamakablocks.com/blog/{{SLUG}}">
+          <span aria-hidden="true">🔗</span> <span class="share-copy-label">Copy Link</span>
+        </button>
       </div>
 
       <!-- Related articles: 2-3 links from content-queue.json's internal_links,

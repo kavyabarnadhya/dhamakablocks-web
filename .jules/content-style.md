@@ -71,6 +71,10 @@ never hype-y or clickbait in the body copy (title can be more search-friendly).
 - [ ] At least one `<table class="score-table">` if the topic involves any
       comparison or numeric data
 - [ ] FAQ section (3–5 Q/A) + matching `FAQPage` JSON-LD
+- [ ] Share bar (WhatsApp/Twitter/Copy Link) before "More Guides", using
+      this post's own title and canonical URL — copy the `.share-bar`
+      markup pattern and `js/share.js` script tag from an existing post
+      (e.g. `blog/how-to-play-dhamaka-blocks.html`)
 - [ ] `Article` + `BreadcrumbList` JSON-LD in `<head>`
 - [ ] Unique `title`/`meta description`/`canonical`/OG (`summary_large_image`)
 - [ ] `article:published_time` set to the actual publish date
@@ -107,19 +111,31 @@ waiting in the pipeline):
    vs [competitor]"), People-Also-Ask-style phrasing, and app-trust queries
    ("is [game] free/safe/offline"). Prefer angles not yet covered by existing
    posts (check `blog/index.html` for what's already published).
-2. Stay inside this project's positioning: block-puzzle strategy/comparison
+2. **Alternate cluster type from the most recently published batch.** Before
+   researching, check the `angle`/`intent` of the most recently *published*
+   items in `content-queue.json` (not queued — published). This project has
+   two content clusters: (a) comparison/install-intent (e.g. "X vs Y",
+   "alternatives to X", "best offline block puzzle games") and (b) wellness/
+   lifestyle-adjacent (e.g. brain-health, stress-relief, calm/no-timer
+   positioning). If the last published batch was cluster (b), research
+   cluster (a) next, and vice versa. Comparison content has the only
+   confirmed click signal so far (per GSC data as of 2026-08-29) — when
+   genuinely unsure which cluster the last batch belongs to, default to
+   cluster (a). This is a simple alternation rule, not a scoring system —
+   don't overthink it.
+3. Stay inside this project's positioning: block-puzzle strategy/comparison
    content, or the India/festive cultural angle. Do not chase unrelated
    gaming topics.
-3. Apply the same hard rules as post-writing: no solver/cheat/MOD-APK topics,
+4. Apply the same hard rules as post-writing: no solver/cheat/MOD-APK topics,
    no fabricated stats to justify a topic's popularity — describe the search
    intent qualitatively (e.g. "recurring comparison query"), not with invented
    numbers.
-4. For each candidate, add a new entry to `content-queue.json` with `status:
+5. For each candidate, add a new entry to `content-queue.json` with `status:
    "queued"`, a real `slug`, `title`, `intent`, one-line `angle`, plausible
    `internal_links` (existing post slugs), and a `publish_after` date at
    least 3 days out from today (do not backdate to make it immediately
    eligible — that defeats the review cadence).
-5. Before creating a branch: check whether a branch named
+6. Before creating a branch: check whether a branch named
    `content/queue-refresh-<today's date, YYYY-MM-DD>` already exists on the
    remote (`git ls-remote --heads origin | grep queue-refresh-<date>`) or
    whether an open PR already targets it (`gh pr list --head
@@ -132,7 +148,7 @@ waiting in the pipeline):
    content queue" with a body explaining the search intent behind each new
    entry. This is a separate PR from any post-writing PR — do not mix queue
    research with a generated post in the same PR.
-6. Do not also write a post in the same run as a research pass — pick one:
+7. Do not also write a post in the same run as a research pass — pick one:
    if a queued+due item exists, write it; only research when none does.
 
 ## Self-review (post as a PR comment before finishing)
