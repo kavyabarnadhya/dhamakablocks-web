@@ -192,7 +192,12 @@
       <!-- Share: replace the wa.me/twitter URLs' text= and url= params with
            this post's own URL-encoded {{TITLE}} and canonical URL (no .html,
            see IMPORTANT note above). data-share-url on the copy button must
-           be the plain (unencoded) canonical URL. -->
+           be the plain (unencoded) canonical URL.
+           WARNING: encode the PLAIN title text, not the HTML-escaped version
+           used in the <title>/meta tags above. If the title contains "&" (or
+           any other HTML entity), do NOT percent-encode the literal "&amp;"
+           string — that produces a double-escaped "&amp;amp;" in the shared
+           message. Encode the real "&" character directly (it becomes %26). -->
       <div class="share-bar reveal">
         <span class="share-label">Share this guide</span>
         <a class="share-btn" target="_blank" rel="noopener noreferrer" href="https://wa.me/?text={{ENCODED_TITLE}}%20{{ENCODED_URL}}">

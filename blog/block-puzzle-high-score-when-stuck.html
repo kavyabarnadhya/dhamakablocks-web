@@ -777,6 +777,10 @@
           <div class="score-calc-title">Try It Yourself — Score Calculator</div>
           <div class="score-calc-row">
             <div class="score-calc-field">
+              <label for="calc-cells">Cells placed this move: <output id="calc-cells-out" data-calc-cells-out>1</output></label>
+              <input type="range" id="calc-cells" min="1" max="9" step="1" value="1" data-calc-cells aria-describedby="calc-cells-out">
+            </div>
+            <div class="score-calc-field">
               <label for="calc-lines">Lines cleared in one move: <output id="calc-lines-out" data-calc-lines-out>1</output></label>
               <input type="range" id="calc-lines" min="1" max="5" step="1" value="1" data-calc-lines aria-describedby="calc-lines-out">
             </div>
@@ -788,9 +792,9 @@
           <label class="score-calc-checkbox">
             <input type="checkbox" data-calc-fullboard> This move also clears the entire board (+500)
           </label>
-          <div class="score-calc-result">
-            <div class="score-calc-result-value" data-calc-result>10 pts</div>
-            <div class="score-calc-result-breakdown" data-calc-breakdown>10 bonus × 1.0× combo</div>
+          <div class="score-calc-result" role="status" aria-live="polite">
+            <div class="score-calc-result-value" data-calc-result>11 pts</div>
+            <div class="score-calc-result-breakdown" data-calc-breakdown>1 base + 10 bonus × 1.0× combo</div>
           </div>
         </div>
       </section>

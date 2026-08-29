@@ -74,7 +74,11 @@ never hype-y or clickbait in the body copy (title can be more search-friendly).
 - [ ] Share bar (WhatsApp/Twitter/Copy Link) before "More Guides", using
       this post's own title and canonical URL — copy the `.share-bar`
       markup pattern and `js/share.js` script tag from an existing post
-      (e.g. `blog/how-to-play-dhamaka-blocks.html`)
+      (e.g. `blog/how-to-play-dhamaka-blocks.html`). Encode the PLAIN title
+      text (not the HTML-escaped version from `<title>`/meta tags) — if the
+      title contains "&", percent-encode the real "&" character (→ `%26`),
+      never the literal string "&amp;" (→ would wrongly produce `%26amp%3B`,
+      showing "&amp;" as visible text in the shared message)
 - [ ] `Article` + `BreadcrumbList` JSON-LD in `<head>`
 - [ ] Unique `title`/`meta description`/`canonical`/OG (`summary_large_image`)
 - [ ] `article:published_time` set to the actual publish date
