@@ -62,10 +62,12 @@
   if (window.trustedTypes && trustedTypes.createPolicy) {
     // _headers CSP sets trusted-types to this exact policy name — the
     // createScriptURL check below is the only thing allowed to produce a
-    // script URL on this page, and it only ever accepts this one GA URL.
+    // script URL on this page, enforcing strict type and URL equality checks.
     ttPolicy = trustedTypes.createPolicy('dhamaka-ga-loader', {
       createScriptURL: function (url) {
-        if (url !== GTAG_URL) throw new Error('Blocked unexpected script URL');
+        if (typeof url !== 'string' || url !== GTAG_URL) {
+          throw new Error('Blocked unexpected script URL');
+        }
         return url;
       }
     });
