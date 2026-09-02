@@ -19,14 +19,28 @@
     if (!url) return;
 
     const label = btn.querySelector('.share-copy-label');
-    const originalText = label ? label.textContent : null;
+    if (!btn._originalText && label) {
+      btn._originalText = label.textContent;
+    }
+    const originalText = btn._originalText;
+
+    if (btn._copyTimeout) {
+      clearTimeout(btn._copyTimeout);
+    }
 
     const showCopied = () => {
-      if (label) label.textContent = 'Copied!';
+      if (label) {
+        label.setAttribute('aria-live', 'polite');
+        label.textContent = 'Copied!';
+      }
       btn.classList.add('copied');
-      setTimeout(() => {
-        if (label && originalText) label.textContent = originalText;
+      btn._copyTimeout = setTimeout(() => {
+        if (label && originalText) {
+          label.textContent = originalText;
+          label.removeAttribute('aria-live');
+        }
         btn.classList.remove('copied');
+        btn._copyTimeout = null;
       }, 1800);
     };
 
