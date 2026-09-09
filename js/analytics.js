@@ -26,6 +26,7 @@
     if (prefsLink) {
       prefsLink.setAttribute('role', 'button');
       prefsLink.setAttribute('aria-haspopup', 'dialog');
+      prefsLink.setAttribute('aria-expanded', 'false');
     }
   }
   if (document.readyState === 'loading') {
@@ -164,6 +165,10 @@
       document.removeEventListener('keydown', onKeydown, true);
       var styleEl = document.getElementById('dhamaka-cookie-styles');
       if (styleEl) styleEl.remove();
+      var prefsLink = document.getElementById('cookie-prefs-link');
+      if (prefsLink) {
+        prefsLink.setAttribute('aria-expanded', 'false');
+      }
       if (lastFocused && typeof lastFocused.focus === 'function') {
         lastFocused.focus();
       }
@@ -194,6 +199,11 @@
     banner.appendChild(actions);
     document.body.appendChild(banner);
 
+    var prefsLink = document.getElementById('cookie-prefs-link');
+    if (prefsLink) {
+      prefsLink.setAttribute('aria-expanded', 'true');
+    }
+
     if (!reduceMotion) {
       // Force a browser reflow/layout pass to ensure the start state (translateY(100%)) is registered
       banner.offsetHeight;
@@ -222,7 +232,7 @@
     }
     document.addEventListener('keydown', onKeydown, true);
 
-    banner.focus();
+    acceptBtn.focus();
   }
 
   var stored = readConsent();
