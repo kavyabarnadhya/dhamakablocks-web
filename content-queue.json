@@ -97,5 +97,32 @@
     "internal_links": ["best-offline-block-puzzle-games", "block-puzzle-high-score-when-stuck"],
     "status": "published",
     "publish_after": "2026-09-03"
+  },
+  {
+    "slug": "1010-vs-block-blast",
+    "title": "1010 vs Block Blast: Which Block Puzzle Should You Play?",
+    "intent": "1010 vs block blast, which block puzzle game is better, 10x10 grid vs 8x8 grid",
+    "angle": "Exact-match comparison query between the genre's two most-searched names (recurring PAA-style query); structured table on grid size and pacing, with Dhamaka Blocks slotted in as the festive-themed third pick, same pattern as the Woodoku vs Block Blast post.",
+    "internal_links": ["woodoku-vs-block-blast", "block-blast-alternatives"],
+    "status": "queued",
+    "publish_after": "2026-09-14"
+  },
+  {
+    "slug": "blockudoku-vs-block-blast",
+    "title": "Blockudoku vs Block Blast: Which Block Puzzle Wins?",
+    "intent": "blockudoku vs block blast, sudoku-style block puzzle comparison",
+    "angle": "Recurring comparison query between the genre's sudoku-style entry and its most popular simple-grid game; structured table on grid layout and difficulty, positions Dhamaka Blocks as the calmer row/column-only alternative for players who find the 3x3-box requirement too strict.",
+    "internal_links": ["woodoku-vs-block-blast", "combo-multipliers-block-puzzle"],
+    "status": "queued",
+    "publish_after": "2026-09-18"
+  },
+  {
+    "slug": "tetris-vs-block-puzzle-games",
+    "title": "Tetris vs Block Puzzle Games: What's the Real Difference?",
+    "intent": "tetris vs block puzzle games, is block puzzle like tetris, falling blocks vs grid puzzle",
+    "angle": "Genre-comparison PAA query distinguishing timed falling-block gameplay from untimed grid placement; owns the no-timer positioning already established in this blog's tone, with Dhamaka Blocks as the calm grid-puzzle pick for players who find Tetris too fast-paced.",
+    "internal_links": ["block-puzzle-stress-relief-no-timer", "block-puzzle-high-score-when-stuck"],
+    "status": "queued",
+    "publish_after": "2026-09-22"
   }
 ]
