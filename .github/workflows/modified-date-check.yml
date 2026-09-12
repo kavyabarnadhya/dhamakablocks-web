@@ -1,0 +1,17 @@
+name: Modified Date Check
+
+on:
+  pull_request:
+    branches: ["*"]
+    paths:
+      - "blog/*.html"
+
+jobs:
+  check-modified-dates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check for stale dateModified on changed posts
+        run: node scripts/check-modified-dates.js "origin/${{ github.base_ref }}"
