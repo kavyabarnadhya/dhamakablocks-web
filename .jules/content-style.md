@@ -95,6 +95,27 @@ never hype-y or clickbait in the body copy (title can be more search-friendly).
       extension-stripping uses a `307`, which search engines treat as
       incomplete; the explicit `_redirects` rule forces a proper `301`
 
+## Editing an existing post
+
+When a diff changes an existing published post's body content (facts,
+prices, copy — not just a site-wide shared-UI change like a footer link),
+also update, in the same PR:
+
+- [ ] JSON-LD `"dateModified"` in that post's own `<head>`, to today
+- [ ] `<meta property="article:modified_time" ...>`, to the same today's date
+- [ ] The matching `<lastmod>` entry for that post's URL in `sitemap.xml`
+
+Do NOT bump these for a purely cosmetic/shared-UI change replicated across
+many posts (e.g. adding a footer link site-wide) — that would manufacture a
+false freshness signal on pages whose actual content didn't change. This is
+a judgment call: if what changed is something a reader would notice reading
+just that post, bump the dates; if it's identical boilerplate added to every
+page, don't. A CI check (`scripts/check-modified-dates.js`, wired into
+`.github/workflows/modified-date-check.yml`) flags any changed post whose
+body differs but whose dates didn't move — it warns, it doesn't block, since
+the cosmetic-vs-real distinction isn't mechanically decidable. Read its
+warning and use judgment, don't reflexively bump every flagged file.
+
 ## Topic research (when content-queue.json has no queued items left)
 
 Trigger condition: no item in `content-queue.json` has `status: "queued"`
@@ -174,7 +195,10 @@ second, explicit check, not a formality:
 3. Walk the "Required elements checklist" above item by item.
 4. Confirm UTM params are present on every Play Store link and use this
    post's own slug.
-5. Post a comment structured like:
+5. If this PR edits an existing post's body (not just a new post), walk
+   "Editing an existing post" above too — dateModified, article:modified_time,
+   sitemap.xml lastmod.
+6. Post a comment structured like:
    ```
    ## Self-review
 
@@ -182,6 +206,7 @@ second, explicit check, not a formality:
    **Hard rules:** <ok, or list violations>
    **Required elements:** <item-by-item pass/fail>
    **UTM links:** <ok, or list missing>
+   **Modified dates (if editing an existing post):** <ok, or list missing>
 
    **Summary:** <one line — looks ready for review, or specific concerns>
    ```
