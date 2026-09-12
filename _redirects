@@ -4,6 +4,7 @@
 # incomplete/unvalidated redirect. These rules force a proper 301 so search
 # engines fully consolidate the old URL into the canonical one.
 /blog/how-to-play-dhamaka-blocks.html /blog/how-to-play-dhamaka-blocks 301
+/blog/dhamaka-blocks-play-games-swap-update.html /blog/dhamaka-blocks-play-games-swap-update 301
 /blog/dhamaka-blocks-tips-and-tricks.html /blog/dhamaka-blocks-tips-and-tricks 301
 /blog/how-to-increase-score-dhamaka-blocks.html /blog/how-to-increase-score-dhamaka-blocks 301
 /blog/dhamaka-blocks-coins-boosters-update.html /blog/dhamaka-blocks-coins-boosters-update 301
