@@ -66,6 +66,13 @@ never hype-y or clickbait in the body copy (title can be more search-friendly).
 
 ## Required elements checklist (every new post)
 
+- [ ] Title reads like a real search query with a number or reassurance
+      cluster ("Best Block Blast Alternatives (2026): Free, Offline, No
+      Ads"), not a blog headline ("How Combo Multipliers Work in Block
+      Puzzle Games") — a 2026-09-14 GSC audit found query-phrased titles
+      converting while headline-style titles got zero clicks at the same
+      ranking position. Meta description opens by directly addressing the
+      searcher, not restating the title.
 - [ ] One `<h1>` matching the target title
 - [ ] Each `<h2>` is a real question/topic, answered in its first sentence
 - [ ] At least one `<table class="score-table">` if the topic involves any

@@ -124,5 +124,14 @@
     "internal_links": ["block-puzzle-stress-relief-no-timer", "block-puzzle-high-score-when-stuck"],
     "status": "queued",
     "publish_after": "2026-09-22"
+  },
+  {
+    "slug": "block-puzzle-games-no-ads",
+    "title": "Block Puzzle Games With No Ads (No Interruptions, Ever)",
+    "intent": "block puzzle no ads, games like block blast with no ads, block puzzle without ads",
+    "angle": "2026-09-14 GSC query audit found \"games like block blast with no ads\" converting at 20% CTR on a small sample — a real signal the site under-serves. This post makes \"no ads\" the primary hook and headline claim (not a secondary reassurance folded into a broader alternatives/offline post, as in block-blast-alternatives and best-offline-block-puzzle-games), targeting readers whose main frustration is forced ad interruptions specifically, distinct from the offline-connectivity and general-alternatives angles already covered.",
+    "internal_links": ["block-blast-alternatives", "best-offline-block-puzzle-games"],
+    "status": "queued",
+    "publish_after": "2026-09-26"
   }
 ]
