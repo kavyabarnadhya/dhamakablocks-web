@@ -45,11 +45,14 @@
       if (!ticking) {
         window.requestAnimationFrame(() => {
           const winScroll = window.scrollY;
-          const scrolled = maxScroll > 0 ? (winScroll / maxScroll) * 100 : 0;
-          const rounded = Math.round(scrolled);
+          // Performance Optimization: Compute scale ratio directly (0 to 1) and clamp
+          // to prevent transform overshoots during mobile overscroll/rubber-banding.
+          const rawRatio = maxScroll > 0 ? winScroll / maxScroll : 0;
+          const ratio = Math.min(Math.max(rawRatio, 0), 1);
+          const rounded = Math.round(ratio * 100);
 
           if (rounded !== lastScrolled) {
-            bar.style.transform = `scaleX(${(scrolled / 100).toFixed(3)})`;
+            bar.style.transform = `scaleX(${ratio.toFixed(3)})`;
             bar.setAttribute('aria-valuenow', rounded);
             lastScrolled = rounded;
           }
