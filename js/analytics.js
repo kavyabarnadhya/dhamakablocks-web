@@ -20,13 +20,19 @@
   });
 
   // Dynamically decorate the Cookie Preferences footer link to be a semantic
-  // dialog trigger for screen readers and keyboard users.
+  // dialog trigger for screen readers and keyboard users, supporting both Enter and Space.
   function setupPrefsLink() {
     var prefsLink = document.getElementById('cookie-prefs-link');
     if (prefsLink) {
       prefsLink.setAttribute('role', 'button');
       prefsLink.setAttribute('aria-haspopup', 'dialog');
       prefsLink.setAttribute('aria-expanded', 'false');
+      prefsLink.addEventListener('keydown', function (e) {
+        if (e.key === ' ' || e.key === 'Spacebar') {
+          e.preventDefault();
+          showBanner();
+        }
+      });
     }
   }
   if (document.readyState === 'loading') {
