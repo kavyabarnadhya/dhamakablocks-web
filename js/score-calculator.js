@@ -9,7 +9,7 @@
  * 2. Uses ES6 arrow functions for consistency across script modules.
  */
 (() => {
-  const LINE_BONUS = { 1: 10, 2: 35, 3: 75, 4: 130, 5: 200 };
+  const LINE_BONUS = { 1: 10, 2: 35, 3: 85, 4: 130, 5: 200 };
   const COMBO_MULTIPLIER = { 1: 1.0, 2: 2.0, 3: 3.5, 4: 5.0, 5: 7.0, 6: 10.0 };
   const VOICE_CUE = { 1: '', 2: 'AMAZING', 3: 'ON FIRE', 4: 'UNSTOPPABLE', 5: 'LEGENDARY', 6: 'UNREAL' };
 

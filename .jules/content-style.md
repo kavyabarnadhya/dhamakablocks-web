@@ -14,8 +14,10 @@ claim in the draft against this file before merging.
 - Clearing a full row or column clears it and scores points. No timer, no
   lives — the game ends only when none of the 3 current tray pieces fit.
 - Scoring: 1 base point per cell placed. Line-clear bonuses: 1 line +10,
-  2 lines +35, 3 lines +75, 4 lines +130, 5+ lines +200. Full-board clear
-  gives a flat +500 bonus on top.
+  2 lines +35, 3 lines +85, 4 lines +130, 5+ lines +200. Full-board clear
+  gives a flat +500 bonus on top. (3-line bonus was +75 before v2.8.0; if a
+  post predating that release still says +75, it's stale — correct it to
+  +85 when touched.)
 - Combo multiplier (consecutive clearing turns): 1 turn 1.0×, 2 turns 2.0×,
   3 turns 3.5×, 4 turns 5.0×, 5 turns 7.0×, 6+ turns 10.0×. Missing a clear
   resets the streak to 1.0×.
@@ -38,6 +40,13 @@ claim in the draft against this file before merging.
   Dhamaka Games, an Indian studio. Score-sharing card formatted for WhatsApp.
 - A one-time "continue" (rewarded-ad powered) is available when a game would
   otherwise end — removes one piece type from the tray for another chance.
+- Google Play Games (optional sign-in, from Settings or auto-detected): 18
+  achievements; Best Score and Longest Streak leaderboards (Settings →
+  Play Games → Leaderboards, added v2.8.0); cloud save (added v2.8.0) that
+  syncs best score, coins, daily streak, and unlocked themes — merges by
+  keeping the higher value / most-recently-changed value per field, never a
+  blanket overwrite. One save slot per account; no manual conflict-resolution
+  UI yet.
 
 ## Hard rules — never invent
 
