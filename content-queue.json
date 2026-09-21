@@ -113,7 +113,7 @@
     "intent": "blockudoku vs block blast, sudoku-style block puzzle comparison",
     "angle": "Recurring comparison query between the genre's sudoku-style entry and its most popular simple-grid game; structured table on grid layout and difficulty, positions Dhamaka Blocks as the calmer row/column-only alternative for players who find the 3x3-box requirement too strict.",
     "internal_links": ["woodoku-vs-block-blast", "combo-multipliers-block-puzzle"],
-    "status": "queued",
+    "status": "published",
     "publish_after": "2026-09-18"
   },
   {
