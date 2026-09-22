@@ -16,7 +16,9 @@
     if (!btn) return;
 
     const url = btn.getAttribute('data-share-url');
-    if (!url) return;
+    // Security: Validate that url is a safe HTTP(S) URL to prevent clipboard
+    // poisoning or malicious scheme injection (e.g. javascript:, data:, file:)
+    if (!url || !/^https?:\/\//i.test(url.trim())) return;
 
     const label = btn.querySelector('.share-copy-label');
     if (!btn._originalText && label) {
