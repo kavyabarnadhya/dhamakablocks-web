@@ -32,6 +32,7 @@
 - [Block Puzzle Games for Stress Relief](https://dhamakablocks.com/blog/block-puzzle-stress-relief-no-timer): why no-timer, no-lives design makes for calmer play, and how Dhamaka Blocks is built for unhurried sessions
 - [Blockudoku vs Block Blast](https://dhamakablocks.com/blog/blockudoku-vs-block-blast): grid size and sudoku-style 3×3-box rule comparison, plus Dhamaka Blocks as the row/column-only alternative
 - [Tetris vs Block Puzzle Games](https://dhamakablocks.com/blog/tetris-vs-block-puzzle-games): falling-piece Tetris vs untimed grid placement compared, plus Dhamaka Blocks as the calm, no-timer grid-puzzle pick
+- [Block Puzzle Games With No Ads](https://dhamakablocks.com/blog/block-puzzle-games-no-ads): what a genuinely no-ads block puzzle game looks like, and how Dhamaka Blocks keeps its only ad fully optional
 
 ## Blog
 - https://dhamakablocks.com/blog/
