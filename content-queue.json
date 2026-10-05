@@ -133,5 +133,32 @@
     "internal_links": ["block-blast-alternatives", "best-offline-block-puzzle-games"],
     "status": "published",
     "publish_after": "2026-09-26"
+  },
+  {
+    "slug": "block-puzzle-games-before-bed",
+    "title": "Block Puzzle Games Before Bed: Do They Actually Help You Sleep?",
+    "intent": "block puzzle before bed, puzzle games help you sleep, wind down games at night",
+    "angle": "Evening wind-down query distinct from the general stress-relief post (daytime calm framing) — focuses specifically on a bedtime screen routine. Hedge all sleep-science claims generically (\"many sleep experts suggest...\") with no fabricated studies or stats; recommend winding screens down well before lights-out rather than claiming the game itself induces sleep. Dhamaka's no-timer/no-lives design fits a low-stimulation pre-sleep routine.",
+    "internal_links": ["block-puzzle-stress-relief-no-timer", "is-block-puzzle-good-for-your-brain"],
+    "status": "queued",
+    "publish_after": "2026-10-06"
+  },
+  {
+    "slug": "block-puzzle-games-for-focus-concentration",
+    "title": "Can Block Puzzle Games Improve Focus and Concentration?",
+    "intent": "puzzle games for focus, block puzzle concentration, mindful gaming short breaks",
+    "angle": "Recurring PAA-style query about puzzle games and sustained attention/flow state, distinct from the broader brain-health research post — this angle is about day-to-day focus during short breaks (commute, lunch) rather than long-term cognitive research. Hedge generically, no fabricated stats; ties to Dhamaka's no-timer design letting a session run until naturally done instead of being cut off.",
+    "internal_links": ["is-block-puzzle-good-for-your-brain", "block-puzzle-stress-relief-no-timer"],
+    "status": "queued",
+    "publish_after": "2026-10-10"
+  },
+  {
+    "slug": "block-puzzle-screen-time-digital-wellbeing",
+    "title": "Block Puzzle Games and Screen Time: Is Casual Gaming Guilt-Free?",
+    "intent": "casual gaming screen time, is mobile gaming bad for you, digital wellbeing puzzle games",
+    "angle": "Addresses screen-time guilt directly — a distinct lifestyle angle from sleep and focus, framed as quality-over-quantity and self-paced play rather than compulsion-driven mechanics. Hedge all wellbeing claims generically, no fabricated stats; distinguish Dhamaka's no-lives/no-pressure design (a session ends because the board is full, not because of manufactured urgency) from genres built around forced re-engagement.",
+    "internal_links": ["block-puzzle-stress-relief-no-timer", "best-offline-block-puzzle-games"],
+    "status": "queued",
+    "publish_after": "2026-10-14"
   }
 ]
