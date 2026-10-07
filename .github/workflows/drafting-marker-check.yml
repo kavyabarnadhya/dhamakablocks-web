@@ -1,0 +1,21 @@
+name: Drafting Marker Check
+
+# Fails a PR (and main) if reviewer/drafting notes are left in public authored
+# copy: [LEGAL, [CONFIRM, TODO, TBD, FIXME in any served .html page or llms.txt
+# (HTML comments included). See scripts/check-drafting-markers.js for scope.
+
+on:
+  pull_request:
+    branches: ["*"]
+  push:
+    branches: ["main"]
+
+jobs:
+  check-drafting-markers:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Self-test the guard (fail/pass fixtures)
+        run: node --test scripts/check-drafting-markers.test.js
+      - name: Verify no drafting markers in public copy
+        run: node scripts/check-drafting-markers.js
