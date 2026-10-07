@@ -43,6 +43,10 @@ From `.jules/palette.md`:
 - Animations must respect `prefers-reduced-motion`
 - Navigation should always include a home link (logo or explicit link)
 
+## No Drafting Notes in Public Copy
+
+A CI check (`.github/workflows/drafting-marker-check.yml`, `scripts/check-drafting-markers.js`) fails any PR that leaves `[LEGAL`, `[CONFIRM`, `TODO`, `TBD` or `FIXME` (case-insensitive, whole words, HTML comments included) in a served `.html` page or `llms.txt`. Put open questions, unverified claims and "do not merge until" notes in the PR description, never in the page. Files listed in `.assetsignore` and `scripts/` are exempt. Run it locally with `node scripts/check-drafting-markers.js`; its self-test is `node --test scripts/check-drafting-markers.test.js`.
+
 ## Project Journals (`.jules/`)
 
 The `.jules/` directory contains three running logbooks for this project. **Update the relevant logbook** when making significant changes:
