@@ -1,0 +1,17 @@
+name: Festival Page Check
+on:
+  pull_request:
+    branches: ["*"]
+    paths: ["festival/**", "images/festival/**", "sitemap.xml", "scripts/festival-page.test.js", ".github/workflows/festival-page-check.yml"]
+  push:
+    branches: ["main"]
+    paths: ["festival/**", "images/festival/**", "sitemap.xml", "scripts/festival-page.test.js", ".github/workflows/festival-page-check.yml"]
+jobs:
+  festival-page:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node --test scripts/festival-page.test.js
