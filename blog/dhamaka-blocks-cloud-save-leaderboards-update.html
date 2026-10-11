@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>New Update: Cloud Save &amp; Leaderboards — Dhamaka Blocks</title>
   <link rel="icon" href="/images/favicon.png" type="image/png">
-  <script src="/js/analytics.js" defer></script>
+  <script src="/js/analytics.js?v=20261011" defer></script>
   <script src="/js/blog.js" defer></script>
   <script src="/js/share.js" defer></script>
   <meta name="description" content="Dhamaka Blocks now syncs your progress across devices with Google Play Games cloud save, plus Best Score and Longest Streak leaderboards. Here's what's new in v2.8.0." />
@@ -425,7 +425,7 @@
       bottom: 4px;
       left: 0; right: 0;
       z-index: 90;
-      padding: 0 12px 8px;
+      padding: 0 12px calc(8px + env(safe-area-inset-bottom, 0px));
       display: none;
       will-change: transform;
     }
@@ -444,7 +444,7 @@
       letter-spacing: 1px;
       box-shadow: 0 4px 20px rgba(255,153,51,0.4);
     }
-    @media (max-width: 640px) { .sticky-cta { display: block; } }
+    @media (max-width: 640px) { .sticky-cta { display: block; } footer { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); } }
 
     footer {
       position: relative;
