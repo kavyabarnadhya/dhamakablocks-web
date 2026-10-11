@@ -17,12 +17,12 @@ test('does not advertise an unreleased event or unapproved economy', () => {
   assert.match(html, /Contains ads/);
 });
 test('share card is a real 1200 by 630 PNG with OG and download references', () => {
-  const img = fs.readFileSync(path.join(root, 'images/festival/diwali-share-2026.png'));
+  const img = fs.readFileSync(path.join(root, 'images/festival/diwali-dhamaka-2026.png'));
   assert.equal(img.subarray(1, 4).toString(), 'PNG');
   assert.equal(img.readUInt32BE(16), 1200);
   assert.equal(img.readUInt32BE(20), 630);
-  assert.match(html, /og:image.*diwali-share-2026.png/);
-  assert.match(html, /download="dhamaka-diwali-2026.png"/);
+  assert.match(html, /og:image.*diwali-dhamaka-2026.png/);
+  assert.match(html, /download="dhamaka-diwali-dhamaka-2026.png"/);
 });
 test('WhatsApp shares exact page and stays a user-initiated link', () => {
   const href = html.match(/id="whatsapp-share" href="([^"]+)"/)[1];
@@ -48,4 +48,9 @@ test('Diwali weekday is correct and page is discoverable in sitemap', () => {
   assert.equal(new Date('2026-11-08T00:00:00Z').getUTCDay(), 0);
   assert.match(html, /Sunday, 8 November 2026/);
   assert.ok(fs.readFileSync(path.join(root, 'sitemap.xml'), 'utf8').includes('<loc>https://dhamakablocks.com/festival/diwali</loc>'));
+});
+
+test('approved Diwali Dhamaka copy replaces maintenance and quiet framing', () => {
+  assert.match(html, /Diwali Dhamaka/);
+  assert.doesNotMatch(html, /downtime|quiet puzzle|at your own pace/i);
 });
