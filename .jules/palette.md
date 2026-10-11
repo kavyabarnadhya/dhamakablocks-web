@@ -58,3 +58,6 @@
 
 ## 2026-10-11 - Article conversion
 Existing CTAs were already duplicated across 23 articles. Retain them; keep the hero CTA out of scroll reveal, reserve safe-area/footer space, and hide sticky CTAs while the consent dialog is open. Test on 360px phones, not only desktop.
+
+## 2026-10-11 - Festival page and card
+A standalone festival greeting page can be prepared without promising an unreleased app event. Exact app palette, Baloo 2/Poppins and the existing gold-framed icon keep the new page/card on brand. Checked 320/390/1280px layouts, consent reopen/reject and copy-link feedback locally.
