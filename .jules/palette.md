@@ -55,3 +55,6 @@
 ## 2026-09-09 - Modal Accessibility: ARIA Expanded State & Initial Action Focus
 **Learning:** When dynamic modal dialogs (such as cookie preference banners) are opened, focusing a static container `div` fails to announce interactive controls and causes the keyboard focus trap to break on the initial Tab keypress because the container element is not part of the focusable elements array. Furthermore, failing to update `aria-expanded` state on the trigger button leaves screen reader users unaware of the dialog's visibility state.
 **Action:** Always set `aria-expanded="true"`/`"false"` on modal trigger elements upon open and close, and place initial focus directly on a primary action button inside the modal dialog (`acceptBtn.focus()`) to guarantee an airtight focus trap and immediate control announcement.
+
+## 2026-10-11 - Article conversion
+Existing CTAs were already duplicated across 23 articles. Retain them; keep the hero CTA out of scroll reveal, reserve safe-area/footer space, and hide sticky CTAs while the consent dialog is open. Test on 360px phones, not only desktop.

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>How to Play Dhamaka Blocks — Complete Beginner's Guide</title>
   <link rel="icon" href="/images/favicon.png" type="image/png">
-  <script src="/js/analytics.js" defer></script>
+  <script src="/js/analytics.js?v=20261011" defer></script>
   <script src="/js/blog.js" defer></script>
   <script src="/js/share.js" defer></script>
   <meta name="description" content="Learn how to play Dhamaka Blocks, India's block puzzle game. Step-by-step guide to drag-drop mechanics, line clears, scoring and difficulty levels." />
@@ -319,6 +319,8 @@
 
     /* Score table */
     .score-table {
+      display: block;
+      overflow-x: auto;
       width: 100%;
       border-collapse: collapse;
       margin: 20px 0 28px;
@@ -527,13 +529,16 @@
       transform: translateX(4px);
     }
 
+    /* Consent must remain unobstructed. */
+    .cookie-consent-open .sticky-cta { visibility: hidden; }
+
     /* Sticky CTA */
     .sticky-cta {
       position: fixed;
       bottom: 4px;
       left: 0; right: 0;
       z-index: 90;
-      padding: 0 12px 8px;
+      padding: 0 12px calc(8px + env(safe-area-inset-bottom, 0px));
       display: none;
       /* Performance: promote to own layer for smooth scrolling */
       will-change: transform;
@@ -553,7 +558,7 @@
       letter-spacing: 1px;
       box-shadow: 0 4px 20px rgba(255,153,51,0.4);
     }
-    @media (max-width: 640px) { .sticky-cta { display: block; } }
+    @media (max-width: 640px) { .sticky-cta { display: block; } footer { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); } }
 
     /* Footer */
     footer {

@@ -8,6 +8,21 @@
   var CONSENT_KEY = 'dhamaka-ga-consent';
   var scriptLoaded = false;
   var lastFocused = null;
+  var consentGranted = false;
+
+  // Only measure install intent after consent. Never send a full URL or query.
+  document.addEventListener('click', function (e) {
+    var link = e.target && e.target.closest && e.target.closest('a[href]');
+    if (!link || !consentGranted) return;
+    var url;
+    try { url = new URL(link.href); } catch (err) { return; }
+    if (url.hostname !== 'play.google.com' || url.searchParams.get('id') !== 'com.dhamakagames.dhamakablocks') return;
+    gtag('event', 'play_store_click', {
+      cta_placement: link.closest('.sticky-cta') ? 'sticky' : link.closest('.above-fold-cta') ? 'hero' : link.closest('header') ? 'nav' : 'article',
+      page_path: window.location.pathname,
+      transport_type: 'beacon'
+    });
+  });
 
   // Attached first, before anything that can throw (e.g. localStorage in
   // Safari private mode), so the reopen link always works even if consent
@@ -97,12 +112,14 @@
   }
 
   function grant() {
+    consentGranted = true;
     writeConsent('granted');
     gtag('consent', 'update', { analytics_storage: 'granted' });
     loadGtagScript();
   }
 
   function deny() {
+    consentGranted = false;
     writeConsent('denied');
     gtag('consent', 'update', { analytics_storage: 'denied' });
   }
@@ -168,6 +185,7 @@
     }
 
     function cleanup() {
+      document.body.classList.remove('cookie-consent-open');
       document.removeEventListener('keydown', onKeydown, true);
       var styleEl = document.getElementById('dhamaka-cookie-styles');
       if (styleEl) styleEl.remove();
@@ -204,6 +222,7 @@
     banner.appendChild(text);
     banner.appendChild(actions);
     document.body.appendChild(banner);
+    document.body.classList.add('cookie-consent-open');
 
     var prefsLink = document.getElementById('cookie-prefs-link');
     if (prefsLink) {
@@ -243,6 +262,7 @@
 
   var stored = readConsent();
   if (stored === 'granted') {
+    consentGranted = true;
     gtag('consent', 'update', { analytics_storage: 'granted' });
     /**
      * Performance Optimization: Google Analytics Deferral
