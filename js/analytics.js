@@ -18,7 +18,7 @@
     try { url = new URL(link.href); } catch (err) { return; }
     if (url.hostname !== 'play.google.com' || url.searchParams.get('id') !== 'com.dhamakagames.dhamakablocks') return;
     gtag('event', 'play_store_click', {
-      cta_placement: link.closest('.sticky-cta') ? 'sticky' : link.closest('.above-fold-cta') ? 'hero' : link.closest('header') ? 'nav' : 'article',
+      cta_placement: link.closest('.sticky-cta') ? 'sticky' : (link.closest('.above-fold-cta') || link.matches('.hero .cta')) ? 'hero' : link.closest('.closing') ? 'bottom' : link.closest('header') ? 'nav' : 'article',
       page_path: window.location.pathname,
       transport_type: 'beacon'
     });

@@ -32,7 +32,7 @@ test('WhatsApp shares exact page and stays a user-initiated link', () => {
   assert.doesNotMatch(html, /window\.open|location\.href|sendMessage/);
 });
 test('reuses consent and copy helpers and exposes cookie preferences', () => {
-  assert.match(html, /src="\/js\/analytics.js" defer/);
+  assert.match(html, /src="\/js\/analytics.js\?v=20261011-diwali" defer/);
   assert.match(html, /src="\/js\/share.js" defer/);
   assert.match(html, /id="cookie-prefs-link"/);
   assert.match(html, /data-share-url="https:\/\/dhamakablocks.com\/festival\/diwali"/);
@@ -42,7 +42,7 @@ test('exact brand fonts and palette, responsive styles and no inline script exec
   for (const hex of ['#FF9933','#FFD700','#8B0000','#00827F','#1A0A00','#2D1400','#FFFFF0','#CCBB99']) assert.ok(html.includes(hex));
   assert.match(html, /@media\(max-width:700px\)/);
   assert.match(html, /prefers-reduced-motion/);
-  assert.doesNotMatch(html, /<script(?![^>]*src=)[^>]*>/);
+  assert.doesNotMatch(html, /<script(?![^>]*(?:src=|type="application\/ld\+json"))[^>]*>/);
 });
 test('Diwali weekday is correct and page is discoverable in sitemap', () => {
   assert.equal(new Date('2026-11-08T00:00:00Z').getUTCDay(), 0);
@@ -53,4 +53,25 @@ test('Diwali weekday is correct and page is discoverable in sitemap', () => {
 test('approved Diwali Dhamaka copy replaces maintenance and quiet framing', () => {
   assert.match(html, /Diwali Dhamaka/);
   assert.doesNotMatch(html, /downtime|quiet puzzle|at your own pace/i);
+});
+
+test('approved discovery, gameplay and FAQ content', () => {
+ const home = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+ assert.equal((home.match(/href="\/festival\/diwali"/g) || []).length, 2);
+ assert.match(html, /aria-label="Breadcrumb"/);
+ assert.match(html, /<title>Diwali Block Puzzle Game for Android \| Dhamaka Blocks<\/title>/);
+ assert.match(html, /A little light\. A lovely clear\./);
+ assert.match(html, /class="gameplay"/);
+ assert.match(html, /diwali-gameplay.jpg/);
+ assert.match(html, /class="greeting-card"/);
+ assert.match(html, /core block puzzle works offline/);
+ assert.match(html, /Contains ads/);
+ assert.match(html, /class="panel closing"/);
+ assert.match(html, /twitter:image:alt/);
+ const schema = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+ assert.deepEqual(schema['@graph'].map(x => x['@type']), ['WebPage', 'BreadcrumbList']);
+ assert.equal(schema['@graph'][1].itemListElement[1].item, 'https://dhamakablocks.com/festival/diwali');
+ const analytics = fs.readFileSync(path.join(root, 'js/analytics.js'), 'utf8');
+ assert.match(analytics, /link.matches\('\.hero \.cta'\)/);
+ assert.match(analytics, /!consentGranted/);
 });
