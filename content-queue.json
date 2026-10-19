@@ -160,5 +160,32 @@
     "internal_links": ["block-puzzle-stress-relief-no-timer", "best-offline-block-puzzle-games"],
     "status": "published",
     "publish_after": "2026-10-14"
+  },
+  {
+    "slug": "block-puzzle-games-cloud-save-no-lost-progress",
+    "title": "Block Puzzle Games With Cloud Save (Never Lose Your Progress)",
+    "intent": "block puzzle cloud save, save progress switching phones, block puzzle account sync",
+    "angle": "Recurring differentiator query in the genre — competitor store listings often don't surface cloud-save/account-sync details, and category review summaries mention losing progress on a device switch as a common complaint. Comparison/install-intent post surfacing cloud save, Play Games achievements, and leaderboards as a genre-wide gap; distinct from the already-published Daily Reward Streak guide, which covers a single confirmed mechanic rather than a cross-game comparison.",
+    "internal_links": ["dhamaka-blocks-cloud-save-leaderboards-update", "how-to-play-dhamaka-blocks"],
+    "status": "queued",
+    "publish_after": "2026-10-23"
+  },
+  {
+    "slug": "block-puzzle-games-low-storage-small-size",
+    "title": "Block Puzzle Games for Low Storage Phones (Small Size, No Lag)",
+    "intent": "block puzzle small app size, lightweight puzzle game, best games for low storage phone",
+    "angle": "Install-intent query distinct from the offline-connectivity and no-ads angles already covered — targets players on storage-constrained or older/budget phones looking for a lightweight block puzzle game, a differentiator not yet owned by any existing post.",
+    "internal_links": ["best-offline-block-puzzle-games", "block-puzzle-games-no-ads"],
+    "status": "queued",
+    "publish_after": "2026-10-27"
+  },
+  {
+    "slug": "best-block-puzzle-games-for-kids-family",
+    "title": "Best Block Puzzle Games for Kids & Families (Safe, Ad-Free Picks)",
+    "intent": "block puzzle games for kids, family friendly puzzle games, safe puzzle games for children",
+    "angle": "App-trust/install-intent query from a parent's perspective — distinct from the general is-it-safe FAQ post (which covers Dhamaka specifically) and from the alternatives listicle (general audience); frames the no-ads, calm, no-chat design facts as family-safety reassurance for a kids-and-families search intent.",
+    "internal_links": ["is-dhamaka-blocks-free-safe-offline", "block-blast-alternatives"],
+    "status": "queued",
+    "publish_after": "2026-10-31"
   }
 ]
