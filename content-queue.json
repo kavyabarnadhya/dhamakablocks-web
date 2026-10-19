@@ -160,5 +160,33 @@
     "internal_links": ["block-puzzle-stress-relief-no-timer", "best-offline-block-puzzle-games"],
     "status": "published",
     "publish_after": "2026-10-14"
+  },
+  {
+    "slug": "block-puzzle-games-cloud-save-no-lost-progress",
+    "title": "Block Puzzle Games With Cloud Save (Never Lose Your Progress)",
+    "intent": "block puzzle cloud save, save progress switching phones, block puzzle account sync",
+    "angle": "Recurring differentiator query in the genre — competitor store listings often don't surface cloud-save/account-sync details, and category review summaries mention losing progress on a device switch as a common complaint. Comparison/install-intent post surfacing cloud save, Play Games achievements, and leaderboards as a genre-wide gap; distinct from the already-published Daily Reward Streak guide, which covers a single confirmed mechanic rather than a cross-game comparison.",
+    "internal_links": ["dhamaka-blocks-cloud-save-leaderboards-update", "how-to-play-dhamaka-blocks"],
+    "status": "queued",
+    "publish_after": "2026-10-23"
+  },
+  {
+    "slug": "block-puzzle-games-low-storage-small-size",
+    "title": "Block Puzzle Games for Low Storage Phones (Small Size, No Lag)",
+    "intent": "block puzzle small app size, lightweight puzzle game, best games for low storage phone",
+    "angle": "Install-intent query distinct from the offline-connectivity and no-ads angles already covered — targets players on storage-constrained or older/budget phones looking for a lightweight block puzzle game, a differentiator not yet owned by any existing post. When this post is written, do not claim Dhamaka Blocks is small or lightweight: the Play listing does not publish a fixed size (it is device-dependent), so any app-size claim is unverified unless measured first.",
+    "internal_links": ["best-offline-block-puzzle-games", "block-puzzle-games-no-ads"],
+    "status": "queued",
+    "publish_after": "2026-10-27"
+  },
+  {
+    "slug": "best-block-puzzle-games-for-kids-family",
+    "title": "Safe Block Puzzle Games for Families: What Parents Should Check (Ads, Permissions, Data Use)",
+    "intent": "block puzzle games for kids, family friendly puzzle games, safe puzzle games for children",
+    "angle": "Parent-perspective app-trust query, distinct from the Dhamaka-specific is-it-safe FAQ post (which covers Dhamaka only) and the general-audience alternatives listicle. Frame it as a practical checklist for parents - how ads appear, permissions requested, data use, chat/social features, offline play - and position Dhamaka honestly against that checklist: calm no-timer design, no chat, offline play, transparent permissions. Do NOT claim Dhamaka is ad-free: the Play listing says \"Contains ads\" and this blog's own no-ads post states banners, interstitials and rewarded ads are present - describe the ad experience accurately (what shows, when, whether it can be skipped) instead. Do not pitch Dhamaka as a kids' pick in Play Families-policy terms; the trust angle is what parents should check, with Dhamaka evaluated honestly.",
+    "internal_links": ["is-dhamaka-blocks-free-safe-offline", "block-blast-alternatives"],
+    "status": "queued",
+    "publish_after": "2026-10-31"
   }
 ]
+
