@@ -36,6 +36,7 @@
 - [Block Puzzle Games Before Bed](https://dhamakablocks.com/blog/block-puzzle-games-before-bed): what actually matters for a calmer bedtime screen routine, and why Dhamaka Blocks' no-timer, no-lives design fits a low-stimulation wind-down better than most mobile games
 - [Can Block Puzzle Games Improve Focus and Concentration?](https://dhamakablocks.com/blog/block-puzzle-games-for-focus-concentration): single-task attention resets during short breaks, and why Dhamaka Blocks' no-timer design keeps a break exactly as short as you want it to be
 - [Block Puzzle Games and Screen Time: Is Casual Gaming Guilt-Free?](https://dhamakablocks.com/blog/block-puzzle-screen-time-digital-wellbeing): why a self-paced, no-timer, no-lives design makes casual gaming easier to keep guilt-free than apps built around forced re-engagement
+- [Block Puzzle Games With Cloud Save (Never Lose Your Progress)](https://dhamakablocks.com/blog/block-puzzle-games-cloud-save-no-lost-progress): what to check before trusting a block puzzle game's save system, and how Dhamaka Blocks syncs score, coins, streak and themes via Google Play Games
 
 ## Blog
 - https://dhamakablocks.com/blog/
