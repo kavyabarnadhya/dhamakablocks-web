@@ -75,3 +75,13 @@ test('approved discovery, gameplay and FAQ content', () => {
  assert.match(analytics, /link.matches\('\.hero \.cta'\)/);
  assert.match(analytics, /!consentGranted/);
 });
+
+test('Diwali Dhamaka event copy is dated and makes no live-now claims', () => {
+  const home = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  assert.match(html, /<h2 id="event-title">Diwali Dhamaka in-game event: 5-11 November<\/h2>/);
+  assert.match(html, /runs in the game 5-11 November 2026: a festive board theme and a daily coin bonus/);
+  assert.match(html, /utm_medium=event_section&utm_campaign=diwali_2026/);
+  assert.match(home, /In-game event 5-11 Nov: festive board theme and daily coin bonus, plus a greeting card to share\./);
+  assert.doesNotMatch(html + home, /live now|now live|started|starts today|ends today|\btoday\b/i);
+  assert.doesNotMatch(html, /does not advertise a special in-game/);
+});
