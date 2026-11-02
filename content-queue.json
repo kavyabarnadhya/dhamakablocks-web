@@ -176,7 +176,7 @@
     "intent": "block puzzle small app size, lightweight puzzle game, best games for low storage phone",
     "angle": "Install-intent query distinct from the offline-connectivity and no-ads angles already covered — targets players on storage-constrained or older/budget phones looking for a lightweight block puzzle game, a differentiator not yet owned by any existing post. When this post is written, do not claim Dhamaka Blocks is small or lightweight: the Play listing does not publish a fixed size (it is device-dependent), so any app-size claim is unverified unless measured first.",
     "internal_links": ["best-offline-block-puzzle-games", "block-puzzle-games-no-ads"],
-    "status": "queued",
+    "status": "published",
     "publish_after": "2026-10-27"
   },
   {
