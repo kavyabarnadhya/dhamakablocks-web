@@ -38,6 +38,7 @@
 - [Block Puzzle Games and Screen Time: Is Casual Gaming Guilt-Free?](https://dhamakablocks.com/blog/block-puzzle-screen-time-digital-wellbeing): why a self-paced, no-timer, no-lives design makes casual gaming easier to keep guilt-free than apps built around forced re-engagement
 - [Block Puzzle Games With Cloud Save (Never Lose Your Progress)](https://dhamakablocks.com/blog/block-puzzle-games-cloud-save-no-lost-progress): what to check before trusting a block puzzle game's save system, and how Dhamaka Blocks syncs score, coins, streak and themes via Google Play Games
 - [Block Puzzle Games for Low Storage Phones (Small Size, No Lag)](https://dhamakablocks.com/blog/block-puzzle-games-low-storage-small-size): what actually determines install size, a checklist for installing on a nearly-full phone, and how Dhamaka Blocks fits a budget or older device
+- [Safe Block Puzzle Games for Families: What Parents Should Check (Ads, Permissions, Data Use)](https://dhamakablocks.com/blog/best-block-puzzle-games-for-kids-family): ad formats, permissions, chat features and data use to check before installing, and an honest look at how Dhamaka Blocks compares (not ad-free, not a Families-program pick)
 
 ## Blog
 - https://dhamakablocks.com/blog/
