@@ -187,6 +187,33 @@
     "internal_links": ["is-dhamaka-blocks-free-safe-offline", "block-blast-alternatives"],
     "status": "published",
     "publish_after": "2026-10-31"
+  },
+  {
+    "slug": "block-blast-dupe-explained",
+    "title": "What Is a 'Block Blast Dupe'? Clone Apps Explained (+ Better Alternatives)",
+    "intent": "block blast dupe, block blast knockoff, off brand block blast",
+    "angle": "2026-11-02 GSC digest: 'block blast dupe' is the single best-performing query site-wide (11 clicks/56 imp/19.6% CTR over 3 months), plus related zero-click impressions ('block blast knockoff', 'off brand block blast') — none of these currently have a dedicated page, they land on block-blast-alternatives instead. This post answers the term directly (what a 'dupe'/clone app is, why so many exist, how to tell a low-quality clone from a genuine alternative) rather than repeating the alternatives listicle, then points to block-blast-alternatives and Dhamaka Blocks as a genuine, non-clone pick. Comparison/alternatives cluster — the digest's highest-performing cluster.",
+    "internal_links": ["block-blast-alternatives", "is-dhamaka-blocks-free-safe-offline"],
+    "status": "queued",
+    "publish_after": "2026-11-13"
+  },
+  {
+    "slug": "best-block-puzzle-games-2026-ranked",
+    "title": "Best Block Puzzle Games in 2026, Ranked",
+    "intent": "best block game, best block puzzle games, top block puzzle games 2026",
+    "angle": "Comparison/alternatives cluster (digest's best-performing by far). Distinct from block-blast-alternatives (framed as 'alternatives to Block Blast specifically') — this is a general ranked roundup across the genre's biggest names (Block Blast, Woodoku, Blockudoku, 1010!, Tetris-style), matching the real zero-click query 'best block game' (pos 4.0 per the 2026-11-02 digest) and giving a ranking-format page the existing vs.-posts can link into.",
+    "internal_links": ["block-blast-alternatives", "woodoku-vs-block-blast"],
+    "status": "queued",
+    "publish_after": "2026-11-17"
+  },
+  {
+    "slug": "block-blast-vs-dhamaka-blocks",
+    "title": "Block Blast vs Dhamaka Blocks: Which Should You Play?",
+    "intent": "block blast vs dhamaka blocks, is dhamaka blocks like block blast",
+    "angle": "Direct branded comparison, comparison cluster. The 2026-11-02 digest shows recurring brand-adjacent impressions (misspellings 'dhamak game'/'dhamaka game' at pos 3-13, plus 'off brand block blast') that currently only land on the homepage with no comparison content answering the implicit 'how does Dhamaka Blocks differ from Block Blast' question. Must hedge any Block Blast-specific claim (ratings, install counts, exact mechanics not independently verifiable) generically per the hard rules, and state plainly that Dhamaka Blocks does carry ads (not ad-free) when comparing monetization.",
+    "internal_links": ["block-blast-alternatives", "how-to-play-dhamaka-blocks"],
+    "status": "queued",
+    "publish_after": "2026-11-21"
   }
 ]
 
