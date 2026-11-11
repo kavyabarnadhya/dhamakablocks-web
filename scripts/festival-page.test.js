@@ -76,12 +76,17 @@ test('approved discovery, gameplay and FAQ content', () => {
  assert.match(analytics, /!consentGranted/);
 });
 
-test('Diwali Dhamaka event copy is dated and makes no live-now claims', () => {
+test('Diwali Dhamaka 2026 copy: only the dated daily coin bonus is marked ended; no live-event invitation', () => {
   const home = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
-  assert.match(html, /<h2 id="event-title">Diwali Dhamaka in-game event: 5-11 November<\/h2>/);
-  assert.match(html, /runs in the game 5-11 November 2026: a festive board theme and a daily coin bonus/);
+  assert.match(html, /<h2 id="event-title">Diwali Dhamaka 2026: daily coin bonus ended<\/h2>/);
+  assert.match(html, /<p>The Diwali Dhamaka daily coin bonus ran in the game 5-11 November 2026 and has ended\.<\/p>/);
+  assert.match(html, /<h3>Is the Diwali daily coin bonus still running\?<\/h3><p>No\. The daily coin bonus ran in the game 5-11 November 2026 and has ended\. The greeting card on this page is unchanged\.<\/p>/);
   assert.match(html, /utm_medium=event_section&utm_campaign=diwali_2026/);
-  assert.match(home, /In-game event 5-11 Nov: festive board theme and daily coin bonus, plus a greeting card to share\./);
-  assert.doesNotMatch(html + home, /live now|now live|started|starts today|ends today|\btoday\b/i);
+  assert.match(html, /utm_medium=hero&utm_campaign=diwali_2026/);
+  assert.match(html, /utm_medium=bottom_cta&utm_campaign=diwali_2026/);
+  assert.match(home, /The 5-11 November 2026 daily coin bonus has ended\. The greeting card is still here to share\./);
+  assert.match(html, /class="greeting-card"/);
+  assert.match(html, /Contains ads/);
+  assert.doesNotMatch(html + home, /runs in the game|In-game event 5-11 Nov|Update or install|to join|no longer offered|event has ended|event: ended|live now|now live|started|starts today|ends today|\btoday\b/i);
   assert.doesNotMatch(html, /does not advertise a special in-game/);
 });
