@@ -187,6 +187,15 @@
     "internal_links": ["is-dhamaka-blocks-free-safe-offline", "block-blast-alternatives"],
     "status": "published",
     "publish_after": "2026-10-31"
+  },
+  {
+    "slug": "indian-themed-block-puzzle-games",
+    "title": "Indian-Themed Block Puzzle Games on Android: Colors, Sound and Design (2026)",
+    "intent": "indian block game, indian themed block puzzle game, block puzzle game with indian design",
+    "angle": "Checklist-style guide to the cultural-theming layer of a block puzzle game: palette, pattern art, sound, share card, and whether themes are only cosmetic. Distinct from block-puzzle-games-india (where to find an Indian-made pick) and made-in-india-mobile-games (developer origin); both mention Dhamaka's festive look only in passing and neither covers theming as the subject. Use Dhamaka Blocks as the worked example, limited to the confirmed facts in content-style.md (saffron, gold and peacock green; rangoli-inspired visuals; Indian percussion sound effects; WhatsApp-formatted score card; unlockable Aurora and Monsoon themes). Evidence is thin: the 2026-11-09 digest shows 'indian block game' at 0 clicks / 4 impressions (pos 5.0); the digest does not say which page serves it, so expect a low-volume page and reassess against the 2026-11-16 digest before writing. Evergreen, not a Diwali or festival post (the festival page already exists). Hedge any statement about other games' themes or sound unless verified at write time; do not claim Dhamaka is ad-free.",
+    "internal_links": ["block-puzzle-games-india", "made-in-india-mobile-games", "how-to-play-dhamaka-blocks"],
+    "status": "queued",
+    "publish_after": "2026-11-16"
   }
 ]
 
