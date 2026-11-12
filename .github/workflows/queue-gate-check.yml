@@ -1,0 +1,21 @@
+name: Queue Gate Check
+
+# Guards the content-queue write gate. A queue entry is a proposal until a human
+# approves it; this check fails if the queue is malformed, still uses the legacy
+# "queued" status, or the gate's own tests regress. See scripts/check-queue-gate.js.
+
+on:
+  pull_request:
+    branches: ["*"]
+  push:
+    branches: ["main"]
+
+jobs:
+  check-queue-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Gate tests (due-but-unapproved, retired, missing evidence, overlap, approved)
+        run: node --test scripts/check-queue-gate.test.js
+      - name: Validate content-queue.json
+        run: node scripts/check-queue-gate.js

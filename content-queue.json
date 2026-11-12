@@ -194,8 +194,29 @@
     "intent": "indian block game, indian themed block puzzle game, block puzzle game with indian design",
     "angle": "Checklist-style guide to the cultural-theming layer of a block puzzle game: palette, pattern art, sound, share card, and whether themes are only cosmetic. Distinct from block-puzzle-games-india (where to find an Indian-made pick) and made-in-india-mobile-games (developer origin); both mention Dhamaka's festive look only in passing and neither covers theming as the subject. Use Dhamaka Blocks as the worked example, limited to the confirmed facts in content-style.md (saffron, gold and peacock green; rangoli-inspired visuals; Indian percussion sound effects; WhatsApp-formatted score card; unlockable Aurora and Monsoon themes). Evidence is thin: the 2026-11-09 digest shows 'indian block game' at 0 clicks / 4 impressions (pos 5.0); the digest does not say which page serves it, so expect a low-volume page and reassess against the 2026-11-16 digest before writing. Evergreen, not a Diwali or festival post (the festival page already exists). Hedge any statement about other games' themes or sound unless verified at write time; do not claim Dhamaka is ad-free.",
     "internal_links": ["block-puzzle-games-india", "made-in-india-mobile-games", "how-to-play-dhamaka-blocks"],
-    "status": "queued",
-    "publish_after": "2026-11-16"
+    "status": "retired",
+    "publish_after": "2026-11-16",
+    "retired_at": "2026-11-12",
+    "retired_reason": "Unsupported. A fresh Search Console reassessment found no theme, design, colour or sound intent among the India-angle queries, and nearly all of their impressions already land on the existing block-puzzle-games-india page, so the topic risks duplicating that page's intent. Retired before any article was written. Kept as a tombstone so the research pass does not re-propose it without new evidence.",
+    "retired_evidence": {
+      "source": "Google Search Console, live check by the website research colleague, relayed by KB. Not independently re-run by the agent that wrote this record.",
+      "checked_on": "2026-11-12",
+      "checked_at": "15:31-15:35 IST",
+      "property": "sc-domain:dhamakablocks.com",
+      "filter": "query contains 'indi' (India-angle)",
+      "window_3_months": {"about": "2026-08-12 to 2026-11-10", "queries": 5, "clicks": 0, "impressions": 16},
+      "window_28_days": {"about": "2026-10-15 to 2026-11-10", "queries": 3, "clicks": 0, "impressions": 8},
+      "query_row": {"query": "indian block game", "clicks": 0, "impressions": 3, "position": 4.7},
+      "page_attribution": "15 of 16 India-angle impressions on the existing /blog/block-puzzle-games-india page, 1 on the homepage",
+      "country_india_28_days": {"clicks": 7, "impressions": 395, "note": "visible queries had 0 clicks; brand and comparison queries dominate"},
+      "observed_intent": "No theme, design, colour or sound intent observed",
+      "ga4_used": false,
+      "urls": [
+        "https://search.google.com/search-console/performance/search-analytics?resource_id=sc-domain%3Adhamakablocks.com&query=*indi",
+        "https://search.google.com/search-console/performance/search-analytics?resource_id=sc-domain%3Adhamakablocks.com&query=*indi&num_of_days=28"
+      ],
+      "caveat": "Overlap with the existing page is a duplication risk, not a proven cannibalization effect. The signal is small either way."
+    }
   }
 ]
 

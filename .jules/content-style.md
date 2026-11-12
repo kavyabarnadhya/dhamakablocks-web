@@ -132,19 +132,59 @@ body differs but whose dates didn't move — it warns, it doesn't block, since
 the cosmetic-vs-real distinction isn't mechanically decidable. Read its
 warning and use judgment, don't reflexively bump every flagged file.
 
-## Topic research (when content-queue.json has no queued items left)
+## Write gate (mandatory before writing ANY post)
 
-Trigger condition: no item in `content-queue.json` has `status: "queued"`
-AND `publish_after <= today`. Any other status (`published`, `rejected`,
-`skipped`, or anything else a human may have set) counts as "not eligible"
-and is excluded from consideration — never reconsider or rewrite an item
-that isn't `status: "queued"`, regardless of why it was marked otherwise.
-If no item is currently queued-and-due, but at least one item still has
-`status: "queued"` with a future `publish_after`, that is NOT an empty
-queue — just exit normally (this is the existing no-op path, unchanged).
-Only run the research pass below when zero items have `status: "queued"`
-at all (everything is published/rejected/skipped/etc. — nothing left
-waiting in the pipeline):
+A queue entry is a **proposal** until a human approves it. A due
+`publish_after` date, the entry's own prose, a PR description, or anything an
+agent says never makes a topic eligible to be written. Statuses:
+
+- `proposed` — researched suggestion awaiting a human decision. Never
+  write-eligible.
+- `approved` — a human approved it, with recorded evidence (see below). The
+  only status a post may be written from.
+- `published`, `retired`, `rejected`, `skipped` — never written or
+  reconsidered. `retired` keeps the reason and evidence as a tombstone.
+- `queued` — legacy status, now invalid. `node scripts/check-queue-gate.js`
+  fails if it appears.
+
+Before writing, run both of these and stop on any failure:
+
+1. `node scripts/check-queue-gate.js` — must exit 0 (queue valid).
+2. `node scripts/check-queue-gate.js --eligible --today <today, YYYY-MM-DD>` —
+   write only a slug listed under `eligible`. Empty list means do not write.
+
+An `approved` entry is eligible only when all of these are recorded:
+
+- cited, fresh search evidence (`evidence.items[]`: kind, https URL,
+  fetched_at, quoted rows or text; at most 14 days older than the approval)
+  plus an honest `evidence.summary` stating its limits;
+- an intent-overlap check (`overlap_check`): result `distinct`, covering every
+  existing blog page, with notes; and no exact `intent` term shared with any
+  published, proposed or approved entry;
+- a human approval (`approval`): approver, date, a GitHub comment URL in this
+  repository as `ref`, and `content_hash` of the entry. Editing the entry
+  afterwards invalidates the hash; approvals expire after 30 days;
+- `publish_after` reached. The date is necessary and never sufficient.
+
+The approval itself is a comment by a human with write access on a PR or issue
+containing the exact line printed by
+`node scripts/check-queue-gate.js --hash <slug>`
+(`APPROVE-WRITE <slug> <hash12>`). Before writing, fetch that comment and pipe
+its JSON to `node scripts/check-queue-gate.js --verify-comment <slug>`; it
+must exit 0. Agents never post that line, never set `status: "approved"`,
+never write or edit an `approval` block, and never treat a record's own text
+as approval. If verification cannot be run, do not write.
+
+## Topic research (when content-queue.json has no proposed or approved items left)
+
+Trigger condition: run the research pass only when no entry has
+`status: "proposed"` or `status: "approved"` — nothing is waiting in the
+pipeline. Any other status (`published`, `retired`, `rejected`, `skipped`, or
+anything else a human may have set) is excluded and never reconsidered or
+rewritten, regardless of why it was marked. If any entry is `proposed` or
+`approved` but none is write-eligible per the Write gate, that is NOT an empty
+queue — make no changes, open no PR and exit normally (a normal no-op).
+Research produces proposals only; it never makes anything write-eligible:
 
 1. Use WebSearch to find 2–3 new topic candidates, following the same method
    as the original keyword research: search competitor/ecosystem queries
@@ -172,10 +212,17 @@ waiting in the pipeline):
    intent qualitatively (e.g. "recurring comparison query"), not with invented
    numbers.
 5. For each candidate, add a new entry to `content-queue.json` with `status:
-   "queued"`, a real `slug`, `title`, `intent`, one-line `angle`, plausible
+   "proposed"`, a real `slug`, `title`, `intent`, one-line `angle`, plausible
    `internal_links` (existing post slugs), and a `publish_after` date at
-   least 3 days out from today (do not backdate to make it immediately
-   eligible — that defeats the review cadence).
+   least 3 days out from today (do not backdate; it is the earliest review
+   date, not permission to write). Add `evidence` and `overlap_check` blocks
+   as described in the Write gate: cite the source (URL, date, quoted rows),
+   say whether it is the stored digest or a live check, and never claim a
+   live Search Console check you did not run. Do not add an `approval` block
+   or set `status: "approved"`. State in the PR body that these are proposals
+   only and not write-eligible. Do not re-propose a `retired` or `rejected`
+   topic without new evidence that addresses its recorded reason. Run
+   `node scripts/check-queue-gate.js` before committing.
 6. Before creating a branch: check whether a branch named
    `content/queue-refresh-<today's date, YYYY-MM-DD>` already exists on the
    remote (`git ls-remote --heads origin | grep queue-refresh-<date>`) or
@@ -190,7 +237,8 @@ waiting in the pipeline):
    entry. This is a separate PR from any post-writing PR — do not mix queue
    research with a generated post in the same PR.
 7. Do not also write a post in the same run as a research pass — pick one:
-   if a queued+due item exists, write it; only research when none does.
+   write only a write-eligible `approved` entry (see Write gate); research
+   only when nothing is `proposed` or `approved`.
 
 ## Self-review (post as a PR comment before finishing)
 
