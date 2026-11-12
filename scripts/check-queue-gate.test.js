@@ -40,6 +40,7 @@ function proposal(mutate) {
         fetched_at: '2026-11-17',
         window: '3 months to 2026-11-07',
         quote: 'new topic query 3 clicks / 40 impressions / pos 6.1 (query table).',
+        rows: [{ query: 'new topic query', clicks: 3, impressions: 40 }],
       }],
       supplementary: [{
         kind: 'web-search', url: 'https://example.com/result', fetched_at: '2026-11-18',
@@ -141,14 +142,79 @@ test('missing demand label or limits is invalid', () => {
   assert.ok(has(validate(proposal((x) => { x.evidence.demand_label = 'validated'; })), /demand_label must be one of/));
 });
 
-test('thin and absent first-party data are accepted only as labelled; there is no minimum-impression cutoff', () => {
-  assert.deepEqual(validate(proposal((x) => { x.evidence.demand_label = 'thin'; x.evidence.summary = 'Only a handful of impressions were observed; no clicks.'; })), []);
-  assert.deepEqual(validate(proposal((x) => {
-    x.evidence.demand_label = 'none-observed';
-    x.evidence.first_party[0].quote = 'Query filter returned 0 rows: 0 clicks, 0 impressions in the window.';
-    x.evidence.summary = 'No matching queries were observed; this is an editorial suggestion, not demand.';
-  })), []);
+// A topic with no matching first-party row: only valid as an explicit exploratory topic.
+const exploratory = (x) => {
+  x.evidence.demand_label = 'none-observed';
+  x.evidence.first_party[0].rows = [];
+  x.evidence.first_party[0].quote = 'Query filter returned 0 rows: 0 clicks, 0 impressions in the window.';
+  x.evidence.summary = 'No matching queries were observed; this is an editorial test, not demand.';
+  x.exploratory = true;
+  x.exploration_note = 'Tests whether an unserved angle earns any impressions; chosen on editorial grounds.';
+};
+
+test('a thin topic (a few impressions) is accepted when labelled; there is no impression cutoff beyond one matching row', () => {
+  const thin = proposal((x) => {
+    x.evidence.demand_label = 'thin';
+    x.evidence.first_party[0].quote = 'new topic query 0 clicks / 1 impression / pos 9.0 (query table).';
+    x.evidence.first_party[0].rows = [{ query: 'new topic query', clicks: 0, impressions: 1 }];
+    x.evidence.summary = 'Only a single impression was observed; no clicks.';
+  });
+  assert.deepEqual(validate(thin), []);
   assert.ok(!/min|threshold|cutoff/i.test(Object.keys(gate.POLICY_DEFAULTS).join(' ')), 'policy must contain no demand threshold');
+});
+
+test('observed or thin needs a matching first-party row with impressions: the label alone is not enough', () => {
+  assert.ok(has(validate(proposal((x) => { x.evidence.first_party[0].rows = []; })), /needs at least one first-party query row/));
+  assert.ok(has(validate(proposal((x) => { delete x.evidence.first_party[0].rows; })), /needs at least one first-party query row/));
+  assert.ok(has(validate(proposal((x) => { x.evidence.first_party[0].rows = [{ query: 'new topic query', clicks: 0, impressions: 0 }]; })), /needs at least one first-party query row/));
+  const unrelated = proposal((x) => {
+    x.evidence.first_party[0].quote = 'totally different words 3 clicks / 40 impressions (query table).';
+    x.evidence.first_party[0].rows = [{ query: 'totally different words', clicks: 3, impressions: 40 }];
+  });
+  assert.ok(has(validate(unrelated), /matches the entry's intent/));
+});
+
+test('row data must be consistent with the quoted text', () => {
+  assert.ok(has(validate(proposal((x) => { x.evidence.first_party[0].rows = [{ query: 'new topic query', clicks: 9, impressions: 4 }]; })), /more clicks than impressions/));
+  assert.ok(has(validate(proposal((x) => { x.evidence.first_party[0].rows = [{ query: 'new topic query', clicks: 3.5, impressions: 40 }]; })), /clicks must be a non-negative integer/));
+  assert.ok(has(validate(proposal((x) => { x.evidence.first_party[0].rows = [{ query: 'a query not in the quote', clicks: 1, impressions: 5 }]; })), /must appear in the quoted rows/));
+});
+
+test('no observed demand: only an explicit, noted exploratory topic can proceed', () => {
+  assert.deepEqual(validate(proposal(exploratory)), []);
+  assert.ok(has(validate(proposal((x) => { exploratory(x); delete x.exploratory; })), /explicit exploratory topic/));
+  assert.ok(has(validate(proposal((x) => { exploratory(x); x.exploration_note = 'test'; })), /exploration_note is missing/));
+  assert.ok(has(validate(proposal((x) => { exploratory(x); x.evidence.first_party[0].rows = [{ query: 'new topic query', clicks: 0, impressions: 12 }]; x.evidence.first_party[0].quote += ' new topic query 12 impressions'; })), /none-observed but a matching first-party row/));
+});
+
+test('exploratory is not a way around the evidence rule for topics that do have data', () => {
+  assert.ok(has(validate(proposal((x) => { x.exploratory = true; })), /exploratory is only for none-observed/));
+});
+
+test('at most one exploratory topic per calendar quarter, counting published ones; a new quarter is fine', () => {
+  const second = (over) => proposal((x) => {
+    exploratory(x);
+    x.slug = 'second-exploration'; x.intent = 'second exploration query';
+    Object.assign(x, over);
+  });
+  const first = proposal(exploratory); // proposed 2026-11-19 (2026-Q4)
+  const sameQuarter = second({ proposed_at: '2026-12-20', publish_after: '2026-12-24' });
+  sameQuarter.evidence.first_party[0].fetched_at = '2026-12-18';
+  assert.ok(has(gate.validateQueue([...base(), first, sameQuarter], { blogSlugs: BLOG }), /more than one exploratory topic in 2026-Q4/));
+  const nextQuarter = second({ proposed_at: '2027-01-10', publish_after: '2027-01-14' });
+  nextQuarter.evidence.first_party[0].fetched_at = '2027-01-08';
+  assert.deepEqual(gate.validateQueue([...base(), first, nextQuarter], { blogSlugs: BLOG }), []);
+  const publishedExploration = { ...published('earlier-exploration', 'earlier exploration query'), exploratory: true, proposed_at: '2026-10-05' };
+  assert.ok(has(gate.validateQueue([...base(), publishedExploration, first], { blogSlugs: BLOG }), /more than one exploratory topic in 2026-Q4/));
+});
+
+test('--check-writable applies the same evidence rule', () => {
+  const noData = proposal((x) => { x.evidence.first_party[0].rows = []; });
+  const res = cli(fixtureRoot([...base(), noData]), ['--check-writable', 'new-topic', '--today', TODAY]);
+  assert.equal(res.status, 1);
+  assert.ok(JSON.parse(res.stdout).reasons.some((r) => /needs at least one first-party query row/.test(r)));
+  const exploring = cli(fixtureRoot([...base(), proposal(exploratory)]), ['--check-writable', 'new-topic', '--today', TODAY]);
+  assert.equal(exploring.status, 0, exploring.stdout);
 });
 
 test('thin or absent data described as validation is refused', () => {

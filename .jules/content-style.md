@@ -154,14 +154,25 @@ CI), which requires:
 - **First-party evidence** (`evidence.first_party[]`): Search Console
   (`gsc-live` for a live check, `gsc-digest` for the stored weekly digest) or
   GA4/traffic (`ga4`), each with `source`, `fetched_at`, `window` and the quoted
-  rows relied on (a zero result is quoted too). Public web search and
-  competitor research go only in `evidence.supplementary` and never satisfy
-  this. Never claim a live check that was not run.
-- **An honest demand label**: `evidence.demand_label` is `observed`, `thin` or
-  `none-observed`, with `evidence.limits` and `evidence.summary`. Thin or
-  absent data is labelled as such and never described as validation. There is
-  no minimum-impression cutoff; a proposal is an editorial suggestion for the
-  owner to weigh, not a demand finding.
+  rows relied on (a zero result is quoted too). Record the query-level data as
+  structured `rows` (`query`, `clicks`, `impressions`); each row's query must
+  appear in the quote. Public web search and competitor research go only in
+  `evidence.supplementary` and never satisfy this. Never claim a live check
+  that was not run.
+- **Observed demand, or a labelled exploration.** `evidence.demand_label` is
+  `observed`, `thin` or `none-observed`, with `evidence.limits` and
+  `evidence.summary`.
+  - `observed` or `thin` needs at least one `rows` entry with impressions whose
+    query matches one of the topic's `intent` terms. "At least one impression"
+    is the definition of observed, not a demand threshold; a few impressions are
+    labelled `thin`. Only first-party rows count.
+  - `none-observed` (no matching row) can proceed only as an explicit
+    exploratory topic: `exploratory: true` plus an `exploration_note` saying
+    honestly why it is worth a test. At most one exploratory topic per calendar
+    quarter (by `proposed_at`), counting published ones.
+  - Thin or absent data is never described as validation, and no impression
+    cutoff is invented. A proposal is an editorial suggestion for the owner to
+    weigh, not a demand finding or a promise of clicks.
 - **An intent-overlap check** (`overlap_check`): result `distinct`, covering
   every existing blog page, with notes; and no exact `intent` term shared with
   a published or proposed entry. A `retired`, `rejected` or `skipped` topic can
@@ -243,7 +254,9 @@ proposals only; it never makes anything writable:
    check as `gsc-live`, GA4 as `ga4`) goes in `evidence.first_party` with
    source, date, window and quoted rows (zero results too); public search and
    competitor research go only in `evidence.supplementary`. Set
-   `demand_label` and `limits` honestly, never call thin or absent data
+   `demand_label` and `limits` honestly: propose only topics that have a matching
+   first-party row with impressions (add it to `rows`), or mark a topic
+   `exploratory` with a note (one per quarter). Never call thin or absent data
    validation, invent no cutoffs, and never claim a live check you did not run.
    `overlap_check` records that you compared the topic's intent with every
    existing blog page. Do not re-propose a retired, rejected or skipped topic
