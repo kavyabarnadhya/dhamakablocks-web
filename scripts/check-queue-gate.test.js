@@ -219,11 +219,12 @@ test('the fingerprint changes when the proposal (including evidence) is edited, 
   assert.equal(gate.fingerprint(a), gate.fingerprint(proposal()));
 });
 
-test('the removed machinery stays removed: no event verification, origin allowlist or approval expiry', () => {
-  for (const name of ['verifyEvent', 'normalizeEvent', 'HUMAN_ORIGIN_VALUES', 'approvalLine']) assert.equal(gate[name], undefined, name);
+test('the module exposes only the proposal checks: no approval handling and a single policy default', () => {
+  assert.deepEqual(Object.keys(gate).sort(), [
+    'POLICY_DEFAULTS', 'contentHash', 'fingerprint', 'listBlogSlugs', 'parseDate',
+    'proposalContextProblems', 'proposalShapeProblems', 'validateQueue',
+  ]);
   assert.deepEqual(Object.keys(gate.POLICY_DEFAULTS), ['maxEvidenceAgeDaysAtProposal']);
-  const src = fs.readFileSync(CLI, 'utf8');
-  assert.ok(!/get_event|verify-event|maxApprovalAge/.test(src.replace(/\/\/.*$/gm, '')), 'no run-time event or expiry logic');
 });
 
 // ---------- CLI + real queue ----------

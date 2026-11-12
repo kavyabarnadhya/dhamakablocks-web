@@ -144,9 +144,9 @@ existing entry. Statuses in `content-queue.json`:
   keeps the reason and evidence as a tombstone so the topic is not proposed
   again without new evidence.
 - `queued` and `approved` are invalid, and so is an `approval` block: approval
-  is the owner's decision in their own conversation and is not recorded in the
-  queue. A `publish_after` date is the earliest review date, never permission to
-  write.
+  is the owner's decision about a specific topic and revision and is not
+  recorded in the queue. A `publish_after` date is the earliest review date,
+  never permission to write.
 
 Every `proposed` entry must pass `node scripts/check-queue-gate.js` (also run by
 CI), which requires:
@@ -178,27 +178,26 @@ Before researching, run `node scripts/check-queue-gate.js` (must exit 0), then
 `node scripts/check-queue-gate.js --proposals`. If any proposal is listed it is
 waiting for the owner: make no changes, open no PR and exit normally.
 
-## Writing an approved topic (interactive handoff only)
+## Writing an approved topic
 
-The scheduled routine never does this section. The owner decides in their normal
-conversation. The main session (the one that talks with the owner) checks the
-original approval and passes a bounded writing request to an interactive Claude
-session. The request names the slug and the fingerprint of the exact revision
-(printed by `--proposals` and `--check-writable`), states that the owner
-approved it, and limits the scope to: write one post, open a PR, do not merge.
+The scheduled routine never does this. The owner approves a specific topic and
+revision, identified by its slug and the fingerprint printed by `--proposals`
+and `--check-writable`. Only then is the article drafted for review, in a
+separate writing request that names the slug and fingerprint and limits the
+scope to: write one post, open a PR, do not merge.
 
-The interactive session then:
+The writer then:
 
 1. runs `node scripts/check-queue-gate.js --check-writable <slug>`; it must exit
-   0 and print the same fingerprint as the request. A different fingerprint
-   means the entry changed after approval: stop and ask;
-2. quotes the writing request in the PR body (it cannot independently verify
-   the owner's approval; the PR lets the owner see exactly what was relied on);
+   0 and print the same fingerprint as the approved one. A different fingerprint
+   means the entry changed after approval: stop and ask the owner;
+2. notes the approval (slug, fingerprint, date) in the PR body so the reviewer
+   can see exactly what was approved;
 3. writes the post following the checklists below and marks that entry
-   `published` in the same PR. The post PR needs its own merge approval from
-   the owner and is never self-merged.
+   `published` in the same PR. The post PR needs the owner's separate merge
+   approval and is never self-merged.
 
-With no such request, nothing is written.
+With no approved topic and revision, nothing is written.
 
 ## Topic research (when content-queue.json has no proposed entries)
 

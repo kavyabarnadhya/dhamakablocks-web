@@ -5,13 +5,12 @@
 //
 // The scheduled routine is PROPOSALS-ONLY. It researches topics and appends them
 // to content-queue.json as `status: "proposed"`; it never writes an article and
-// never approves, promotes or edits an existing entry. Approval is the site
-// owner's decision, made in their normal conversation and relayed by the main
-// session as a bounded writing request to an interactive Claude session. The
-// article PR that session opens still needs its own merge approval. Nothing in
-// the queue file records or implies an approval, and this script does not check
-// one: a `publish_after` date, queue prose, or an agent's claim never permit
-// writing.
+// never approves, promotes or edits an existing entry. The site owner approves a
+// specific topic and revision (named by its slug and fingerprint); only then is
+// the article drafted for review, and its PR needs its own merge approval.
+// Nothing in the queue file records or implies an approval, and this script does
+// not check one: a `publish_after` date or anything written in the queue never
+// permits writing.
 //
 // What this script enforces on every `proposed` entry (CI + the routine):
 //   - FIRST-PARTY evidence is cited: Search Console (live or the stored digest)
@@ -31,8 +30,8 @@
 //   node scripts/check-queue-gate.js                      validate the queue
 //   node scripts/check-queue-gate.js --proposals          list proposals as JSON (the routine's no-op test)
 //   node scripts/check-queue-gate.js --check-writable <slug>
-//        completeness check for the interactive writer; prints the fingerprint of
-//        the exact revision. It does NOT check the owner's approval.
+//        completeness check before drafting; prints the fingerprint of the exact
+//        revision. It does NOT check the owner's approval.
 //   options: --today YYYY-MM-DD   --root <repo dir>
 
 const fs = require('fs');
@@ -210,7 +209,7 @@ function validateQueue(queue, ctx = {}) {
     if (rec.status === 'queued') {
       errors.push(`${id}: status "queued" is no longer valid; use "proposed" (the scheduled routine only proposes)`);
     } else if (rec.status === 'approved') {
-      errors.push(`${id}: status "approved" is not used; approval lives in the owner's conversation, not in the queue`);
+      errors.push(`${id}: status "approved" is not used; the owner's approval is not recorded in the queue`);
     } else if (!STATUSES.has(rec.status)) {
       errors.push(`${id}: unknown status "${rec.status}"`);
     }
@@ -264,7 +263,7 @@ function main(argv) {
     const ok = reasons.length === 0;
     console.log(JSON.stringify({
       slug, writable_checks_passed: ok, fingerprint: ok ? fingerprint(rec) : null, reasons,
-      approval: 'NOT checked here. The owner approves in their own conversation; the main session relays a bounded writing request naming this slug and fingerprint.',
+      approval: 'NOT checked here. The owner approves a specific topic and revision; this check only confirms the entry is complete and prints its fingerprint.',
     }, null, 2));
     return ok ? 0 : 1;
   }

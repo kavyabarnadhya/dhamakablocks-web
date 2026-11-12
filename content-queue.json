@@ -199,7 +199,7 @@
     "retired_at": "2026-11-12",
     "retired_reason": "Unsupported. A fresh Search Console reassessment found no theme, design, colour or sound intent among the India-angle queries, and nearly all of their impressions already land on the existing block-puzzle-games-india page, so the topic risks duplicating that page's intent. Retired before any article was written. Kept as a tombstone so the research pass does not re-propose it without new evidence.",
     "retired_evidence": {
-      "source": "Google Search Console, live check by the website research colleague, relayed by KB. Not independently re-run by the agent that wrote this record.",
+      "source": "Google Search Console, live check by the website research colleague, reported to KB. Not independently re-run by the author of this record.",
       "checked_on": "2026-11-12",
       "checked_at": "15:31-15:35 IST",
       "property": "sc-domain:dhamakablocks.com",
