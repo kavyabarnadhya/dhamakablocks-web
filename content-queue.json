@@ -187,6 +187,24 @@
     "internal_links": ["is-dhamaka-blocks-free-safe-offline", "block-blast-alternatives"],
     "status": "published",
     "publish_after": "2026-10-31"
+  },
+  {
+    "slug": "wood-block-puzzle-games-vs-block-blast",
+    "title": "Wood Block Puzzle Games vs Block Blast: Which Should You Play?",
+    "intent": "wood block puzzle vs block blast, wood block puzzle game comparison",
+    "angle": "Exact-match comparison query between Block Blast and the genre's wood-block-themed entries (a real, named category of competing apps); follows the same structured-table pattern as the existing Woodoku/1010/Blockudoku vs Block Blast posts, with Dhamaka Blocks slotted in as the festive third pick. Hedge any named competitor's rating/review-count claims generically (\"many players note...\") unless independently sourced at write-time - do not carry over unverified figures from research.",
+    "internal_links": ["woodoku-vs-block-blast", "block-blast-alternatives"],
+    "status": "queued",
+    "publish_after": "2026-11-16"
+  },
+  {
+    "slug": "block-puzzle-games-indian-themes-festive-design",
+    "title": "Block Puzzle Games With Indian Themes: What to Look For (2026)",
+    "intent": "indian themed block puzzle game, indian block game, puzzle game with indian design",
+    "angle": "India cluster (second-best performing on site per GSC data); distinct from made-in-india-mobile-games (developer-origin angle) and block-puzzle-games-india (general listicle) - this angle focuses specifically on visual/cultural theming (festive colors, rangoli-style visuals, Indian percussion sound design) as the thing to look for, using Dhamaka's confirmed saffron/gold/peacock aesthetic as the worked example. Not a Diwali/festival post - evergreen theming angle, not seasonal.",
+    "internal_links": ["made-in-india-mobile-games", "block-puzzle-games-india"],
+    "status": "queued",
+    "publish_after": "2026-11-20"
   }
 ]
 
