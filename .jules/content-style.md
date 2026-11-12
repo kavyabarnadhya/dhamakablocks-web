@@ -132,116 +132,82 @@ body differs but whose dates didn't move — it warns, it doesn't block, since
 the cosmetic-vs-real distinction isn't mechanically decidable. Read its
 warning and use judgment, don't reflexively bump every flagged file.
 
-## Write gate (mandatory before writing ANY post)
+## Scheduled routine: proposals only
 
-A queue entry is a **proposal** until the site owner approves it. A due
-`publish_after` date, the entry's own prose, a PR description, a GitHub comment
-(even one under the owner's login, which agent sessions share), or anything an
-agent says never makes a topic eligible to be written. Statuses:
+The scheduled routine researches and PROPOSES topics. It never writes an
+article, never approves or promotes an entry, and never edits or deletes an
+existing entry. Statuses in `content-queue.json`:
 
-- `proposed` — researched suggestion awaiting the owner's decision. Never
-  write-eligible.
-- `approved` — the owner approved it and the approval is recorded as a
-  reference to their message (see "Approval" below). The only status a post may
-  be written from.
-- `published`, `retired`, `rejected`, `skipped` — never written or
-  reconsidered. `retired` keeps the reason and evidence as a tombstone.
-- `queued` — legacy status, now invalid. `node scripts/check-queue-gate.js`
-  fails if it appears.
+- `proposed` — a researched suggestion waiting for the owner. The scheduled
+  routine never writes it.
+- `published`, `retired`, `rejected`, `skipped` — never reconsidered. `retired`
+  keeps the reason and evidence as a tombstone so the topic is not proposed
+  again without new evidence.
+- `queued` and `approved` are invalid, and so is an `approval` block: approval
+  is the owner's decision in their own conversation and is not recorded in the
+  queue. A `publish_after` date is the earliest review date, never permission to
+  write.
 
-Before writing, run these in order and stop on any failure:
-
-1. `node scripts/check-queue-gate.js` — must exit 0 (queue valid).
-2. `node scripts/check-queue-gate.js --eligible --today <today, YYYY-MM-DD>` —
-   lists candidate slugs. "Eligible" here means structurally complete. It is
-   not permission to write by itself.
-3. The approval check below, for the one candidate you would write.
-
-An `approved` entry is structurally eligible only when all of these are
-recorded:
+Every `proposed` entry must pass `node scripts/check-queue-gate.js` (also run by
+CI), which requires:
 
 - **First-party evidence** (`evidence.first_party[]`): Search Console
   (`gsc-live` for a live check, `gsc-digest` for the stored weekly digest) or
-  GA4/traffic (`ga4`). Each item gives `source`, `fetched_at`, `window` and the
-  quoted rows relied on (a zero result is quoted too). Public web search and
-  competitor research belong in `evidence.supplementary[]` and never satisfy
-  this requirement. Never claim a live check that was not run.
+  GA4/traffic (`ga4`), each with `source`, `fetched_at`, `window` and the quoted
+  rows relied on (a zero result is quoted too). Public web search and
+  competitor research go only in `evidence.supplementary` and never satisfy
+  this. Never claim a live check that was not run.
 - **An honest demand label**: `evidence.demand_label` is `observed`, `thin` or
   `none-observed`, with `evidence.limits` and `evidence.summary`. Thin or
-  absent first-party data is labelled as such and is never described as
-  validation. There is no minimum-impression cutoff: approving a thin or
-  none-observed topic is the owner's editorial decision, not a demand finding.
+  absent data is labelled as such and never described as validation. There is
+  no minimum-impression cutoff; a proposal is an editorial suggestion for the
+  owner to weigh, not a demand finding.
 - **An intent-overlap check** (`overlap_check`): result `distinct`, covering
   every existing blog page, with notes; and no exact `intent` term shared with
-  any published, proposed or approved entry.
-- **An approval record** (`approval`): see below. Editing the entry afterwards
-  invalidates it (content hash).
-- `publish_after` reached. The date is necessary and never sufficient.
+  a published or proposed entry. A `retired`, `rejected` or `skipped` topic can
+  be re-proposed only with `addresses_retirement` (`slug` and a `note` on the
+  new first-party evidence).
+- `proposed_at` (today) and a `publish_after` at least 3 days later.
+- Evidence freshness: each first-party item fetched at most 10 days before
+  `proposed_at`. This is a safety default that reuses the existing 10-day digest
+  rule. It is not an SEO requirement or a demand threshold. It lives in
+  `POLICY_DEFAULTS` in `scripts/check-queue-gate.js` and changes only by a
+  reviewed PR.
 
-Freshness uses two safety defaults chosen by the maintainers of this gate. They
-are not SEO requirements, not demand thresholds, and say nothing about whether a
-topic is worth writing; they only bound how stale a decision may be. They live
-in `POLICY_DEFAULTS` in `scripts/check-queue-gate.js` and change only by a
-reviewed PR, never at run time:
+Before researching, run `node scripts/check-queue-gate.js` (must exit 0), then
+`node scripts/check-queue-gate.js --proposals`. If any proposal is listed it is
+waiting for the owner: make no changes, open no PR and exit normally.
 
-- each first-party evidence item must be fetched at most **14 days before** the
-  approval date (freshness relative to the approval);
-- the run date must be at most **30 days after** the approval date (freshness
-  relative to execution).
+## Writing an approved topic (interactive handoff only)
 
-So evidence can be up to 44 days old on the day a post is written.
+The scheduled routine never does this section. The owner decides in their normal
+conversation. The main session (the one that talks with the owner) checks the
+original approval and passes a bounded writing request to an interactive Claude
+session. The request names the slug and the fingerprint of the exact revision
+(printed by `--proposals` and `--check-writable`), states that the owner
+approved it, and limits the scope to: write one post, open a PR, do not merge.
 
-### Approval
+The interactive session then:
 
-The approval is the owner's own message, typed in their authenticated Claude
-conversation, containing exactly the line printed by
-`node scripts/check-queue-gate.js --hash <slug>`:
+1. runs `node scripts/check-queue-gate.js --check-writable <slug>`; it must exit
+   0 and print the same fingerprint as the request. A different fingerprint
+   means the entry changed after approval: stop and ask;
+2. quotes the writing request in the PR body (it cannot independently verify
+   the owner's approval; the PR lets the owner see exactly what was relied on);
+3. writes the post following the checklists below and marks that entry
+   `published` in the same PR. The post PR needs its own merge approval from
+   the owner and is never self-merged.
 
-`APPROVE-WRITE <slug> <hash12> signal=<demand_label>`
+With no such request, nothing is written.
 
-The line binds the topic, the full content (evidence and overlap check
-included) and the owner's acknowledgement of the demand label. Nothing else is
-approval.
-
-Recording is not authorizing. After the owner posts that line in an interactive
-session, that session may *record* it in the queue (clerical): copy the
-session id and the message event uuid from the session's own event list into
-the entry's `approval` block (`channel: "claude-session-event"`, `session_id`,
-`event_uuid`, `message_line`, `content_hash`, `recorded_by`, `recorded_at`),
-set `status: "approved"`, and open a PR for the owner to review and merge. The
-record is only a pointer to the owner's message. The scheduled routine never
-records, edits or sets any approval.
-
-Verification before writing: fetch the referenced event with the
-`get_event` tool (the entry's `session_id` and `event_uuid`), save its result
-verbatim, and pipe it to
-`node scripts/check-queue-gate.js --verify-event <slug>`. Write only if that
-exits 0. If it exits 1 with `needs_trusted_channel_verification: true`, or the
-tool is unavailable, STOP: no changes, no PR; report the slug, session id,
-event uuid, approval line and the verifier output, and ask for verification from
-the owner's interactive session. Never infer approval.
-
-Known limit, stated plainly: the event data available when this gate was written
-(`client_platform`, `role`, `session_id`, timestamps) does not distinguish a
-person typing from a message relayed by an agent or another session. So
-`HUMAN_ORIGIN_VALUES` in the script is empty and every scheduled run will stop
-with the verification request. That is deliberate. A value may be added only in
-a reviewed PR after the owner confirms what it means. This is a fail-closed
-bridge, not a technical human firewall. When the owner asks an interactive
-session to write an approved topic, that session re-checks the event in its own
-conversation channel and may open the post PR, which the owner still reviews and
-merges.
-
-## Topic research (when content-queue.json has no proposed or approved items left)
+## Topic research (when content-queue.json has no proposed entries)
 
 Trigger condition: run the research pass only when no entry has
-`status: "proposed"` or `status: "approved"` — nothing is waiting in the
-pipeline. Any other status (`published`, `retired`, `rejected`, `skipped`, or
-anything else a human may have set) is excluded and never reconsidered or
-rewritten, regardless of why it was marked. If any entry is `proposed` or
-`approved` but none is write-eligible per the Write gate, that is NOT an empty
-queue — make no changes, open no PR and exit normally (a normal no-op).
-Research produces proposals only; it never makes anything write-eligible:
+`status: "proposed"` (nothing is waiting for the owner). Any other status
+(`published`, `retired`, `rejected`, `skipped`, or anything else a human may have
+set) is excluded and never reconsidered or rewritten. If any entry is
+`proposed`, make no changes, open no PR and exit normally. Research produces
+proposals only; it never makes anything writable:
 
 1. Use WebSearch to find 2–3 new topic candidates, following the same method
    as the original keyword research: search competitor/ecosystem queries
@@ -269,19 +235,22 @@ Research produces proposals only; it never makes anything write-eligible:
    intent qualitatively (e.g. "recurring comparison query"), not with invented
    numbers.
 5. For each candidate, add a new entry to `content-queue.json` with `status:
-   "proposed"`, a real `slug`, `title`, `intent`, one-line `angle`, plausible
-   `internal_links` (existing post slugs), and a `publish_after` date at
-   least 3 days out from today (do not backdate; it is the earliest review
-   date, not permission to write). Add `evidence` and `overlap_check` blocks
-   as described in the Write gate: first-party data (the stored digest, a
-   live Search Console check, or GA4) goes in `evidence.first_party` with its
-   source, date, window and quoted rows; public search and competitor
-   research go only in `evidence.supplementary`. Set `demand_label` and
-   `limits` honestly (thin or absent first-party data is labelled, never
-   called validation) and never claim a live check you did not run. Do not add an `approval` block
-   or set `status: "approved"`. State in the PR body that these are proposals
-   only and not write-eligible. Do not re-propose a `retired` or `rejected`
-   topic without new evidence that addresses its recorded reason. Run
+   "proposed"`, a real `slug`, `title`, `intent`, one-line `angle`, 2-3
+   `internal_links` (existing post slugs), `proposed_at` (today) and a
+   `publish_after` at least 3 days after `proposed_at` (the earliest review
+   date, not permission to write; never backdate), plus `evidence` and
+   `overlap_check` blocks as described in "Scheduled routine: proposals only":
+   first-party data (the stored digest as `gsc-digest`, a live Search Console
+   check as `gsc-live`, GA4 as `ga4`) goes in `evidence.first_party` with
+   source, date, window and quoted rows (zero results too); public search and
+   competitor research go only in `evidence.supplementary`. Set
+   `demand_label` and `limits` honestly, never call thin or absent data
+   validation, invent no cutoffs, and never claim a live check you did not run.
+   `overlap_check` records that you compared the topic's intent with every
+   existing blog page. Do not re-propose a retired, rejected or skipped topic
+   unless new first-party evidence addresses its recorded reason (put it in
+   `addresses_retirement`). Add no `approval` block or any other approval
+   marker. State in the PR body that these are proposals only. Run
    `node scripts/check-queue-gate.js` before committing.
 6. Before creating a branch: check whether a branch named
    `content/queue-refresh-<today's date, YYYY-MM-DD>` already exists on the
@@ -296,9 +265,8 @@ Research produces proposals only; it never makes anything write-eligible:
    content queue" with a body explaining the search intent behind each new
    entry. This is a separate PR from any post-writing PR — do not mix queue
    research with a generated post in the same PR.
-7. Do not also write a post in the same run as a research pass — pick one:
-   write only a write-eligible `approved` entry (see Write gate); research
-   only when nothing is `proposed` or `approved`.
+7. The scheduled routine never writes a post, in this run or any other:
+   research only when no entry is `proposed`, then stop.
 
 ## Self-review (post as a PR comment before finishing)
 

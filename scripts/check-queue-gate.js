@@ -1,73 +1,56 @@
 #!/usr/bin/env node
 'use strict';
 
-// Write-eligibility gate for content-queue.json.
+// Proposal gate for content-queue.json.
 //
-// A queue entry is a PROPOSAL until the site owner approves it. Neither a due
-// `publish_after` date, nor queue prose, nor an agent's say-so makes a topic
-// eligible to be written as an article. A topic is write-eligible only when
-// ALL of these hold (see evaluate()):
-//   - status is "approved" (never "proposed", legacy "queued", "retired", ...)
+// The scheduled routine is PROPOSALS-ONLY. It researches topics and appends them
+// to content-queue.json as `status: "proposed"`; it never writes an article and
+// never approves, promotes or edits an existing entry. Approval is the site
+// owner's decision, made in their normal conversation and relayed by the main
+// session as a bounded writing request to an interactive Claude session. The
+// article PR that session opens still needs its own merge approval. Nothing in
+// the queue file records or implies an approval, and this script does not check
+// one: a `publish_after` date, queue prose, or an agent's claim never permit
+// writing.
+//
+// What this script enforces on every `proposed` entry (CI + the routine):
 //   - FIRST-PARTY evidence is cited: Search Console (live or the stored digest)
-//     or GA4/traffic, with window and quoted rows. Public web search and
-//     competitor research are SUPPLEMENTARY only and can never satisfy this.
-//   - the evidence carries an honest demand label (observed / thin /
-//     none-observed) and written limits. Thin or absent data is labelled,
-//     never described as validation, and there is NO minimum-impression cutoff.
-//   - an intent-overlap check against every existing page is recorded and says
-//     "distinct", and no exact intent term collides with another entry
-//   - an approval record points at the owner's message in the Claude
-//     conversation channel (session id + event uuid + the exact approval line,
-//     bound to this entry's content hash and demand label)
-//   - publish_after has been reached (necessary, never sufficient)
-//
-// What this file does NOT do: it cannot prove who typed a message. The
-// approval record is only a reference. At run time the referenced event must be
-// fetched and checked by --verify-event, and unless the event data carries an
-// origin marker listed in HUMAN_ORIGIN_VALUES (empty by default, because none
-// has been established) the result is "trusted-channel verification needed" and
-// the run must STOP. This is a fail-closed bridge, not a human firewall.
+//     or GA4/traffic, with source, date, window and quoted rows (a zero result is
+//     quoted too). Public web search and competitor research are SUPPLEMENTARY
+//     only and can never satisfy this.
+//   - an honest demand label (observed / thin / none-observed) and written
+//     limits. Thin or absent data is labelled, never described as validation,
+//     and there is NO minimum-impression cutoff.
+//   - an intent-overlap check covering every existing blog page, marked
+//     "distinct", and no exact intent term shared with a published or proposed
+//     entry. A retired/rejected/skipped topic may only be re-proposed with an
+//     explicit `addresses_retirement` note.
+// Legacy "queued" and "approved" statuses are invalid; so is an `approval` block.
 //
 // Usage:
-//   node scripts/check-queue-gate.js                       validate the queue
-//   node scripts/check-queue-gate.js --eligible            list structurally eligible slugs (JSON)
-//   node scripts/check-queue-gate.js --hash <slug>         print the content hash and approval line
-//   node scripts/check-queue-gate.js --verify-event <slug> < get_event.json
+//   node scripts/check-queue-gate.js                      validate the queue
+//   node scripts/check-queue-gate.js --proposals          list proposals as JSON (the routine's no-op test)
+//   node scripts/check-queue-gate.js --check-writable <slug>
+//        completeness check for the interactive writer; prints the fingerprint of
+//        the exact revision. It does NOT check the owner's approval.
 //   options: --today YYYY-MM-DD   --root <repo dir>
 
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
-// Safety defaults, NOT SEO requirements and NOT demand thresholds. They bound how
-// stale the evidence behind a decision, and the decision itself, may be. They are
-// changed only by editing this file in a reviewed PR; they cannot be overridden at
-// run time. Exact semantics:
-//   maxEvidenceAgeDaysAtApproval: each first-party evidence item's fetched_at must
-//     be within this many days BEFORE approval.approved_at (freshness relative to
-//     the approval).
-//   maxApprovalAgeDaysAtRun: the run date (--today) must be within this many days
-//     AFTER approval.approved_at (freshness relative to execution).
-// So evidence can be up to the sum of both (44 days with these defaults) older
-// than the run date. Neither number says anything about search demand.
-const POLICY_DEFAULTS = Object.freeze({ maxEvidenceAgeDaysAtApproval: 14, maxApprovalAgeDaysAtRun: 30 });
+// Safety default, not an SEO requirement and not a demand threshold. It reuses the
+// owner's existing 10-day rule for the weekly digest: each first-party evidence item
+// must be fetched at most this many days BEFORE the entry's `proposed_at` date, so a
+// reviewer sees current numbers. It changes only by a reviewed PR, never at run time.
+const POLICY_DEFAULTS = Object.freeze({ maxEvidenceAgeDaysAtProposal: 10 });
+const MIN_REVIEW_DAYS = 3; // existing rule: publish_after is at least 3 days after the proposal
 
-// Origin values of get_event data that positively denote a message typed by a
-// person in the owner's authenticated Claude conversation. EMPTY on purpose: the
-// event data available when this was written (client_platform, role, session_id,
-// timestamps) does not distinguish a person from a relayed or spawned message.
-// Add a value only in a reviewed PR after the owner confirms what it means.
-const HUMAN_ORIGIN_VALUES = Object.freeze([]);
-
-const STATUSES = new Set(['published', 'proposed', 'approved', 'retired', 'rejected', 'skipped']);
+const STATUSES = new Set(['published', 'proposed', 'retired', 'rejected', 'skipped']);
 const BASE_KEYS = ['slug', 'title', 'intent', 'angle', 'internal_links', 'status', 'publish_after'];
 const FIRST_PARTY_KINDS = new Set(['gsc-live', 'gsc-digest', 'ga4']);
 const SUPPLEMENTARY_KINDS = new Set(['web-search', 'competitor-research']);
 const DEMAND_LABELS = new Set(['observed', 'thin', 'none-observed']);
-const COLLISION_STATUSES = new Set(['published', 'proposed', 'approved']);
-const APPROVAL_CHANNEL = 'claude-session-event';
-const SESSION_ID_RE = /^(?:session|cse)_[A-Za-z0-9]+$/;
-const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const VALIDATION_CLAIM_RE = /\bvalidat(?:e|ed|es|ing|ion)\b|\bproves?\b|\bproven\b|\bconfirms? (?:the )?demand\b/i;
 
 // ---------- helpers ----------
@@ -79,9 +62,8 @@ function parseDate(s) {
   return t;
 }
 
-function daysBetween(a, b) {
-  return (parseDate(b) - parseDate(a)) / 86400000;
-}
+const daysBetween = (a, b) => (parseDate(b) - parseDate(a)) / 86400000;
+const nonEmpty = (s, min = 1) => typeof s === 'string' && s.trim().length >= min;
 
 function canonical(v) {
   if (Array.isArray(v)) return '[' + v.map(canonical).join(',') + ']';
@@ -91,32 +73,20 @@ function canonical(v) {
   return JSON.stringify(v === undefined ? null : v);
 }
 
-// Everything the owner approves. Editing any of it after approval changes the
-// hash and invalidates the approval.
+// Identifies the exact revision of a proposal (topic, angle, links, evidence and
+// overlap check). The owner's approval message and the writing request should name
+// it, so an entry edited after approval no longer matches.
 function contentHash(rec) {
   const subject = {
-    slug: rec.slug,
-    title: rec.title,
-    intent: rec.intent,
-    angle: rec.angle,
-    internal_links: rec.internal_links,
-    publish_after: rec.publish_after,
-    evidence: rec.evidence,
-    overlap_check: rec.overlap_check,
+    slug: rec.slug, title: rec.title, intent: rec.intent, angle: rec.angle,
+    internal_links: rec.internal_links, publish_after: rec.publish_after,
+    evidence: rec.evidence, overlap_check: rec.overlap_check,
   };
   return crypto.createHash('sha256').update(canonical(subject)).digest('hex');
 }
+const fingerprint = (rec) => contentHash(rec).slice(0, 12);
 
-// The exact line the owner sends in the conversation. It binds the topic (slug),
-// the full content (hash) and the owner's acknowledgement of the demand label.
-function approvalLine(rec) {
-  const label = rec.evidence && rec.evidence.demand_label;
-  return `APPROVE-WRITE ${rec.slug} ${contentHash(rec).slice(0, 12)} signal=${label}`;
-}
-
-function intentTerms(rec) {
-  return String(rec.intent || '').split(',').map((t) => t.trim().toLowerCase()).filter(Boolean);
-}
+const intentTerms = (rec) => String(rec.intent || '').split(',').map((t) => t.trim().toLowerCase()).filter(Boolean);
 
 function listBlogSlugs(root) {
   const dir = path.join(root, 'blog');
@@ -127,42 +97,15 @@ function listBlogSlugs(root) {
     .sort();
 }
 
-const nonEmpty = (s, min = 1) => typeof s === 'string' && s.trim().length >= min;
+// ---------- per-entry checks ----------
 
-// ---------- structural validation (CI) ----------
-
-function validateQueue(queue) {
-  const errors = [];
-  if (!Array.isArray(queue)) return ['content-queue.json must be a JSON array'];
-  const seen = new Set();
-  queue.forEach((rec, i) => {
-    const id = rec && rec.slug ? rec.slug : `#${i}`;
-    for (const k of BASE_KEYS) if (!(k in rec)) errors.push(`${id}: missing "${k}"`);
-    if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(String(rec.slug))) errors.push(`${id}: slug must be lowercase-hyphenated`);
-    if (seen.has(rec.slug)) errors.push(`${id}: duplicate slug`);
-    seen.add(rec.slug);
-    if (Number.isNaN(parseDate(rec.publish_after))) errors.push(`${id}: publish_after must be a real YYYY-MM-DD date`);
-    if (!Array.isArray(rec.internal_links)) errors.push(`${id}: internal_links must be an array`);
-    if (rec.status === 'queued') {
-      errors.push(`${id}: status "queued" is no longer valid; use "proposed" (a proposal is never write-eligible) or "approved"`);
-    } else if (!STATUSES.has(rec.status)) {
-      errors.push(`${id}: unknown status "${rec.status}"`);
-    }
-    if (rec.status === 'proposed' && rec.approval) errors.push(`${id}: a proposed entry must not carry an approval`);
-    if (rec.status === 'retired') {
-      if (!rec.retired_reason) errors.push(`${id}: retired entry needs retired_reason`);
-      if (Number.isNaN(parseDate(rec.retired_at))) errors.push(`${id}: retired entry needs retired_at (YYYY-MM-DD)`);
-    }
-    if (rec.status === 'approved') {
-      approvalProblems(rec).forEach((b) => errors.push(`${id}: approved entry incomplete: ${b}`));
-    }
-  });
-  return errors;
-}
-
-// Shape and internal-consistency problems for the evidence / overlap / approval blocks.
-function approvalProblems(rec) {
+// Structural problems for a proposed entry's own fields (no repo context needed).
+function proposalShapeProblems(rec, policy) {
   const p = [];
+  if (Number.isNaN(parseDate(rec.proposed_at))) p.push('proposed_at must be a real YYYY-MM-DD date');
+  else if (parseDate(rec.publish_after) - parseDate(rec.proposed_at) < MIN_REVIEW_DAYS * 86400000) {
+    p.push(`publish_after must be at least ${MIN_REVIEW_DAYS} days after proposed_at (never backdate)`);
+  }
   const ev = rec.evidence;
   if (!ev || typeof ev !== 'object') {
     p.push('evidence is missing');
@@ -174,9 +117,16 @@ function approvalProblems(rec) {
         const at = `evidence.first_party[${n}]`;
         if (!FIRST_PARTY_KINDS.has(it.kind)) p.push(`${at}.kind must be one of ${[...FIRST_PARTY_KINDS].join('/')}`);
         if (!nonEmpty(it.source, 10)) p.push(`${at}.source must name where the data came from (URL, or digest path and commit)`);
-        if (Number.isNaN(parseDate(it.fetched_at))) p.push(`${at}.fetched_at must be YYYY-MM-DD`);
         if (!nonEmpty(it.window, 7)) p.push(`${at}.window must state the date window`);
         if (!nonEmpty(it.quote, 20)) p.push(`${at}.quote must quote the rows relied on (including a zero result)`);
+        if (Number.isNaN(parseDate(it.fetched_at))) p.push(`${at}.fetched_at must be YYYY-MM-DD`);
+        else if (!Number.isNaN(parseDate(rec.proposed_at))) {
+          const age = daysBetween(it.fetched_at, rec.proposed_at);
+          if (age < 0) p.push(`${at} was fetched after proposed_at`);
+          else if (age > policy.maxEvidenceAgeDaysAtProposal) {
+            p.push(`${at} is ${age} days older than proposed_at (default limit ${policy.maxEvidenceAgeDaysAtProposal})`);
+          }
+        }
       });
     }
     if (ev.supplementary !== undefined) {
@@ -192,10 +142,9 @@ function approvalProblems(rec) {
     if (!DEMAND_LABELS.has(ev.demand_label)) p.push(`evidence.demand_label must be one of ${[...DEMAND_LABELS].join('/')}`);
     if (!nonEmpty(ev.limits, 20)) p.push('evidence.limits is missing (state the limits of the first-party data honestly)');
     if (!nonEmpty(ev.summary, 20)) p.push('evidence.summary is missing');
-    if (ev.demand_label === 'thin' || ev.demand_label === 'none-observed') {
-      if (VALIDATION_CLAIM_RE.test(`${ev.summary || ''} ${ev.limits || ''} ${rec.angle || ''}`)) {
-        p.push('thin or absent first-party data must not be described as validation');
-      }
+    if ((ev.demand_label === 'thin' || ev.demand_label === 'none-observed')
+      && VALIDATION_CLAIM_RE.test(`${ev.summary || ''} ${ev.limits || ''} ${rec.angle || ''}`)) {
+      p.push('thin or absent first-party data must not be described as validation');
     }
   }
   const oc = rec.overlap_check;
@@ -207,154 +156,77 @@ function approvalProblems(rec) {
     if (Number.isNaN(parseDate(oc.checked_at))) p.push('overlap_check.checked_at must be YYYY-MM-DD');
     if (!nonEmpty(oc.notes, 20)) p.push('overlap_check.notes is missing');
   }
-  const ap = rec.approval;
-  if (!ap || typeof ap !== 'object') {
-    p.push('approval is missing');
+  return p;
+}
+
+// Problems that need the rest of the repo: existing pages, other entries.
+function proposalContextProblems(rec, queue, blogSlugs) {
+  const p = [];
+  const blog = new Set(blogSlugs);
+  if (blog.has(rec.slug)) p.push(`blog/${rec.slug}.html already exists`);
+  if (!Array.isArray(rec.internal_links) || rec.internal_links.length < 2 || rec.internal_links.length > 3) {
+    p.push('internal_links must list 2-3 existing posts');
   } else {
-    if (!nonEmpty(ap.approved_by)) p.push('approval.approved_by (a label for the approver) is missing');
-    if (Number.isNaN(parseDate(ap.approved_at))) p.push('approval.approved_at must be YYYY-MM-DD');
-    if (ap.channel !== APPROVAL_CHANNEL) p.push(`approval.channel must be "${APPROVAL_CHANNEL}" (a GitHub comment or queue text is not an approval channel)`);
-    if (typeof ap.session_id !== 'string' || !SESSION_ID_RE.test(ap.session_id)) p.push('approval.session_id must be a Claude session id');
-    if (typeof ap.event_uuid !== 'string' || !UUID_RE.test(ap.event_uuid)) p.push('approval.event_uuid must be the uuid of the owner\'s message event');
-    if (ap.message_line !== approvalLine(rec)) p.push('approval.message_line does not equal the exact approval line for this entry');
-    if (ap.content_hash !== contentHash(rec)) p.push('approval.content_hash does not match the entry (edited after approval?)');
-    if (!nonEmpty(ap.recorded_by)) p.push('approval.recorded_by (who wrote this record into the queue) is missing');
-    if (Number.isNaN(parseDate(ap.recorded_at))) p.push('approval.recorded_at must be YYYY-MM-DD');
+    rec.internal_links.filter((l) => !blog.has(l)).forEach((l) => p.push(`internal link "${l}" has no blog page`));
+  }
+  const oc = rec.overlap_check;
+  if (oc && Array.isArray(oc.checked_against)) {
+    const covered = new Set(oc.checked_against);
+    const missing = blogSlugs.filter((s) => !covered.has(s));
+    if (missing.length) p.push(`overlap_check.checked_against does not cover existing pages: ${missing.join(', ')}`);
+  }
+  const mine = new Set(intentTerms(rec));
+  for (const other of queue) {
+    if (other === rec) continue;
+    const shared = intentTerms(other).filter((t) => mine.has(t));
+    if (!shared.length) continue;
+    if (other.status === 'published' || other.status === 'proposed') {
+      p.push(`intent collides with ${other.status} "${other.slug}" on: ${shared.join(', ')}`);
+    } else if (other.status === 'retired' || other.status === 'rejected' || other.status === 'skipped') {
+      const a = rec.addresses_retirement;
+      const ok = a && a.slug === other.slug && nonEmpty(a.note, 20);
+      if (!ok) p.push(`intent collides with ${other.status} "${other.slug}" on: ${shared.join(', ')}; re-proposing needs addresses_retirement {slug, note} explaining the new evidence`);
+    }
   }
   return p;
 }
 
-// ---------- eligibility (structural; the event check is separate) ----------
+// ---------- queue validation (CI + routine) ----------
 
-// ctx: { today: 'YYYY-MM-DD', blogSlugs: [...], policy?: {...} }
-function evaluate(queue, ctx) {
+// ctx (optional): { blogSlugs, policy }. Without it only the structural checks run.
+function validateQueue(queue, ctx = {}) {
   const policy = { ...POLICY_DEFAULTS, ...(ctx.policy || {}) };
-  const blog = new Set(ctx.blogSlugs);
-  const out = [];
-  for (const rec of queue) {
-    if (rec.status === 'published') {
-      out.push({ slug: rec.slug, status: rec.status, eligible: false, reasons: ['already published'] });
-      continue;
+  const errors = [];
+  if (!Array.isArray(queue)) return ['content-queue.json must be a JSON array'];
+  const seen = new Set();
+  queue.forEach((rec, i) => {
+    const id = rec && rec.slug ? rec.slug : `#${i}`;
+    for (const k of BASE_KEYS) if (!(k in rec)) errors.push(`${id}: missing "${k}"`);
+    if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(String(rec.slug))) errors.push(`${id}: slug must be lowercase-hyphenated`);
+    if (seen.has(rec.slug)) errors.push(`${id}: duplicate slug`);
+    seen.add(rec.slug);
+    if (Number.isNaN(parseDate(rec.publish_after))) errors.push(`${id}: publish_after must be a real YYYY-MM-DD date`);
+    if (!Array.isArray(rec.internal_links)) errors.push(`${id}: internal_links must be an array`);
+    if (rec.status === 'queued') {
+      errors.push(`${id}: status "queued" is no longer valid; use "proposed" (the scheduled routine only proposes)`);
+    } else if (rec.status === 'approved') {
+      errors.push(`${id}: status "approved" is not used; approval lives in the owner's conversation, not in the queue`);
+    } else if (!STATUSES.has(rec.status)) {
+      errors.push(`${id}: unknown status "${rec.status}"`);
     }
-    if (rec.status !== 'approved') {
-      out.push({
-        slug: rec.slug, status: rec.status, eligible: false,
-        reasons: [`status "${rec.status}" is not write-eligible; only "approved" entries can be written, and publish_after never changes that`],
-      });
-      continue;
+    if ('approval' in rec) errors.push(`${id}: an approval block must not appear in the queue`);
+    if (rec.status === 'retired') {
+      if (!rec.retired_reason) errors.push(`${id}: retired entry needs retired_reason`);
+      if (Number.isNaN(parseDate(rec.retired_at))) errors.push(`${id}: retired entry needs retired_at (YYYY-MM-DD)`);
     }
-    const reasons = [];
-    if (blog.has(rec.slug)) reasons.push(`blog/${rec.slug}.html already exists`);
-    if (Number.isNaN(parseDate(rec.publish_after)) || parseDate(rec.publish_after) > parseDate(ctx.today)) {
-      reasons.push(`publish_after ${rec.publish_after} has not been reached (today ${ctx.today})`);
-    }
-    if (!Array.isArray(rec.internal_links) || rec.internal_links.length < 2 || rec.internal_links.length > 3) {
-      reasons.push('internal_links must list 2-3 existing posts');
-    } else {
-      rec.internal_links.filter((l) => !blog.has(l)).forEach((l) => reasons.push(`internal link "${l}" has no blog page`));
-    }
-    approvalProblems(rec).forEach((b) => reasons.push(b));
-
-    const oc = rec.overlap_check;
-    if (oc && Array.isArray(oc.checked_against)) {
-      const covered = new Set(oc.checked_against);
-      const missing = ctx.blogSlugs.filter((s) => !covered.has(s));
-      if (missing.length) reasons.push(`overlap_check.checked_against does not cover existing pages: ${missing.join(', ')}`);
-    }
-    const mine = new Set(intentTerms(rec));
-    for (const other of queue) {
-      if (other === rec || !COLLISION_STATUSES.has(other.status)) continue;
-      const shared = intentTerms(other).filter((t) => mine.has(t));
-      if (shared.length) reasons.push(`intent collides with "${other.slug}" on: ${shared.join(', ')}`);
-    }
-
-    const ev = rec.evidence;
-    const ap = rec.approval;
-    if (ap && !Number.isNaN(parseDate(ap.approved_at))) {
-      if (parseDate(ap.approved_at) > parseDate(ctx.today)) reasons.push('approval is dated in the future');
-      else if (daysBetween(ap.approved_at, ctx.today) > policy.maxApprovalAgeDaysAtRun) {
-        reasons.push(`approval is more than ${policy.maxApprovalAgeDaysAtRun} days before the run date; re-approve with fresh evidence`);
-      }
-      if (ev && Array.isArray(ev.first_party)) {
-        for (const it of ev.first_party) {
-          if (Number.isNaN(parseDate(it.fetched_at))) continue;
-          const age = daysBetween(it.fetched_at, ap.approved_at);
-          if (age < 0) reasons.push('first-party evidence was fetched after the approval date');
-          else if (age > policy.maxEvidenceAgeDaysAtApproval) {
-            reasons.push(`first-party evidence from ${it.fetched_at} is more than ${policy.maxEvidenceAgeDaysAtApproval} days before the approval`);
-          }
-        }
-      }
-      if (oc && !Number.isNaN(parseDate(oc.checked_at)) && parseDate(oc.checked_at) > parseDate(ap.approved_at)) {
-        reasons.push('overlap check is dated after the approval');
+    if (rec.status === 'proposed') {
+      proposalShapeProblems(rec, policy).forEach((b) => errors.push(`${id}: ${b}`));
+      if (Array.isArray(ctx.blogSlugs)) {
+        proposalContextProblems(rec, queue, ctx.blogSlugs).forEach((b) => errors.push(`${id}: ${b}`));
       }
     }
-    out.push({ slug: rec.slug, status: rec.status, eligible: reasons.length === 0, reasons: [...new Set(reasons)] });
-  }
-  return out;
-}
-
-// ---------- event verification (the run-time half) ----------
-
-// Accepts the JSON returned by the get_event tool (any wrapper depth) and pulls
-// out the fields that matter. Unknown fields are reported as null, never guessed.
-function normalizeEvent(raw) {
-  let u = raw;
-  if (u && u.ccr) u = u.ccr;
-  if (u && Array.isArray(u.data)) u = u.data[0];
-  if (u && u.user) u = u.user;
-  if (!u || typeof u !== 'object') return null;
-  const c = u.internal_anthropic_catchall || u;
-  const msg = c.message || u.message || {};
-  let content = msg.content;
-  if (Array.isArray(content)) content = content.map((b) => (typeof b === 'string' ? b : b && b.type === 'text' ? b.text : '')).join('\n');
-  const pick = (...vals) => vals.find((v) => v !== undefined && v !== null);
-  return {
-    uuid: pick(u.uuid, c.uuid) ?? null,
-    session_id: pick(c.session_id, u.session_id) ?? null,
-    role: pick(msg.role, u.role) ?? null,
-    content: typeof content === 'string' ? content : '',
-    client_platform: pick(c.client_platform, u.client_platform) ?? null,
-    inbound_origin: pick(c.inbound_origin, u.inbound_origin, raw && raw.inbound_origin) ?? null,
-    synthetic: pick(c.isSynthetic, c.is_synthetic, u.isSynthetic, u.is_synthetic, raw && raw.isSynthetic) ?? null,
-  };
-}
-
-// result: { ok, needs_trusted_channel_verification, reasons, observed }
-function verifyEvent(raw, rec, opts = {}) {
-  const humanOrigins = opts.humanOrigins || HUMAN_ORIGIN_VALUES;
-  const ap = rec && rec.approval;
-  if (!rec || rec.status !== 'approved' || !ap) {
-    return { ok: false, needs_trusted_channel_verification: false, reasons: ['entry is not approved'], observed: null };
-  }
-  const ev = normalizeEvent(raw);
-  if (!ev) return { ok: false, needs_trusted_channel_verification: false, reasons: ['no event data supplied'], observed: null };
-  const observed = { client_platform: ev.client_platform, inbound_origin: ev.inbound_origin, synthetic: ev.synthetic, role: ev.role };
-
-  const hard = [];
-  if (ev.uuid !== ap.event_uuid) hard.push('event uuid does not match approval.event_uuid');
-  if (ev.session_id !== ap.session_id) hard.push('event session does not match approval.session_id');
-  if (ev.role !== 'user') hard.push('event is not a user-role message');
-  if (ev.synthetic === true) hard.push('event is marked synthetic');
-  if (ap.message_line !== approvalLine(rec)) hard.push('recorded approval line does not match this entry');
-  if (ap.content_hash !== contentHash(rec)) hard.push('approval.content_hash does not match the entry');
-  if (!ev.content.split(/\r?\n/).some((l) => l.trim() === approvalLine(rec))) {
-    hard.push(`event does not contain the exact line: ${approvalLine(rec)}`);
-  }
-  if (hard.length) return { ok: false, needs_trusted_channel_verification: false, reasons: hard, observed };
-
-  if (ev.inbound_origin !== null && humanOrigins.includes(ev.inbound_origin)) {
-    return { ok: true, needs_trusted_channel_verification: false, reasons: [], observed };
-  }
-  return {
-    ok: false,
-    needs_trusted_channel_verification: true,
-    reasons: [
-      'the event exists and contains the exact approval line, but its origin cannot be established from the event data available ' +
-      `(client_platform=${ev.client_platform}, inbound_origin=${ev.inbound_origin}); do not infer approval`,
-    ],
-    observed,
-  };
+  });
+  return errors;
 }
 
 // ---------- CLI ----------
@@ -367,10 +239,7 @@ function main(argv) {
   };
   const root = path.resolve(opt('--root') || path.join(__dirname, '..'));
   const today = opt('--today') || new Date().toISOString().slice(0, 10);
-  if (Number.isNaN(parseDate(today))) {
-    console.error(`--today must be YYYY-MM-DD, got "${today}"`);
-    return 2;
-  }
+  if (Number.isNaN(parseDate(today))) { console.error(`--today must be YYYY-MM-DD, got "${today}"`); return 2; }
   let queue;
   try {
     queue = JSON.parse(fs.readFileSync(path.join(root, 'content-queue.json'), 'utf8'));
@@ -378,42 +247,38 @@ function main(argv) {
     console.error(`cannot read content-queue.json: ${e.message}`);
     return 2;
   }
-  const errors = validateQueue(queue);
+  const blogSlugs = listBlogSlugs(root);
+  const errors = validateQueue(queue, { blogSlugs });
+  const proposals = queue.filter((r) => r.status === 'proposed');
+  for (const r of proposals) {
+    if (parseDate(r.proposed_at) > parseDate(today)) errors.push(`${r.slug}: proposed_at is in the future`);
+  }
+
+  if (args.includes('--check-writable')) {
+    const slug = opt('--check-writable');
+    const rec = queue.find((r) => r.slug === slug);
+    if (!rec) { console.error('no such slug'); return 1; }
+    const reasons = [];
+    if (rec.status !== 'proposed') reasons.push(`status is "${rec.status}"; only a "proposed" entry can be written`);
+    errors.filter((e) => e.startsWith(`${slug}:`)).forEach((e) => reasons.push(e));
+    const ok = reasons.length === 0;
+    console.log(JSON.stringify({
+      slug, writable_checks_passed: ok, fingerprint: ok ? fingerprint(rec) : null, reasons,
+      approval: 'NOT checked here. The owner approves in their own conversation; the main session relays a bounded writing request naming this slug and fingerprint.',
+    }, null, 2));
+    return ok ? 0 : 1;
+  }
+
   if (errors.length) {
     console.error('content-queue.json is invalid:\n  - ' + errors.join('\n  - '));
     return 1;
   }
-  const blogSlugs = listBlogSlugs(root);
-
-  if (args.includes('--hash')) {
-    const rec = queue.find((r) => r.slug === opt('--hash'));
-    if (!rec) { console.error('no such slug'); return 1; }
-    if (!rec.evidence || !DEMAND_LABELS.has(rec.evidence.demand_label)) {
-      console.error('entry has no evidence.demand_label yet, so there is no approval line to print');
-      return 1;
-    }
-    console.log(JSON.stringify({ slug: rec.slug, content_hash: contentHash(rec), approval_line: approvalLine(rec) }));
-    return 0;
-  }
-  if (args.includes('--verify-event')) {
-    const rec = queue.find((r) => r.slug === opt('--verify-event'));
-    if (!rec) { console.error('no such slug'); return 1; }
-    let raw;
-    try { raw = JSON.parse(fs.readFileSync(0, 'utf8')); } catch (e) { console.error('stdin is not event JSON'); return 1; }
-    const res = verifyEvent(raw, rec);
-    console.log(JSON.stringify(res));
-    return res.ok ? 0 : 1;
-  }
-  if (args.includes('--eligible')) {
-    const results = evaluate(queue, { today, blogSlugs });
-    const eligible = results.filter((r) => r.eligible).map((r) => r.slug);
-    const blocked = results.filter((r) => !r.eligible && r.status !== 'published');
+  if (args.includes('--proposals')) {
     console.log(JSON.stringify({
       today,
-      eligible,
-      policy: { ...POLICY_DEFAULTS, note: 'safety defaults, not SEO or demand thresholds; evidence age is measured at approval, approval age at the run date' },
-      next_step: 'eligible means structurally complete only; run --verify-event on the approval event before writing',
-      blocked,
+      policy: { ...POLICY_DEFAULTS, note: 'safety default reusing the existing 10-day digest rule; not an SEO or demand threshold' },
+      proposals: proposals.map((r) => ({ slug: r.slug, proposed_at: r.proposed_at, fingerprint: fingerprint(r) })),
+      note: 'The scheduled routine only proposes. If any proposal is listed it is waiting for the owner: do not research and do not write.',
     }, null, 2));
     return 0;
   }
@@ -423,8 +288,8 @@ function main(argv) {
 }
 
 module.exports = {
-  validateQueue, evaluate, verifyEvent, normalizeEvent, contentHash, approvalLine,
-  listBlogSlugs, parseDate, approvalProblems, POLICY_DEFAULTS, HUMAN_ORIGIN_VALUES,
+  validateQueue, proposalShapeProblems, proposalContextProblems, contentHash, fingerprint,
+  listBlogSlugs, parseDate, POLICY_DEFAULTS,
 };
 
 if (require.main === module) process.exit(main(process.argv));
