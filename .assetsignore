@@ -4,3 +4,6 @@
 content-queue.json
 .jules/
 blog/_TEMPLATE.html
+scripts/check-queue-gate.js
+scripts/check-queue-gate.test.js
+.github/workflows/queue-gate-check.yml

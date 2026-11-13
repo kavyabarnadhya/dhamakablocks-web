@@ -132,19 +132,92 @@ body differs but whose dates didn't move — it warns, it doesn't block, since
 the cosmetic-vs-real distinction isn't mechanically decidable. Read its
 warning and use judgment, don't reflexively bump every flagged file.
 
-## Topic research (when content-queue.json has no queued items left)
+## Scheduled routine: proposals only
 
-Trigger condition: no item in `content-queue.json` has `status: "queued"`
-AND `publish_after <= today`. Any other status (`published`, `rejected`,
-`skipped`, or anything else a human may have set) counts as "not eligible"
-and is excluded from consideration — never reconsider or rewrite an item
-that isn't `status: "queued"`, regardless of why it was marked otherwise.
-If no item is currently queued-and-due, but at least one item still has
-`status: "queued"` with a future `publish_after`, that is NOT an empty
-queue — just exit normally (this is the existing no-op path, unchanged).
-Only run the research pass below when zero items have `status: "queued"`
-at all (everything is published/rejected/skipped/etc. — nothing left
-waiting in the pipeline):
+The scheduled routine researches and PROPOSES topics. It never writes an
+article, never approves or promotes an entry, and never edits or deletes an
+existing entry. Statuses in `content-queue.json`:
+
+- `proposed` — a researched suggestion waiting for the owner. The scheduled
+  routine never writes it.
+- `published`, `retired`, `rejected`, `skipped` — never reconsidered. `retired`
+  keeps the reason and evidence as a tombstone so the topic is not proposed
+  again without new evidence.
+- `queued` and `approved` are invalid, and so is an `approval` block: approval
+  is the owner's decision about a specific topic and revision and is not
+  recorded in the queue. A `publish_after` date is the earliest review date,
+  never permission to write.
+
+Every `proposed` entry must pass `node scripts/check-queue-gate.js` (also run by
+CI), which requires:
+
+- **First-party evidence** (`evidence.first_party[]`): Search Console
+  (`gsc-live` for a live check, `gsc-digest` for the stored weekly digest) or
+  GA4/traffic (`ga4`), each with `source`, `fetched_at`, `window` and the quoted
+  rows relied on (a zero result is quoted too). Record the query-level data as
+  structured `rows` (`query`, `clicks`, `impressions`); each row's query must
+  appear in the quote. Public web search and competitor research go only in
+  `evidence.supplementary` and never satisfy this. Never claim a live check
+  that was not run.
+- **Observed demand, or a labelled exploration.** `evidence.demand_label` is
+  `observed`, `thin` or `none-observed`, with `evidence.limits` and
+  `evidence.summary`.
+  - `observed` or `thin` needs at least one `rows` entry with impressions whose
+    query matches one of the topic's `intent` terms. "At least one impression"
+    is the definition of observed, not a demand threshold; a few impressions are
+    labelled `thin`. Only first-party rows count.
+  - `none-observed` (no matching row) can proceed only as an explicit
+    exploratory topic: `exploratory: true` plus an `exploration_note` saying
+    honestly why it is worth a test. At most one exploratory topic per calendar
+    quarter (by `proposed_at`), counting published ones.
+  - Thin or absent data is never described as validation, and no impression
+    cutoff is invented. A proposal is an editorial suggestion for the owner to
+    weigh, not a demand finding or a promise of clicks.
+- **An intent-overlap check** (`overlap_check`): result `distinct`, covering
+  every existing blog page, with notes; and no exact `intent` term shared with
+  a published or proposed entry. A `retired`, `rejected` or `skipped` topic can
+  be re-proposed only with `addresses_retirement` (`slug` and a `note` on the
+  new first-party evidence).
+- `proposed_at` (today) and a `publish_after` at least 3 days later.
+- Evidence freshness: each first-party item fetched at most 10 days before
+  `proposed_at`. This is a safety default that reuses the existing 10-day digest
+  rule. It is not an SEO requirement or a demand threshold. It lives in
+  `POLICY_DEFAULTS` in `scripts/check-queue-gate.js` and changes only by a
+  reviewed PR.
+
+Before researching, run `node scripts/check-queue-gate.js` (must exit 0), then
+`node scripts/check-queue-gate.js --proposals`. If any proposal is listed it is
+waiting for the owner: make no changes, open no PR and exit normally.
+
+## Writing an approved topic
+
+The scheduled routine never does this. The owner approves a specific topic and
+revision, identified by its slug and the fingerprint printed by `--proposals`
+and `--check-writable`. Only then is the article drafted for review, in a
+separate writing request that names the slug and fingerprint and limits the
+scope to: write one post, open a PR, do not merge.
+
+The writer then:
+
+1. runs `node scripts/check-queue-gate.js --check-writable <slug>`; it must exit
+   0 and print the same fingerprint as the approved one. A different fingerprint
+   means the entry changed after approval: stop and ask the owner;
+2. notes the approval (slug, fingerprint, date) in the PR body so the reviewer
+   can see exactly what was approved;
+3. writes the post following the checklists below and marks that entry
+   `published` in the same PR. The post PR needs the owner's separate merge
+   approval and is never self-merged.
+
+With no approved topic and revision, nothing is written.
+
+## Topic research (when content-queue.json has no proposed entries)
+
+Trigger condition: run the research pass only when no entry has
+`status: "proposed"` (nothing is waiting for the owner). Any other status
+(`published`, `retired`, `rejected`, `skipped`, or anything else a human may have
+set) is excluded and never reconsidered or rewritten. If any entry is
+`proposed`, make no changes, open no PR and exit normally. Research produces
+proposals only; it never makes anything writable:
 
 1. Use WebSearch to find 2–3 new topic candidates, following the same method
    as the original keyword research: search competitor/ecosystem queries
@@ -172,10 +245,25 @@ waiting in the pipeline):
    intent qualitatively (e.g. "recurring comparison query"), not with invented
    numbers.
 5. For each candidate, add a new entry to `content-queue.json` with `status:
-   "queued"`, a real `slug`, `title`, `intent`, one-line `angle`, plausible
-   `internal_links` (existing post slugs), and a `publish_after` date at
-   least 3 days out from today (do not backdate to make it immediately
-   eligible — that defeats the review cadence).
+   "proposed"`, a real `slug`, `title`, `intent`, one-line `angle`, 2-3
+   `internal_links` (existing post slugs), `proposed_at` (today) and a
+   `publish_after` at least 3 days after `proposed_at` (the earliest review
+   date, not permission to write; never backdate), plus `evidence` and
+   `overlap_check` blocks as described in "Scheduled routine: proposals only":
+   first-party data (the stored digest as `gsc-digest`, a live Search Console
+   check as `gsc-live`, GA4 as `ga4`) goes in `evidence.first_party` with
+   source, date, window and quoted rows (zero results too); public search and
+   competitor research go only in `evidence.supplementary`. Set
+   `demand_label` and `limits` honestly: propose only topics that have a matching
+   first-party row with impressions (add it to `rows`), or mark a topic
+   `exploratory` with a note (one per quarter). Never call thin or absent data
+   validation, invent no cutoffs, and never claim a live check you did not run.
+   `overlap_check` records that you compared the topic's intent with every
+   existing blog page. Do not re-propose a retired, rejected or skipped topic
+   unless new first-party evidence addresses its recorded reason (put it in
+   `addresses_retirement`). Add no `approval` block or any other approval
+   marker. State in the PR body that these are proposals only. Run
+   `node scripts/check-queue-gate.js` before committing.
 6. Before creating a branch: check whether a branch named
    `content/queue-refresh-<today's date, YYYY-MM-DD>` already exists on the
    remote (`git ls-remote --heads origin | grep queue-refresh-<date>`) or
@@ -189,8 +277,8 @@ waiting in the pipeline):
    content queue" with a body explaining the search intent behind each new
    entry. This is a separate PR from any post-writing PR — do not mix queue
    research with a generated post in the same PR.
-7. Do not also write a post in the same run as a research pass — pick one:
-   if a queued+due item exists, write it; only research when none does.
+7. The scheduled routine never writes a post, in this run or any other:
+   research only when no entry is `proposed`, then stop.
 
 ## Self-review (post as a PR comment before finishing)
 
