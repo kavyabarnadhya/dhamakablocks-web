@@ -4,7 +4,10 @@
     "title": "How to Get a High Score in Block Puzzle (When You're Stuck)",
     "intent": "block puzzle high score, stuck no space, combo strategy",
     "angle": "Highest-demand evergreen pain point; brand-agnostic entry that funnels to Dhamaka Blocks.",
-    "internal_links": ["how-to-increase-score-dhamaka-blocks", "dhamaka-blocks-tips-and-tricks"],
+    "internal_links": [
+      "how-to-increase-score-dhamaka-blocks",
+      "dhamaka-blocks-tips-and-tricks"
+    ],
     "status": "published",
     "publish_after": "2026-07-22"
   },
@@ -13,7 +16,10 @@
     "title": "Best Block Blast Alternatives (2026): Free, Offline, No Ads",
     "intent": "block blast alternative, games like block blast",
     "angle": "Ride the biggest listicle cluster; lead with Dhamaka as the no-ads, made-in-India pick. Do not reference MOD/cheat/solver tools.",
-    "internal_links": ["block-puzzle-games-india", "dhamaka-blocks-tips-and-tricks"],
+    "internal_links": [
+      "block-puzzle-games-india",
+      "dhamaka-blocks-tips-and-tricks"
+    ],
     "status": "published",
     "publish_after": "2026-07-30"
   },
@@ -22,7 +28,10 @@
     "title": "Woodoku vs Block Blast: Which Is Better? (+ a Third Option)",
     "intent": "woodoku vs block blast which is better",
     "angle": "Exact-match comparison query; structured table; slots Dhamaka Blocks in as the third pick.",
-    "internal_links": ["block-puzzle-games-india", "how-to-play-dhamaka-blocks"],
+    "internal_links": [
+      "block-puzzle-games-india",
+      "how-to-play-dhamaka-blocks"
+    ],
     "status": "published",
     "publish_after": "2026-08-03"
   },
@@ -31,7 +40,10 @@
     "title": "Best Offline Block Puzzle Games (No Wi-Fi, No Ads)",
     "intent": "offline block puzzle, no wifi games, no ads",
     "angle": "Owns the differentiator competitors are hated for.",
-    "internal_links": ["block-puzzle-games-india", "how-to-play-dhamaka-blocks"],
+    "internal_links": [
+      "block-puzzle-games-india",
+      "how-to-play-dhamaka-blocks"
+    ],
     "status": "published",
     "publish_after": "2026-08-06"
   },
@@ -40,7 +52,10 @@
     "title": "Common Block Puzzle Mistakes That Kill Your Score",
     "intent": "block puzzle mistakes, why do I keep losing",
     "angle": "Long-tail of the high-score post; mistakes-framed how-to; extractable list + FAQ.",
-    "internal_links": ["block-puzzle-high-score-when-stuck", "dhamaka-blocks-tips-and-tricks"],
+    "internal_links": [
+      "block-puzzle-high-score-when-stuck",
+      "dhamaka-blocks-tips-and-tricks"
+    ],
     "status": "published",
     "publish_after": "2026-08-10"
   },
@@ -49,7 +64,10 @@
     "title": "Is Dhamaka Blocks Free, Safe & Offline? (FAQ)",
     "intent": "is X free, is X safe, is X offline (app trust queries)",
     "angle": "Pure FAQPage-schema post; direct AEO citation bait for app-trust questions.",
-    "internal_links": ["how-to-play-dhamaka-blocks", "dhamaka-blocks-coins-boosters-update"],
+    "internal_links": [
+      "how-to-play-dhamaka-blocks",
+      "dhamaka-blocks-coins-boosters-update"
+    ],
     "status": "published",
     "publish_after": "2026-08-13"
   },
@@ -58,7 +76,10 @@
     "title": "How Combo Multipliers Work in Block Puzzle Games",
     "intent": "combo multiplier, how scoring works",
     "angle": "Extractable explainer; internal-links scoring, tips, and the high-score post.",
-    "internal_links": ["how-to-increase-score-dhamaka-blocks", "block-puzzle-high-score-when-stuck"],
+    "internal_links": [
+      "how-to-increase-score-dhamaka-blocks",
+      "block-puzzle-high-score-when-stuck"
+    ],
     "status": "published",
     "publish_after": "2026-08-17"
   },
@@ -67,7 +88,9 @@
     "title": "Best Made-in-India Mobile Games (Puzzle Picks)",
     "intent": "made in india games, indian puzzle games",
     "angle": "Underserved block-puzzle India niche; cultural moat. Diwali-specific post is scheduled separately, outside this pilot.",
-    "internal_links": ["block-puzzle-games-india"],
+    "internal_links": [
+      "block-puzzle-games-india"
+    ],
     "status": "published",
     "publish_after": "2026-08-20"
   },
@@ -76,7 +99,10 @@
     "title": "Is Block Puzzle Good for Your Brain? What the Research Says",
     "intent": "block puzzle brain benefits, is block puzzle good for your brain, puzzle games cognitive health",
     "angle": "App-trust-adjacent PAA query about cognitive benefits; recurring search intent around puzzle games and brain health. Hedge all research claims generically (no fabricated stats), and use Dhamaka's no-timer/no-lives calm design as the differentiator for stress-free brain engagement.",
-    "internal_links": ["block-puzzle-common-mistakes", "block-puzzle-high-score-when-stuck"],
+    "internal_links": [
+      "block-puzzle-common-mistakes",
+      "block-puzzle-high-score-when-stuck"
+    ],
     "status": "published",
     "publish_after": "2026-08-28"
   },
@@ -85,7 +111,10 @@
     "title": "How the Daily Reward Streak Works in Dhamaka Blocks",
     "intent": "dhamaka blocks daily reward, block puzzle login streak, daily reward coins guide",
     "angle": "Deep-dive on a confirmed-but-underexplored mechanic (the 7-day escalating Daily Reward and lifetime milestone chests); no existing post is dedicated to this despite it being a documented feature.",
-    "internal_links": ["dhamaka-blocks-coins-boosters-update", "how-to-play-dhamaka-blocks"],
+    "internal_links": [
+      "dhamaka-blocks-coins-boosters-update",
+      "how-to-play-dhamaka-blocks"
+    ],
     "status": "published",
     "publish_after": "2026-08-31"
   },
@@ -94,7 +123,10 @@
     "title": "Block Puzzle Games for Stress Relief: Why No Timer, No Lives Wins",
     "intent": "relaxing block puzzle games, stress relief puzzle games, no timer no pressure games",
     "angle": "Recurring search intent around puzzle games for relaxation; owns the calm/no-artificial-urgency positioning already established in this blog's tone, distinct from the offline-focused post (connectivity vs. relaxation framing).",
-    "internal_links": ["best-offline-block-puzzle-games", "block-puzzle-high-score-when-stuck"],
+    "internal_links": [
+      "best-offline-block-puzzle-games",
+      "block-puzzle-high-score-when-stuck"
+    ],
     "status": "published",
     "publish_after": "2026-09-03"
   },
@@ -103,7 +135,10 @@
     "title": "1010 vs Block Blast: Which Block Puzzle Should You Play?",
     "intent": "1010 vs block blast, which block puzzle game is better, 10x10 grid vs 8x8 grid",
     "angle": "Exact-match comparison query between the genre's two most-searched names (recurring PAA-style query); structured table on grid size and pacing, with Dhamaka Blocks slotted in as the festive-themed third pick, same pattern as the Woodoku vs Block Blast post.",
-    "internal_links": ["woodoku-vs-block-blast", "block-blast-alternatives"],
+    "internal_links": [
+      "woodoku-vs-block-blast",
+      "block-blast-alternatives"
+    ],
     "status": "published",
     "publish_after": "2026-09-14"
   },
@@ -112,7 +147,10 @@
     "title": "Blockudoku vs Block Blast: Which Block Puzzle Wins?",
     "intent": "blockudoku vs block blast, sudoku-style block puzzle comparison",
     "angle": "Recurring comparison query between the genre's sudoku-style entry and its most popular simple-grid game; structured table on grid layout and difficulty, positions Dhamaka Blocks as the calmer row/column-only alternative for players who find the 3x3-box requirement too strict.",
-    "internal_links": ["woodoku-vs-block-blast", "combo-multipliers-block-puzzle"],
+    "internal_links": [
+      "woodoku-vs-block-blast",
+      "combo-multipliers-block-puzzle"
+    ],
     "status": "published",
     "publish_after": "2026-09-18"
   },
@@ -121,7 +159,10 @@
     "title": "Tetris vs Block Puzzle Games: What's the Real Difference?",
     "intent": "tetris vs block puzzle games, is block puzzle like tetris, falling blocks vs grid puzzle",
     "angle": "Genre-comparison PAA query distinguishing timed falling-block gameplay from untimed grid placement; owns the no-timer positioning already established in this blog's tone, with Dhamaka Blocks as the calm grid-puzzle pick for players who find Tetris too fast-paced.",
-    "internal_links": ["block-puzzle-stress-relief-no-timer", "block-puzzle-high-score-when-stuck"],
+    "internal_links": [
+      "block-puzzle-stress-relief-no-timer",
+      "block-puzzle-high-score-when-stuck"
+    ],
     "status": "published",
     "publish_after": "2026-09-22"
   },
@@ -130,7 +171,10 @@
     "title": "Block Puzzle Games With No Ads (No Interruptions, Ever)",
     "intent": "block puzzle no ads, games like block blast with no ads, block puzzle without ads",
     "angle": "2026-09-14 GSC query audit found \"games like block blast with no ads\" converting at 20% CTR on a small sample — a real signal the site under-serves. This post makes \"no ads\" the primary hook and headline claim (not a secondary reassurance folded into a broader alternatives/offline post, as in block-blast-alternatives and best-offline-block-puzzle-games), targeting readers whose main frustration is forced ad interruptions specifically, distinct from the offline-connectivity and general-alternatives angles already covered.",
-    "internal_links": ["block-blast-alternatives", "best-offline-block-puzzle-games"],
+    "internal_links": [
+      "block-blast-alternatives",
+      "best-offline-block-puzzle-games"
+    ],
     "status": "published",
     "publish_after": "2026-09-26"
   },
@@ -139,7 +183,10 @@
     "title": "Block Puzzle Games Before Bed: Do They Actually Help You Sleep?",
     "intent": "block puzzle before bed, puzzle games help you sleep, wind down games at night",
     "angle": "Evening wind-down query distinct from the general stress-relief post (daytime calm framing) — focuses specifically on a bedtime screen routine. Hedge all sleep-science claims generically (\"many sleep experts suggest...\") with no fabricated studies or stats; recommend winding screens down well before lights-out rather than claiming the game itself induces sleep. Dhamaka's no-timer/no-lives design fits a low-stimulation pre-sleep routine.",
-    "internal_links": ["block-puzzle-stress-relief-no-timer", "is-block-puzzle-good-for-your-brain"],
+    "internal_links": [
+      "block-puzzle-stress-relief-no-timer",
+      "is-block-puzzle-good-for-your-brain"
+    ],
     "status": "published",
     "publish_after": "2026-10-06"
   },
@@ -148,7 +195,10 @@
     "title": "Can Block Puzzle Games Improve Focus and Concentration?",
     "intent": "puzzle games for focus, block puzzle concentration, mindful gaming short breaks",
     "angle": "Recurring PAA-style query about puzzle games and sustained attention/flow state, distinct from the broader brain-health research post — this angle is about day-to-day focus during short breaks (commute, lunch) rather than long-term cognitive research. Hedge generically, no fabricated stats; ties to Dhamaka's no-timer design letting a session run until naturally done instead of being cut off.",
-    "internal_links": ["is-block-puzzle-good-for-your-brain", "block-puzzle-stress-relief-no-timer"],
+    "internal_links": [
+      "is-block-puzzle-good-for-your-brain",
+      "block-puzzle-stress-relief-no-timer"
+    ],
     "status": "published",
     "publish_after": "2026-10-10"
   },
@@ -157,7 +207,10 @@
     "title": "Block Puzzle Games and Screen Time: Is Casual Gaming Guilt-Free?",
     "intent": "casual gaming screen time, is mobile gaming bad for you, digital wellbeing puzzle games",
     "angle": "Addresses screen-time guilt directly — a distinct lifestyle angle from sleep and focus, framed as quality-over-quantity and self-paced play rather than compulsion-driven mechanics. Hedge all wellbeing claims generically, no fabricated stats; distinguish Dhamaka's no-lives/no-pressure design (a session ends because the board is full, not because of manufactured urgency) from genres built around forced re-engagement.",
-    "internal_links": ["block-puzzle-stress-relief-no-timer", "best-offline-block-puzzle-games"],
+    "internal_links": [
+      "block-puzzle-stress-relief-no-timer",
+      "best-offline-block-puzzle-games"
+    ],
     "status": "published",
     "publish_after": "2026-10-14"
   },
@@ -166,7 +219,10 @@
     "title": "Block Puzzle Games With Cloud Save (Never Lose Your Progress)",
     "intent": "block puzzle cloud save, save progress switching phones, block puzzle account sync",
     "angle": "Recurring differentiator query in the genre — competitor store listings often don't surface cloud-save/account-sync details, and category review summaries mention losing progress on a device switch as a common complaint. Comparison/install-intent post surfacing cloud save, Play Games achievements, and leaderboards as a genre-wide gap; distinct from the already-published Daily Reward Streak guide, which covers a single confirmed mechanic rather than a cross-game comparison.",
-    "internal_links": ["dhamaka-blocks-cloud-save-leaderboards-update", "how-to-play-dhamaka-blocks"],
+    "internal_links": [
+      "dhamaka-blocks-cloud-save-leaderboards-update",
+      "how-to-play-dhamaka-blocks"
+    ],
     "status": "published",
     "publish_after": "2026-10-23"
   },
@@ -175,7 +231,10 @@
     "title": "Block Puzzle Games for Low Storage Phones (Small Size, No Lag)",
     "intent": "block puzzle small app size, lightweight puzzle game, best games for low storage phone",
     "angle": "Install-intent query distinct from the offline-connectivity and no-ads angles already covered — targets players on storage-constrained or older/budget phones looking for a lightweight block puzzle game, a differentiator not yet owned by any existing post. When this post is written, do not claim Dhamaka Blocks is small or lightweight: the Play listing does not publish a fixed size (it is device-dependent), so any app-size claim is unverified unless measured first.",
-    "internal_links": ["best-offline-block-puzzle-games", "block-puzzle-games-no-ads"],
+    "internal_links": [
+      "best-offline-block-puzzle-games",
+      "block-puzzle-games-no-ads"
+    ],
     "status": "published",
     "publish_after": "2026-10-27"
   },
@@ -184,7 +243,10 @@
     "title": "Safe Block Puzzle Games for Families: What Parents Should Check (Ads, Permissions, Data Use)",
     "intent": "block puzzle games for kids, family friendly puzzle games, safe puzzle games for children",
     "angle": "Parent-perspective app-trust query, distinct from the Dhamaka-specific is-it-safe FAQ post (which covers Dhamaka only) and the general-audience alternatives listicle. Frame it as a practical checklist for parents - how ads appear, permissions requested, data use, chat/social features, offline play - and position Dhamaka honestly against that checklist: calm no-timer design, no chat, offline play, transparent permissions. Do NOT claim Dhamaka is ad-free: the Play listing says \"Contains ads\" and this blog's own no-ads post states banners, interstitials and rewarded ads are present - describe the ad experience accurately (what shows, when, whether it can be skipped) instead. Do not pitch Dhamaka as a kids' pick in Play Families-policy terms; the trust angle is what parents should check, with Dhamaka evaluated honestly.",
-    "internal_links": ["is-dhamaka-blocks-free-safe-offline", "block-blast-alternatives"],
+    "internal_links": [
+      "is-dhamaka-blocks-free-safe-offline",
+      "block-blast-alternatives"
+    ],
     "status": "published",
     "publish_after": "2026-10-31"
   },
@@ -193,7 +255,11 @@
     "title": "Indian-Themed Block Puzzle Games on Android: Colors, Sound and Design (2026)",
     "intent": "indian block game, indian themed block puzzle game, block puzzle game with indian design",
     "angle": "Checklist-style guide to the cultural-theming layer of a block puzzle game: palette, pattern art, sound, share card, and whether themes are only cosmetic. Distinct from block-puzzle-games-india (where to find an Indian-made pick) and made-in-india-mobile-games (developer origin); both mention Dhamaka's festive look only in passing and neither covers theming as the subject. Use Dhamaka Blocks as the worked example, limited to the confirmed facts in content-style.md (saffron, gold and peacock green; rangoli-inspired visuals; Indian percussion sound effects; WhatsApp-formatted score card; unlockable Aurora and Monsoon themes). Evidence is thin: the 2026-11-09 digest shows 'indian block game' at 0 clicks / 4 impressions (pos 5.0); the digest does not say which page serves it, so expect a low-volume page and reassess against the 2026-11-16 digest before writing. Evergreen, not a Diwali or festival post (the festival page already exists). Hedge any statement about other games' themes or sound unless verified at write time; do not claim Dhamaka is ad-free.",
-    "internal_links": ["block-puzzle-games-india", "made-in-india-mobile-games", "how-to-play-dhamaka-blocks"],
+    "internal_links": [
+      "block-puzzle-games-india",
+      "made-in-india-mobile-games",
+      "how-to-play-dhamaka-blocks"
+    ],
     "status": "retired",
     "publish_after": "2026-11-16",
     "retired_at": "2026-11-12",
@@ -204,11 +270,30 @@
       "checked_at": "15:31-15:35 IST",
       "property": "sc-domain:dhamakablocks.com",
       "filter": "query contains 'indi' (India-angle)",
-      "window_3_months": {"about": "2026-08-12 to 2026-11-10", "queries": 5, "clicks": 0, "impressions": 16},
-      "window_28_days": {"about": "2026-10-15 to 2026-11-10", "queries": 3, "clicks": 0, "impressions": 8},
-      "query_row": {"query": "indian block game", "clicks": 0, "impressions": 3, "position": 4.7},
+      "window_3_months": {
+        "about": "2026-08-12 to 2026-11-10",
+        "queries": 5,
+        "clicks": 0,
+        "impressions": 16
+      },
+      "window_28_days": {
+        "about": "2026-10-15 to 2026-11-10",
+        "queries": 3,
+        "clicks": 0,
+        "impressions": 8
+      },
+      "query_row": {
+        "query": "indian block game",
+        "clicks": 0,
+        "impressions": 3,
+        "position": 4.7
+      },
       "page_attribution": "15 of 16 India-angle impressions on the existing /blog/block-puzzle-games-india page, 1 on the homepage",
-      "country_india_28_days": {"clicks": 7, "impressions": 395, "note": "visible queries had 0 clicks; brand and comparison queries dominate"},
+      "country_india_28_days": {
+        "clicks": 7,
+        "impressions": 395,
+        "note": "visible queries had 0 clicks; brand and comparison queries dominate"
+      },
       "observed_intent": "No theme, design, colour or sound intent observed",
       "ga4_used": false,
       "urls": [
@@ -217,6 +302,163 @@
       ],
       "caveat": "Overlap with the existing page is a duplication risk, not a proven cannibalization effect. The signal is small either way."
     }
+  },
+  {
+    "slug": "woodoku-tips-and-tricks",
+    "title": "Woodoku Tips and Tricks: How to Score Higher (Plus a Calmer Alternative)",
+    "intent": "woodoku, woodoku tips, woodoku strategy, woodoku high score",
+    "angle": "Competitor-specific strategy guide, a different content format from the existing woodoku-vs-block-blast comparison post; walks through Woodoku's own 3x3-box clearing mechanic and funnels to Dhamaka Blocks as a calmer third pick, the same funnel pattern already used by the site's other vs-posts.",
+    "internal_links": [
+      "woodoku-vs-block-blast",
+      "block-puzzle-high-score-when-stuck",
+      "block-puzzle-common-mistakes"
+    ],
+    "status": "proposed",
+    "proposed_at": "2026-11-16",
+    "publish_after": "2026-11-20",
+    "evidence": {
+      "first_party": [
+        {
+          "kind": "gsc-digest",
+          "source": ".jules/gsc-digest.md @ 962c007dcda330fbaf1f5e738c393ae9043ce0fd",
+          "fetched_at": "2026-11-09",
+          "window": "3 months: 2026-08-08 to 2026-11-07",
+          "quote": "Zero-click but real impressions: ... woodoku blast tips 0/19 (pos 16.1); games like block blast offline 0/11; ...",
+          "rows": [
+            {
+              "query": "woodoku blast tips",
+              "clicks": 0,
+              "impressions": 19
+            }
+          ]
+        }
+      ],
+      "supplementary": [
+        {
+          "kind": "web-search",
+          "url": "https://mobi.gg/en/tips/woodoku-tips-and-tricks-best-score",
+          "fetched_at": "2026-11-16",
+          "quote": "Large pieces appear more often as the game goes on, so leave space for them; keep the corners accessible and don't isolate any squares; prioritizing 3x3 square completions often yields better long-term results than chasing single lines."
+        }
+      ],
+      "demand_label": "thin",
+      "limits": "Only one matching first-party row (\"woodoku blast tips\"), 0 clicks, 19 impressions over 3 months, at a weak position (16.1). This sits in the digest's weaker-performing gameplay-tips cluster (cluster 5), not one of the top three clusters, so this is a small, directional signal rather than established demand. Public tips sites covering Woodoku (mobi.gg, gamezebo) are supplementary context only and show the content format exists in the genre, not that this site's visitors want it.",
+      "summary": "A single thin, zero-click impression row for a Woodoku-tips-style query exists in the 3-month window, and the genre already has competitor tips guides published elsewhere. This proposal tests whether a dedicated Woodoku strategy post, distinct in format from the existing vs-comparison post, can pick up any of that low-position traffic while still funneling to Dhamaka Blocks."
+    },
+    "overlap_check": {
+      "result": "distinct",
+      "checked_against": [
+        "1010-vs-block-blast",
+        "best-block-puzzle-games-for-kids-family",
+        "best-offline-block-puzzle-games",
+        "block-blast-alternatives",
+        "block-puzzle-common-mistakes",
+        "block-puzzle-games-before-bed",
+        "block-puzzle-games-cloud-save-no-lost-progress",
+        "block-puzzle-games-for-focus-concentration",
+        "block-puzzle-games-india",
+        "block-puzzle-games-low-storage-small-size",
+        "block-puzzle-games-no-ads",
+        "block-puzzle-high-score-when-stuck",
+        "block-puzzle-screen-time-digital-wellbeing",
+        "block-puzzle-stress-relief-no-timer",
+        "blockudoku-vs-block-blast",
+        "combo-multipliers-block-puzzle",
+        "dhamaka-blocks-cloud-save-leaderboards-update",
+        "dhamaka-blocks-coins-boosters-update",
+        "dhamaka-blocks-daily-reward-streak-guide",
+        "dhamaka-blocks-play-games-swap-update",
+        "dhamaka-blocks-tips-and-tricks",
+        "how-to-increase-score-dhamaka-blocks",
+        "how-to-play-dhamaka-blocks",
+        "is-block-puzzle-good-for-your-brain",
+        "is-dhamaka-blocks-free-safe-offline",
+        "made-in-india-mobile-games",
+        "tetris-vs-block-puzzle-games",
+        "woodoku-vs-block-blast"
+      ],
+      "checked_at": "2026-11-16",
+      "notes": "Closest existing page is woodoku-vs-block-blast, but that post is a side-by-side comparison table (grid layout, aesthetics, Dhamaka as a third pick) and contains no Woodoku-specific strategy content (3x3-box clearing priority, piece-placement order). No other existing post addresses Woodoku gameplay strategy. No exact intent term is shared with any published or proposed entry."
+    }
+  },
+  {
+    "slug": "1010-tips-and-tricks",
+    "title": "1010! Tips and Tricks: How to Beat Your High Score (Plus a Festive Third Pick)",
+    "intent": "1010 tips, 1010 strategy, 10x10 block puzzle high score",
+    "angle": "Parallel competitor strategy guide to the published 1010-vs-block-blast comparison post, covering 1010!'s own 10x10-grid placement strategy and funnelling to Dhamaka Blocks as a festive third pick. Exploratory: tests whether the thin signal already observed for the equivalent Woodoku-tips query (see woodoku-tips-and-tricks, proposed in this same batch) also exists for 1010, since no matching row appears yet in the stored digest.",
+    "internal_links": [
+      "1010-vs-block-blast",
+      "block-puzzle-high-score-when-stuck",
+      "dhamaka-blocks-tips-and-tricks"
+    ],
+    "status": "proposed",
+    "proposed_at": "2026-11-16",
+    "publish_after": "2026-11-20",
+    "evidence": {
+      "first_party": [
+        {
+          "kind": "gsc-digest",
+          "source": ".jules/gsc-digest.md @ 962c007dcda330fbaf1f5e738c393ae9043ce0fd",
+          "fetched_at": "2026-11-09",
+          "window": "3 months: 2026-08-08 to 2026-11-07",
+          "quote": "No row for '1010 tips', '1010 strategy', or '10x10 block puzzle high score' appears anywhere in the digest's query lists. The only 1010-related entry is the page performance of the already-published comparison post: /blog/1010-vs-block-blast 6/169/3.6%/5.0 (3 months).",
+          "rows": [
+            {
+              "query": "1010 tips",
+              "clicks": 0,
+              "impressions": 0
+            }
+          ]
+        }
+      ],
+      "supplementary": [
+        {
+          "kind": "web-search",
+          "url": "https://www.gamezebo.com/walkthroughs/1010-world-tips-cheats-and-strategies/",
+          "fetched_at": "2026-11-16",
+          "quote": "Place the largest or most awkward pieces first since they're harder to fit later; always leave a spot open for 3x3 pieces; aim for both row and column clears rather than only one direction."
+        }
+      ],
+      "demand_label": "none-observed",
+      "limits": "No first-party row of any kind matches this topic's intent terms in the stored digest; this is the absence of a signal, not a measured one. The only first-party data point touching \"1010\" is the existing 1010-vs-block-blast comparison page's own performance, which is a different query intent (head-to-head comparison, not strategy tips) and does not stand in for this topic. Public tips sites for 1010! (gamezebo, touchtapplay, heavy.com) are supplementary context only and never substitute for first-party demand on this site.",
+      "summary": "No first-party evidence of search demand exists yet for a 1010!-specific tips guide. This is proposed as the quarter's one exploratory topic: the sibling Woodoku-tips proposal in this same batch carries a thin but real signal, competitor tips sites for 1010! are well established in the genre, and the format funnels to Dhamaka the same way the existing comparison post already does, at no cost to any currently ranking page."
+    },
+    "exploratory": true,
+    "exploration_note": "No matching first-party row exists for 1010-specific strategy queries, but the sibling Woodoku-tips proposal in this batch shows a thin real signal for the equivalent query, and public competitor tips guides for 1010! (gamezebo, touchtapplay, heavy.com) show this content type has a track record in the genre. Worth the one exploratory slot this quarter; if it under-performs like most of the gameplay-tips cluster, it should not be repeated for other competitors without new evidence.",
+    "overlap_check": {
+      "result": "distinct",
+      "checked_against": [
+        "1010-vs-block-blast",
+        "best-block-puzzle-games-for-kids-family",
+        "best-offline-block-puzzle-games",
+        "block-blast-alternatives",
+        "block-puzzle-common-mistakes",
+        "block-puzzle-games-before-bed",
+        "block-puzzle-games-cloud-save-no-lost-progress",
+        "block-puzzle-games-for-focus-concentration",
+        "block-puzzle-games-india",
+        "block-puzzle-games-low-storage-small-size",
+        "block-puzzle-games-no-ads",
+        "block-puzzle-high-score-when-stuck",
+        "block-puzzle-screen-time-digital-wellbeing",
+        "block-puzzle-stress-relief-no-timer",
+        "blockudoku-vs-block-blast",
+        "combo-multipliers-block-puzzle",
+        "dhamaka-blocks-cloud-save-leaderboards-update",
+        "dhamaka-blocks-coins-boosters-update",
+        "dhamaka-blocks-daily-reward-streak-guide",
+        "dhamaka-blocks-play-games-swap-update",
+        "dhamaka-blocks-tips-and-tricks",
+        "how-to-increase-score-dhamaka-blocks",
+        "how-to-play-dhamaka-blocks",
+        "is-block-puzzle-good-for-your-brain",
+        "is-dhamaka-blocks-free-safe-offline",
+        "made-in-india-mobile-games",
+        "tetris-vs-block-puzzle-games",
+        "woodoku-vs-block-blast"
+      ],
+      "checked_at": "2026-11-16",
+      "notes": "Closest existing page is 1010-vs-block-blast, a side-by-side comparison table (grid size, pacing, Dhamaka as third pick), not a 1010!-specific strategy walkthrough (piece-placement order, corner-clearing, row-vs-column clearing). No other existing post covers 1010! gameplay strategy. No exact intent term is shared with any published or proposed entry."
+    }
   }
 ]
-
