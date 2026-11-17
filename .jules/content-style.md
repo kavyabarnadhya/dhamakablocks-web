@@ -159,20 +159,24 @@ CI), which requires:
   appear in the quote. Public web search and competitor research go only in
   `evidence.supplementary` and never satisfy this. Never claim a live check
   that was not run.
-- **Observed demand, or a labelled exploration.** `evidence.demand_label` is
-  `observed`, `thin` or `none-observed`, with `evidence.limits` and
-  `evidence.summary`.
-  - `observed` or `thin` needs at least one `rows` entry with impressions whose
-    query matches one of the topic's `intent` terms. "At least one impression"
-    is the definition of observed, not a demand threshold; a few impressions are
-    labelled `thin`. Only first-party rows count.
-  - `none-observed` (no matching row) can proceed only as an explicit
-    exploratory topic: `exploratory: true` plus an `exploration_note` saying
-    honestly why it is worth a test. At most one exploratory topic per calendar
-    quarter (by `proposed_at`), counting published ones.
-  - Thin or absent data is never described as validation, and no impression
-    cutoff is invented. A proposal is an editorial suggestion for the owner to
-    weigh, not a demand finding or a promise of clicks.
+- **Observed demand, with a real click.** `evidence.demand_label` is always
+  `observed`, with `evidence.limits` and `evidence.summary`.
+  - `observed` needs at least one `rows` entry with at least one **click** (not
+    just impressions) whose query matches one of the topic's `intent` terms.
+    Impressions alone no longer qualify a topic to be proposed — a query can
+    show up in Search Console at any position without anyone choosing this site
+    for it. Only first-party rows count.
+  - There is no exploratory/experimental pathway. A topic with impressions but
+    no clicks, or with no first-party data at all, is not proposed; it waits
+    for a later digest or check to show a real click, or it is dropped. (Before
+    2026-11-17 this section allowed a `thin` label on impressions-only rows and
+    a `none-observed`/`exploratory` slot for topics with no data at all; a
+    2026-11-16 proposal used both in the same PR and the owner closed it for
+    weak evidence, so both were removed.)
+  - A small, real click count is still never described as validation or proof,
+    and no click-count cutoff beyond "at least one" is invented. A proposal is
+    an editorial suggestion for the owner to weigh, not a demand finding or a
+    promise of future clicks.
 - **An intent-overlap check** (`overlap_check`): result `distinct`, covering
   every existing blog page, with notes; and no exact `intent` term shared with
   a published or proposed entry. A `retired`, `rejected` or `skipped` topic can
@@ -254,10 +258,12 @@ proposals only; it never makes anything writable:
    check as `gsc-live`, GA4 as `ga4`) goes in `evidence.first_party` with
    source, date, window and quoted rows (zero results too); public search and
    competitor research go only in `evidence.supplementary`. Set
-   `demand_label` and `limits` honestly: propose only topics that have a matching
-   first-party row with impressions (add it to `rows`), or mark a topic
-   `exploratory` with a note (one per quarter). Never call thin or absent data
-   validation, invent no cutoffs, and never claim a live check you did not run.
+   `demand_label` and `limits` honestly: propose only topics that already have a
+   matching first-party row with at least one real click (add it to `rows`) —
+   impressions alone, or no first-party data at all, are not enough, and there
+   is no exploratory/experimental pathway around this. Never call a small click
+   count validation, invent no cutoffs beyond "at least one", and never claim a
+   live check you did not run.
    `overlap_check` records that you compared the topic's intent with every
    existing blog page. Do not re-propose a retired, rejected or skipped topic
    unless new first-party evidence addresses its recorded reason (put it in

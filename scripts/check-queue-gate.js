@@ -17,14 +17,14 @@
 //     or GA4/traffic, with source, date, window and quoted rows (a zero result is
 //     quoted too). Public web search and competitor research are SUPPLEMENTARY
 //     only and can never satisfy this.
-//   - an honest demand label (observed / thin / none-observed) and written
-//     limits. Thin or absent data is labelled, never described as validation.
-//     Query-level data is recorded as structured `rows`. "observed" or "thin"
-//     needs at least one first-party row with impressions that matches the
-//     entry's intent ("at least one impression" is the definition of observed,
-//     not a demand threshold). A topic with no matching row ("none-observed") may
-//     proceed only as an explicit `exploratory: true` topic with an
-//     `exploration_note`, and at most one exploratory topic per calendar quarter.
+//   - a real, observed click, not just impressions. `evidence.demand_label` is
+//     always "observed", and "observed" needs at least one first-party row with
+//     at least one CLICK (impressions alone no longer qualify) that matches the
+//     entry's intent. There is no exploratory/experimental pathway: a topic with
+//     impressions but no clicks, or with no first-party data at all, is not
+//     proposed. (Tightened 2026-11-17, after a pilot proposal rode on a single
+//     zero-click impression and a data-free "exploratory" slot; both loopholes
+//     are removed.)
 //   - an intent-overlap check covering every existing blog page, marked
 //     "distinct", and no exact intent term shared with a published or proposed
 //     entry. A retired/rejected/skipped topic may only be re-proposed with an
@@ -54,7 +54,7 @@ const STATUSES = new Set(['published', 'proposed', 'retired', 'rejected', 'skipp
 const BASE_KEYS = ['slug', 'title', 'intent', 'angle', 'internal_links', 'status', 'publish_after'];
 const FIRST_PARTY_KINDS = new Set(['gsc-live', 'gsc-digest', 'ga4']);
 const SUPPLEMENTARY_KINDS = new Set(['web-search', 'competitor-research']);
-const DEMAND_LABELS = new Set(['observed', 'thin', 'none-observed']);
+const DEMAND_LABELS = new Set(['observed']);
 const VALIDATION_CLAIM_RE = /\bvalidat(?:e|ed|es|ing|ion)\b|\bproves?\b|\bproven\b|\bconfirms? (?:the )?demand\b/i;
 
 // ---------- helpers ----------
@@ -103,9 +103,11 @@ function listBlogSlugs(root) {
 
 // ---------- per-entry checks ----------
 
-// A "matching row" is a first-party query row with at least one impression whose
-// query matches one of the entry's intent terms. "At least one impression" is what
-// the label "observed" means; it is a definition, not a demand threshold.
+// A "matching row" is a first-party query row with at least one real CLICK (not
+// just an impression) whose query matches one of the entry's intent terms. A
+// topic may only be proposed once a real search is already sending a click to
+// the site; impressions alone are evidence that the query exists, not that
+// anyone is choosing this site for it.
 function demandProblems(rec, ev) {
   const p = [];
   const rows = [];
@@ -132,19 +134,12 @@ function demandProblems(rec, ev) {
     const x = q.trim().toLowerCase();
     return x.length >= 3 && terms.some((t) => x === t || x.includes(t) || t.includes(x));
   };
-  const matching = rows.filter((r) => nonEmpty(r.query) && Number.isInteger(r.impressions) && r.impressions >= 1 && matches(r.query));
-  const label = ev.demand_label;
-  if (label === 'observed' || label === 'thin') {
-    if (!matching.length) {
-      p.push(`demand_label "${label}" needs at least one first-party query row with impressions that matches the entry's intent`);
-    }
-    if (rec.exploratory !== undefined) p.push('exploratory is only for none-observed topics');
-  } else if (label === 'none-observed') {
-    if (matching.length) p.push('demand_label is none-observed but a matching first-party row shows impressions');
-    if (rec.exploratory !== true) {
-      p.push('a topic with no observed first-party demand may only proceed as an explicit exploratory topic (exploratory: true)');
-    }
-    if (!nonEmpty(rec.exploration_note, 20)) p.push('exploration_note is missing (say honestly why this is worth a test)');
+  const matching = rows.filter((r) => nonEmpty(r.query) && Number.isInteger(r.clicks) && r.clicks >= 1 && matches(r.query));
+  if (ev.demand_label === 'observed' && !matching.length) {
+    p.push("demand_label \"observed\" needs at least one first-party query row with a real click (impressions alone are not enough) that matches the entry's intent");
+  }
+  if (rec.exploratory !== undefined) {
+    p.push('exploratory topics are no longer accepted: every proposal needs its own first-party click, not a labelled experiment');
   }
   return p;
 }
@@ -192,9 +187,8 @@ function proposalShapeProblems(rec, policy) {
     if (!DEMAND_LABELS.has(ev.demand_label)) p.push(`evidence.demand_label must be one of ${[...DEMAND_LABELS].join('/')}`);
     if (!nonEmpty(ev.limits, 20)) p.push('evidence.limits is missing (state the limits of the first-party data honestly)');
     if (!nonEmpty(ev.summary, 20)) p.push('evidence.summary is missing');
-    if ((ev.demand_label === 'thin' || ev.demand_label === 'none-observed')
-      && VALIDATION_CLAIM_RE.test(`${ev.summary || ''} ${ev.limits || ''} ${rec.angle || ''}`)) {
-      p.push('thin or absent first-party data must not be described as validation');
+    if (VALIDATION_CLAIM_RE.test(`${ev.summary || ''} ${ev.limits || ''} ${rec.angle || ''}`)) {
+      p.push('a small, real click count must not be overstated as proof or validation of demand');
     }
     demandProblems(rec, ev).forEach((b) => p.push(b));
   }
@@ -277,18 +271,6 @@ function validateQueue(queue, ctx = {}) {
       }
     }
   });
-  // At most one exploratory topic per calendar quarter (by proposed_at).
-  const byQuarter = {};
-  for (const r of queue) {
-    if (r.exploratory !== true || (r.status !== 'proposed' && r.status !== 'published')) continue;
-    if (Number.isNaN(parseDate(r.proposed_at))) continue;
-    const d = new Date(parseDate(r.proposed_at));
-    const q = `${d.getUTCFullYear()}-Q${Math.floor(d.getUTCMonth() / 3) + 1}`;
-    (byQuarter[q] = byQuarter[q] || []).push(r.slug);
-  }
-  for (const [q, slugs] of Object.entries(byQuarter)) {
-    if (slugs.length > 1) errors.push(`more than one exploratory topic in ${q}: ${slugs.join(', ')}`);
-  }
   return errors;
 }
 
@@ -344,7 +326,6 @@ function main(argv) {
         slug: r.slug,
         proposed_at: r.proposed_at,
         demand_label: r.evidence && r.evidence.demand_label,
-        exploratory: r.exploratory === true,
         fingerprint: fingerprint(r),
       })),
       note: 'The scheduled routine only proposes. If any proposal is listed it is waiting for the owner: do not research and do not write.',

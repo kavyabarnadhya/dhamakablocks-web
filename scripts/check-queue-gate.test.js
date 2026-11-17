@@ -1,11 +1,12 @@
 'use strict';
 
 // Proves the proposal gate. The scheduled routine only proposes: every proposed
-// entry needs first-party evidence (public search is supplementary only), an
-// honest demand label with limits, and a clean intent-overlap check; legacy
-// "queued", "approved" and any approval block are invalid; retired topics are
-// protected from silent re-proposal. Fixtures only: no network, no approval, no
-// article output.
+// entry needs first-party evidence (public search is supplementary only) with at
+// least one real click matching its intent — impressions alone, and the old
+// exploratory/no-data pathway, are refused — plus limits and a clean
+// intent-overlap check; legacy "queued", "approved" and any approval block are
+// invalid; retired topics are protected from silent re-proposal. Fixtures only:
+// no network, no approval, no article output.
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
@@ -142,28 +143,26 @@ test('missing demand label or limits is invalid', () => {
   assert.ok(has(validate(proposal((x) => { x.evidence.demand_label = 'validated'; })), /demand_label must be one of/));
 });
 
-// A topic with no matching first-party row: only valid as an explicit exploratory topic.
-const exploratory = (x) => {
-  x.evidence.demand_label = 'none-observed';
-  x.evidence.first_party[0].rows = [];
-  x.evidence.first_party[0].quote = 'Query filter returned 0 rows: 0 clicks, 0 impressions in the window.';
-  x.evidence.summary = 'No matching queries were observed; this is an editorial test, not demand.';
-  x.exploratory = true;
-  x.exploration_note = 'Tests whether an unserved angle earns any impressions; chosen on editorial grounds.';
-};
+test('"thin" and "none-observed" are no longer valid demand labels: a real click is required', () => {
+  assert.ok(has(validate(proposal((x) => { x.evidence.demand_label = 'thin'; })), /demand_label must be one of/));
+  assert.ok(has(validate(proposal((x) => { x.evidence.demand_label = 'none-observed'; })), /demand_label must be one of/));
+});
 
-test('a thin topic (a few impressions) is accepted when labelled; there is no impression cutoff beyond one matching row', () => {
-  const thin = proposal((x) => {
-    x.evidence.demand_label = 'thin';
+test('impressions alone no longer qualify a topic: a matching row needs at least one real click', () => {
+  const oneImpressionNoClick = proposal((x) => {
     x.evidence.first_party[0].quote = 'new topic query 0 clicks / 1 impression / pos 9.0 (query table).';
     x.evidence.first_party[0].rows = [{ query: 'new topic query', clicks: 0, impressions: 1 }];
     x.evidence.summary = 'Only a single impression was observed; no clicks.';
   });
-  assert.deepEqual(validate(thin), []);
-  assert.ok(!/min|threshold|cutoff/i.test(Object.keys(gate.POLICY_DEFAULTS).join(' ')), 'policy must contain no demand threshold');
+  assert.ok(has(validate(oneImpressionNoClick), /needs at least one first-party query row with a real click/));
+  const manyImpressionsNoClicks = proposal((x) => {
+    x.evidence.first_party[0].quote = 'new topic query 0 clicks / 400 impressions (query table).';
+    x.evidence.first_party[0].rows = [{ query: 'new topic query', clicks: 0, impressions: 400 }];
+  });
+  assert.ok(has(validate(manyImpressionsNoClicks), /needs at least one first-party query row with a real click/), 'a high impression count still does not substitute for a click');
 });
 
-test('observed or thin needs a matching first-party row with impressions: the label alone is not enough', () => {
+test('observed needs a matching first-party row with a real click: the label alone is not enough', () => {
   assert.ok(has(validate(proposal((x) => { x.evidence.first_party[0].rows = []; })), /needs at least one first-party query row/));
   assert.ok(has(validate(proposal((x) => { delete x.evidence.first_party[0].rows; })), /needs at least one first-party query row/));
   assert.ok(has(validate(proposal((x) => { x.evidence.first_party[0].rows = [{ query: 'new topic query', clicks: 0, impressions: 0 }]; })), /needs at least one first-party query row/));
@@ -180,32 +179,17 @@ test('row data must be consistent with the quoted text', () => {
   assert.ok(has(validate(proposal((x) => { x.evidence.first_party[0].rows = [{ query: 'a query not in the quote', clicks: 1, impressions: 5 }]; })), /must appear in the quoted rows/));
 });
 
-test('no observed demand: only an explicit, noted exploratory topic can proceed', () => {
-  assert.deepEqual(validate(proposal(exploratory)), []);
-  assert.ok(has(validate(proposal((x) => { exploratory(x); delete x.exploratory; })), /explicit exploratory topic/));
-  assert.ok(has(validate(proposal((x) => { exploratory(x); x.exploration_note = 'test'; })), /exploration_note is missing/));
-  assert.ok(has(validate(proposal((x) => { exploratory(x); x.evidence.first_party[0].rows = [{ query: 'new topic query', clicks: 0, impressions: 12 }]; x.evidence.first_party[0].quote += ' new topic query 12 impressions'; })), /none-observed but a matching first-party row/));
-});
-
-test('exploratory is not a way around the evidence rule for topics that do have data', () => {
-  assert.ok(has(validate(proposal((x) => { x.exploratory = true; })), /exploratory is only for none-observed/));
-});
-
-test('at most one exploratory topic per calendar quarter, counting published ones; a new quarter is fine', () => {
-  const second = (over) => proposal((x) => {
-    exploratory(x);
-    x.slug = 'second-exploration'; x.intent = 'second exploration query';
-    Object.assign(x, over);
+test('there is no exploratory pathway: the field is refused outright, with or without a matching click', () => {
+  assert.ok(has(validate(proposal((x) => { x.exploratory = true; })), /exploratory topics are no longer accepted/));
+  const noDataWithExploratory = proposal((x) => {
+    x.evidence.first_party[0].rows = [];
+    x.evidence.first_party[0].quote = 'Query filter returned 0 rows: 0 clicks, 0 impressions in the window.';
+    x.exploratory = true;
+    x.exploration_note = 'Tests whether an unserved angle earns any clicks.';
   });
-  const first = proposal(exploratory); // proposed 2026-11-19 (2026-Q4)
-  const sameQuarter = second({ proposed_at: '2026-12-20', publish_after: '2026-12-24' });
-  sameQuarter.evidence.first_party[0].fetched_at = '2026-12-18';
-  assert.ok(has(gate.validateQueue([...base(), first, sameQuarter], { blogSlugs: BLOG }), /more than one exploratory topic in 2026-Q4/));
-  const nextQuarter = second({ proposed_at: '2027-01-10', publish_after: '2027-01-14' });
-  nextQuarter.evidence.first_party[0].fetched_at = '2027-01-08';
-  assert.deepEqual(gate.validateQueue([...base(), first, nextQuarter], { blogSlugs: BLOG }), []);
-  const publishedExploration = { ...published('earlier-exploration', 'earlier exploration query'), exploratory: true, proposed_at: '2026-10-05' };
-  assert.ok(has(gate.validateQueue([...base(), publishedExploration, first], { blogSlugs: BLOG }), /more than one exploratory topic in 2026-Q4/));
+  const errs = validate(noDataWithExploratory);
+  assert.ok(has(errs, /exploratory topics are no longer accepted/));
+  assert.ok(has(errs, /needs at least one first-party query row/), 'both the missing-click and the exploratory-field errors are reported');
 });
 
 test('--check-writable applies the same evidence rule', () => {
@@ -213,16 +197,16 @@ test('--check-writable applies the same evidence rule', () => {
   const res = cli(fixtureRoot([...base(), noData]), ['--check-writable', 'new-topic', '--today', TODAY]);
   assert.equal(res.status, 1);
   assert.ok(JSON.parse(res.stdout).reasons.some((r) => /needs at least one first-party query row/.test(r)));
-  const exploring = cli(fixtureRoot([...base(), proposal(exploratory)]), ['--check-writable', 'new-topic', '--today', TODAY]);
-  assert.equal(exploring.status, 0, exploring.stdout);
+  const impressionsOnly = proposal((x) => { x.evidence.first_party[0].rows = [{ query: 'new topic query', clicks: 0, impressions: 50 }]; });
+  const res2 = cli(fixtureRoot([...base(), impressionsOnly]), ['--check-writable', 'new-topic', '--today', TODAY]);
+  assert.equal(res2.status, 1);
+  assert.ok(JSON.parse(res2.stdout).reasons.some((r) => /real click/.test(r)));
 });
 
-test('thin or absent data described as validation is refused', () => {
-  for (const label of ['thin', 'none-observed']) {
-    for (const words of ['This validates the topic.', 'The data proves demand exists.', 'It confirms demand for the article.']) {
-      const errs = validate(proposal((x) => { x.evidence.demand_label = label; x.evidence.summary = `${words} A few rows were seen.`; }));
-      assert.ok(has(errs, /must not be described as validation/), `${label}: ${words}`);
-    }
+test('a small, real click count described as validation is refused', () => {
+  for (const words of ['This validates the topic.', 'The data proves demand exists.', 'It confirms demand for the article.']) {
+    const errs = validate(proposal((x) => { x.evidence.summary = `${words} A few real clicks were seen.`; }));
+    assert.ok(has(errs, /must not be overstated as proof or validation/), words);
   }
 });
 
