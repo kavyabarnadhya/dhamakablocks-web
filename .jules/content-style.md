@@ -330,7 +330,15 @@ Reading the feed: each run, fetch `https://status.search.google.com/incidents.js
 - A rollout ends at `end`. If `end` is empty, the rollout is still running:
   treat it as running through today.
 - A window is "clean" if no rollout overlaps it, counting each rollout as
-  lasting 3 extra days after its end for data lag.
+  lasting 3 extra days after its end for data lag. Ranking incidents without a
+  "Released" update (for example a reported ranking bug) do not make a window
+  unclean; mention them in the run report. Dates are compared as calendar
+  dates; the 3-day margin covers time zones.
+- A digest's 28-day window is the 28 days ending on its last data date.
+  Record a baseline as `baseline: {window_start, window_end, page_28d_clicks,
+  page_28d_impressions, site_28d_clicks, digest_date}`. A baseline counts as
+  clean only if you checked its window against the feed when recording it;
+  otherwise set `provisional: true`.
 
 Decision rules:
 1. **Clean baseline.** An edit may be auto-reverted only if its `baseline` is a
@@ -346,13 +354,15 @@ Decision rules:
    after the merge, stop considering that edit for auto-revert. Report it to the
    owner with the latest numbers.
 4. **Feed unreachable.** If the feed cannot be read, make no revert decision
-   this run. Say so in the run report and send a push notification: the host
-   may need to be allowed in the routine's network settings. Never revert on a
-   guess.
+   this run and say so in the run report. Send a push notification only when
+   an edit was due for a decision; the host may need to be allowed in the
+   routine's network settings. Never revert on a guess.
 5. **No reactive edits.** Do not propose edits to a page only because it moved
    during a rollout. Google's guidance is to wait at least a full week after an
    update finishes, then compare periods. Judge pages on windows that start at
-   least a week after the rollout's end.
+   least a week after the rollout's end. This week-long wait is for editorial
+   judgement; the shorter 3-day margin above only decides whether a window is
+   clean enough for revert decisions.
 
 ## Weekly summary
 
@@ -377,8 +387,8 @@ unwritten. Research produces proposals only:
 
 1. Read `.jules/gsc-digest.md` (and any GA4 / Play data the digest or the data
    repo provides). Steer by the data, highest expected gain first. Prefer
-   **first-party, practical content**. Google does not say what core updates
-   change. Early analyses of the November 2026 core update by SEO analysts are
+   **first-party, practical content**. Google gives little detail about what core
+   updates change. Early analyses of the November 2026 core update by SEO analysts are
    observations, not Google statements. SISTRIX (UK visibility data) and
    Rheinwunder (German sector data, reported by seo-kreativ.de) saw gains for
    official sites on searches for their own name and for original data

@@ -230,6 +230,6 @@
     "publish_after": "2026-11-25",
     "published_at": "2026-11-25",
     "merge_commit": "fc20615dcbee15523dee8d31df0b2a1d3c3c37ad",
-    "baseline": {"page_28d_clicks": 59, "page_28d_impressions": 2431, "site_28d_clicks": 89, "digest_date": "2026-11-23", "provisional": true, "note": "Measured during the November 2026 core update (2026-11-10 to 2026-11-24), so this edit is monitor-only (never auto-reverted) per content-style.md 'Google ranking updates'. Report it against this baseline; the owner decides."}
+    "baseline": {"window_start": "2026-10-25", "window_end": "2026-11-21", "page_28d_clicks": 59, "page_28d_impressions": 2431, "site_28d_clicks": 89, "digest_date": "2026-11-23", "provisional": true, "note": "Measured during the November 2026 core update (2026-11-10 to 2026-11-24), so this edit is monitor-only (never auto-reverted) per content-style.md 'Google ranking updates'. Report it against this baseline; the owner decides."}
   }
 ]
