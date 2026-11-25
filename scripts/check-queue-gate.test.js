@@ -1,12 +1,14 @@
 'use strict';
 
-// Proves the proposal gate. The scheduled routine only proposes: every proposed
-// entry needs first-party evidence (public search is supplementary only) with at
-// least one real click matching its intent — impressions alone, and the old
-// exploratory/no-data pathway, are refused — plus limits and a clean
-// intent-overlap check; legacy "queued", "approved" and any approval block are
-// invalid; retired topics are protected from silent re-proposal. Fixtures only:
-// no network, no approval, no article output.
+// Proves the proposal gate. Every proposed entry needs first-party evidence
+// (public search, competitor and AI-question research are supplementary only)
+// and an honest demand label: "observed" needs a matching click,
+// "impressions-only" a matching impression, "unproven" supplementary research;
+// the weaker two need a review date. Page edits need the target's own page data.
+// Legacy "queued", "approved" and any approval block are invalid; retired topics
+// are protected from silent re-proposal. Approval is only the owner merging a
+// batch PR, proved against git history and GitHub's merged-by record. Fixtures
+// only: no network, no article output.
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
@@ -179,17 +181,131 @@ test('row data must be consistent with the quoted text', () => {
   assert.ok(has(validate(proposal((x) => { x.evidence.first_party[0].rows = [{ query: 'a query not in the quote', clicks: 1, impressions: 5 }]; })), /must appear in the quoted rows/));
 });
 
-test('there is no exploratory pathway: the field is refused outright, with or without a matching click', () => {
-  assert.ok(has(validate(proposal((x) => { x.exploratory = true; })), /exploratory topics are no longer accepted/));
+test('the old "exploratory" field is refused: weak evidence is labelled instead', () => {
+  assert.ok(has(validate(proposal((x) => { x.exploratory = true; })), /"exploratory" field is not used/));
   const noDataWithExploratory = proposal((x) => {
     x.evidence.first_party[0].rows = [];
     x.evidence.first_party[0].quote = 'Query filter returned 0 rows: 0 clicks, 0 impressions in the window.';
     x.exploratory = true;
-    x.exploration_note = 'Tests whether an unserved angle earns any clicks.';
   });
   const errs = validate(noDataWithExploratory);
-  assert.ok(has(errs, /exploratory topics are no longer accepted/));
-  assert.ok(has(errs, /needs at least one first-party query row/), 'both the missing-click and the exploratory-field errors are reported');
+  assert.ok(has(errs, /"exploratory" field is not used/));
+  assert.ok(has(errs, /needs at least one first-party query row/), 'an "observed" label with no click is still refused');
+});
+
+// ---------- weaker, honestly labelled evidence (added 2026-11-25) ----------
+
+const impressionsOnly = (mutate) => proposal((x) => {
+  x.evidence.first_party[0].quote = 'new topic query 0 clicks / 40 impressions / pos 6.1 (query table).';
+  x.evidence.first_party[0].rows = [{ query: 'new topic query', clicks: 0, impressions: 40 }];
+  x.evidence.demand_label = 'impressions-only';
+  x.evidence.review_after_weeks = 8;
+  x.evidence.summary = 'The query shows impressions but no clicks yet; reviewed 8 weeks after publishing.';
+  if (mutate) mutate(x);
+});
+const unproven = (mutate) => proposal((x) => {
+  x.evidence.first_party[0].quote = 'Query filter for "new topic" returned 0 rows (0 clicks, 0 impressions) in the window.';
+  x.evidence.first_party[0].rows = [];
+  x.evidence.supplementary = [{ kind: 'competitor-research', url: 'https://example.com/c', fetched_at: '2026-11-18', quote: 'Three competitor pages rank for this question; the site has none.' }];
+  x.evidence.demand_label = 'unproven';
+  x.evidence.review_after_weeks = 6;
+  x.evidence.summary = 'No first-party data; a competitor gap suggests the question exists. Reviewed after 6 weeks.';
+  if (mutate) mutate(x);
+});
+
+test('impressions-only: a matching row with impressions and no click is accepted, with a review date', () => {
+  assert.deepEqual(validate(impressionsOnly()), []);
+  assert.ok(has(validate(impressionsOnly((x) => { delete x.evidence.review_after_weeks; })), /review_after_weeks/));
+  assert.ok(has(validate(impressionsOnly((x) => { x.evidence.review_after_weeks = 52; })), /review_after_weeks/));
+  const zero = impressionsOnly((x) => { x.evidence.first_party[0].rows = [{ query: 'new topic query', clicks: 0, impressions: 0 }]; });
+  assert.ok(has(validate(zero), /"impressions-only" needs at least one first-party query row with impressions/));
+  const unrelated = impressionsOnly((x) => {
+    x.evidence.first_party[0].quote = 'totally different words 0 clicks / 40 impressions.';
+    x.evidence.first_party[0].rows = [{ query: 'totally different words', clicks: 0, impressions: 40 }];
+  });
+  assert.ok(has(validate(unrelated), /matches the entry's intent/));
+});
+
+test('unproven: no first-party match, but supplementary research and a review date are required', () => {
+  assert.deepEqual(validate(unproven()), []);
+  for (const kind of ['web-search', 'ai-question']) {
+    assert.deepEqual(validate(unproven((x) => { x.evidence.supplementary[0].kind = kind; })), [], kind);
+  }
+  assert.ok(has(validate(unproven((x) => { delete x.evidence.supplementary; })), /"unproven" needs at least one supplementary item/));
+  assert.ok(has(validate(unproven((x) => { delete x.evidence.review_after_weeks; })), /review_after_weeks/));
+  assert.ok(has(validate(unproven((x) => { x.evidence.first_party = []; })), /first_party is empty/), 'the zero first-party result must still be quoted');
+});
+
+test('weaker labels are never described as validation', () => {
+  assert.ok(has(validate(unproven((x) => { x.evidence.summary = 'Competitor rankings prove the demand.'; })), /must not be overstated/));
+});
+
+// ---------- page edits (added 2026-11-25) ----------
+
+function edit(mutate) {
+  const rec = {
+    slug: 'edit-alpha-post-2026-11-19',
+    type: 'edit',
+    target: 'alpha-post',
+    title: 'Sharpen the search snippet of Alpha Post',
+    intent: 'alpha query',
+    angle: 'Page 1 position, low click-through: rewrite title and meta description.',
+    internal_links: [],
+    status: 'proposed',
+    proposed_at: '2026-11-19',
+    publish_after: '2026-11-22',
+    changes: [
+      { element: 'title', proposed: 'Alpha Query: The Short, Direct Answer (2026)', reason: 'Title does not match the top query wording.' },
+      { element: 'meta-description', proposed: 'Opens by answering the searcher directly.', reason: 'Low click-through at position 5.' },
+    ],
+    evidence: {
+      first_party: [{
+        kind: 'gsc-digest',
+        source: '.jules/gsc-digest.md at commit abc1234',
+        fetched_at: '2026-11-17',
+        window: '3 months to 2026-11-07',
+        quote: '/blog/alpha-post 2/600/0.3%/5.4 (page table); alpha query 1/200 (query table).',
+        rows: [{ page: '/blog/alpha-post', clicks: 2, impressions: 600 }, { query: 'alpha query', clicks: 1, impressions: 200 }],
+      }],
+      demand_label: 'observed',
+      limits: 'One stored digest; page and query rows are not joined; small numbers.',
+      summary: 'The page ranks on page 1 with low click-through; a snippet rewrite may lift it.',
+    },
+  };
+  if (mutate) mutate(rec);
+  return rec;
+}
+
+test('a page edit with a target, concrete changes and the target page\'s own data is valid (no overlap check needed)', () => {
+  assert.deepEqual(validate(edit()), []);
+});
+
+test('a page edit needs an edit- slug, an existing target and concrete changes', () => {
+  assert.ok(has(validate(edit((x) => { x.slug = 'alpha-rewrite'; })), /must start with "edit-"/));
+  assert.ok(has(validate(edit((x) => { x.target = 'ghost-post'; x.evidence.first_party[0].rows[0].page = '/blog/ghost-post'; x.evidence.first_party[0].quote += ' /blog/ghost-post'; })), /edit target "ghost-post" has no blog page/));
+  assert.ok(has(validate(edit((x) => { x.changes = []; })), /non-empty "changes"/));
+  assert.ok(has(validate(edit((x) => { x.changes[0].element = 'everything'; })), /element must be one of/));
+  assert.ok(has(validate(edit((x) => { x.type = 'rewrite'; })), /type must be one of new\/edit/));
+});
+
+test('a page edit needs a first-party page row for its own target with impressions', () => {
+  const noPage = edit((x) => { x.evidence.first_party[0].rows = [{ query: 'alpha query', clicks: 1, impressions: 200 }]; });
+  assert.ok(has(validate(noPage), /page edit needs at least one first-party page row for \/blog\/alpha-post/));
+  const otherPage = edit((x) => {
+    x.evidence.first_party[0].quote = '/blog/beta-post 2/600 (page table); alpha query 1/200.';
+    x.evidence.first_party[0].rows[0].page = '/blog/beta-post';
+  });
+  assert.ok(has(validate(otherPage), /page row for \/blog\/alpha-post/));
+  const fullUrl = edit((x) => {
+    x.evidence.first_party[0].quote = 'https://dhamakablocks.com/blog/alpha-post 2/600; alpha query 1/200.';
+    x.evidence.first_party[0].rows[0].page = 'https://dhamakablocks.com/blog/alpha-post';
+  });
+  assert.deepEqual(validate(fullUrl), []);
+});
+
+test('only one proposed edit per target at a time', () => {
+  const second = edit((x) => { x.slug = 'edit-alpha-post-2026-11-20'; });
+  assert.ok(has(validate(edit(), [second]), /another proposed edit .* already targets "alpha-post"/));
 });
 
 test('--check-writable applies the same evidence rule', () => {
@@ -269,12 +385,110 @@ test('the fingerprint changes when the proposal (including evidence) is edited, 
   assert.equal(gate.fingerprint(a), gate.fingerprint(proposal()));
 });
 
-test('the module exposes only the proposal checks: no approval handling and a single policy default', () => {
+test('the module exposes the proposal checks, the merge-based approval check and a single policy default', () => {
   assert.deepEqual(Object.keys(gate).sort(), [
-    'POLICY_DEFAULTS', 'contentHash', 'fingerprint', 'listBlogSlugs', 'parseDate',
-    'proposalContextProblems', 'proposalShapeProblems', 'validateQueue',
+    'APPROVER_LOGIN', 'BATCH_BRANCH_PREFIX', 'POLICY_DEFAULTS', 'approvedEntries', 'contentHash', 'fingerprint',
+    'listBlogSlugs', 'parseDate', 'prRejection', 'proposalContextProblems', 'proposalShapeProblems', 'validateQueue',
   ]);
   assert.deepEqual(Object.keys(gate.POLICY_DEFAULTS), ['maxEvidenceAgeDaysAtProposal']);
+  assert.equal(gate.APPROVER_LOGIN, 'kavyabarnadhya');
+});
+
+test('adding page-edit fields did not change the fingerprint of a new-post entry; edit changes are fingerprinted', () => {
+  // Value produced by the pre-2026-11-25 script for the same record.
+  const rec = { slug: 'new-topic', title: 'A New Topic', intent: 'x', angle: 'y', internal_links: ['a'], publish_after: '2026-11-22', evidence: { a: 1 }, overlap_check: { b: 2 } };
+  assert.equal(gate.fingerprint(rec), '84128be29db7');
+  assert.notEqual(gate.fingerprint(edit()), gate.fingerprint(edit((x) => { x.changes[0].proposed = 'A different proposed title text.'; })));
+});
+
+// ---------- approval = the owner merging a batch PR ----------
+
+const { execFileSync } = require('child_process');
+function gitRepo(initialQueue) {
+  const root = fixtureRoot(initialQueue);
+  const g = (...a) => execFileSync('git', ['-C', root, ...a], { encoding: 'utf8' }).trim();
+  g('init', '-q', '-b', 'main');
+  g('config', 'user.email', 't@example.com'); g('config', 'user.name', 't');
+  g('add', '-A'); g('commit', '-q', '-m', 'base');
+  return { root, g };
+}
+const writeQueue = (root, q) => fs.writeFileSync(path.join(root, 'content-queue.json'), JSON.stringify(q, null, 2));
+const readQueue = (root) => JSON.parse(fs.readFileSync(path.join(root, 'content-queue.json'), 'utf8'));
+function mergeBatch({ root, g }, queue, branch = 'content/queue-refresh-2026-11-19') {
+  g('checkout', '-q', '-b', branch);
+  writeQueue(root, queue);
+  g('commit', '-q', '-am', 'batch');
+  g('checkout', '-q', 'main');
+  g('merge', '-q', '--no-ff', '-m', 'merge batch', branch);
+  return g('rev-parse', 'HEAD');
+}
+const pr = (sha, over = {}) => ({
+  number: 7, baseRefName: 'main', headRefName: 'content/queue-refresh-2026-11-19',
+  mergedBy: { login: 'kavyabarnadhya' }, mergeCommit: { oid: sha }, ...over,
+});
+const approvedSlugs = (root, prs) => gate.approvedEntries(root, readQueue(root), prs, { fetch: false }).approved.map((a) => a.slug).sort();
+
+test('approval: entries added by a batch PR the owner merged into main are approved; each carries its fingerprint', () => {
+  const repo = gitRepo(base());
+  const sha = mergeBatch(repo, [...base(), proposal(), edit()]);
+  assert.deepEqual(approvedSlugs(repo.root, [pr(sha)]), ['edit-alpha-post-2026-11-19', 'new-topic']);
+  const one = gate.approvedEntries(repo.root, readQueue(repo.root), [pr(sha)], { fetch: false }).approved.find((a) => a.slug === 'new-topic');
+  assert.equal(one.fingerprint, gate.fingerprint(proposal()));
+  assert.equal(one.pr, 7);
+});
+
+test('approval: a merge by anyone else, into another branch, or from a non-batch branch approves nothing', () => {
+  const repo = gitRepo(base());
+  const sha = mergeBatch(repo, [...base(), proposal()]);
+  assert.deepEqual(approvedSlugs(repo.root, [pr(sha, { mergedBy: { login: 'someone-else' } })]), []);
+  assert.deepEqual(approvedSlugs(repo.root, [pr(sha, { mergedBy: null })]), []);
+  assert.deepEqual(approvedSlugs(repo.root, [pr(sha, { baseRefName: 'dev' })]), []);
+  assert.deepEqual(approvedSlugs(repo.root, [pr(sha, { headRefName: 'feature/sneaky' })]), []);
+  assert.deepEqual(approvedSlugs(repo.root, []), []);
+  const res = gate.approvedEntries(repo.root, readQueue(repo.root), [pr(sha, { mergedBy: { login: 'x' } })], { fetch: false });
+  assert.match(res.ignored[0].reason, /not kavyabarnadhya/);
+});
+
+test('approval: an entry edited after the merge is no longer approved (fingerprint mismatch)', () => {
+  const repo = gitRepo(base());
+  const sha = mergeBatch(repo, [...base(), proposal()]);
+  writeQueue(repo.root, [...base(), proposal((x) => { x.angle = 'Quietly changed after approval.'; })]);
+  repo.g('commit', '-q', '-am', 'edit after merge');
+  assert.deepEqual(approvedSlugs(repo.root, [pr(sha)]), []);
+});
+
+test('approval: an entry already on main before the batch PR is not approved by merging that PR', () => {
+  const repo = gitRepo([...base(), proposal()]); // pushed to main some other way
+  const sha = mergeBatch(repo, [...base(), proposal(), edit()]);
+  assert.deepEqual(approvedSlugs(repo.root, [pr(sha)]), ['edit-alpha-post-2026-11-19']);
+});
+
+test('approval: an entry already written (status published) is not listed again', () => {
+  const repo = gitRepo(base());
+  const sha = mergeBatch(repo, [...base(), proposal()]);
+  writeQueue(repo.root, [...base(), { ...proposal(), status: 'published' }]);
+  repo.g('commit', '-q', '-am', 'written');
+  assert.deepEqual(approvedSlugs(repo.root, [pr(sha)]), []);
+});
+
+test('approval: a merge commit missing from local history is reported, not trusted', () => {
+  const repo = gitRepo(base());
+  const res = gate.approvedEntries(repo.root, readQueue(repo.root), [pr('0'.repeat(40))], { fetch: false });
+  assert.deepEqual(res.approved, []);
+  assert.match(res.ignored[0].reason, /not in local history/);
+});
+
+test('CLI --approved reads the gh pr list output and lists approved entries', () => {
+  const repo = gitRepo(base());
+  const sha = mergeBatch(repo, [...base(), proposal()]);
+  const prsFile = path.join(repo.root, 'prs.json');
+  fs.writeFileSync(prsFile, JSON.stringify([pr(sha), pr(sha, { number: 8, mergedBy: { login: 'bot' } })]));
+  const res = cli(repo.root, ['--approved', '--prs', prsFile, '--no-fetch', '--today', TODAY]);
+  assert.equal(res.status, 0, res.stderr);
+  const out = JSON.parse(res.stdout);
+  assert.deepEqual(out.approved.map((a) => a.slug), ['new-topic']);
+  assert.equal(out.ignored_prs[0].pr, 8);
+  assert.equal(cli(repo.root, ['--approved']).status, 2, '--prs is required');
 });
 
 // ---------- CLI + real queue ----------
@@ -289,13 +503,13 @@ function fixtureRoot(queue) {
 }
 const cli = (root, args) => spawnSync(process.execPath, [CLI, '--root', root, ...args], { encoding: 'utf8' });
 
-test('CLI --proposals lists waiting proposals (the routine\'s "do nothing" signal) and states that it only proposes', () => {
-  const root = fixtureRoot([...base(), proposal()]);
+test('CLI --proposals lists proposals and states that the list alone never permits writing', () => {
+  const root = fixtureRoot([...base(), proposal(), edit()]);
   const res = cli(root, ['--proposals', '--today', TODAY]);
   assert.equal(res.status, 0, res.stderr);
   const out = JSON.parse(res.stdout);
-  assert.deepEqual(out.proposals.map((p) => p.slug), ['new-topic']);
-  assert.match(out.note, /only proposes/);
+  assert.deepEqual(out.proposals.map((p) => [p.slug, p.type]), [['new-topic', 'new'], ['edit-alpha-post-2026-11-19', 'edit']]);
+  assert.match(out.note, /never written on the strength of this list/);
   assert.match(out.policy.note, /not an SEO or demand threshold/);
 });
 

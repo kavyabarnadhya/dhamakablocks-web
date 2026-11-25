@@ -3,7 +3,7 @@
 Generated: 2026-11-23 (weekly job). Source: Google Search Console, property `sc-domain:dhamakablocks.com`, read-only pull.
 Windows: last 28 days (2026-10-25 to 2026-11-21) and last 3 months (2026-08-22 to 2026-11-21). Rolling windows that overlap previous editions; do not read window-over-window deltas as weekly growth. GSC data lags 2-3 days. Total-impression cards display rounded values (9.79k, 4.87k); page-table sums (10,070 / 5,001) run higher because one query can count impressions on several pages.
 
-Owner rule (set 2026-10-19): steering applies to NEW topics only. Do not propose edits to existing published posts.
+Owner rule (changed 2026-11-25): steering applies to new topics AND to edits of existing published posts (the 2026-10-19 "new topics only" rule is lifted). Edits are proposed as `type: "edit"` queue entries and approved like any batch entry.
 
 ## Totals
 
@@ -74,10 +74,9 @@ Patterns: (a) "block blast" comparison intent drives nearly all clicks; (b) "no 
 
 ## How the routine should use this
 
-- Prefer new topics in clusters 1-3 (comparison, India, honest no-ads angle).
+- Highest expected gain first: page edits on high-impression, low-CTR page-1 pages (blockudoku-vs, woodoku-vs, high-score-when-stuck, before-bed, best-offline, tetris-vs, common-mistakes) and on block-blast-alternatives' main queries; then new topics in clusters 1-3 (comparison, India, honest no-ads angle).
 - Do not propose new topics in the wellness cluster (6) unless a rising query appears above.
 - Never claim Dhamaka Blocks is ad-free or "small size" without measurement.
-- Do not propose edits to existing published posts (owner rule, 2026-10-19).
 - Diwali: event ended Nov 11 and demand decayed; do not propose Diwali or seasonal-festival topics from this data.
-- Queue gate is live and TIGHTENED (PR #149 merged 2026-11-13; PR #153 merged 2026-11-17): every proposal must quote first-party evidence from this digest (source, date, window, rows) with at least one real click on a matching row - the "thin" and exploratory/none-observed pathways are removed. The 2026-11-23 routine run complied: it opened no PR, because no unwritten topic currently has a matching row with a real click.
+- Queue gate (changed 2026-11-25): every proposal still quotes first-party evidence from this digest (source, date, window, rows, including a zero result), with an honest label - `observed` (a matching row with a click), `impressions-only` (a matching row with impressions) or `unproven` (no match; competitor-gap, web-search or AI-question research required). The weaker two carry a review date. See .jules/content-style.md.
 - If this file is missing or older than 10 days, say so in the PR body and fall back to the normal topic-selection rules.
