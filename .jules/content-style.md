@@ -132,6 +132,86 @@ body differs but whose dates didn't move — it warns, it doesn't block, since
 the cosmetic-vs-real distinction isn't mechanically decidable. Read its
 warning and use judgment, don't reflexively bump every flagged file.
 
+## Data sources (added 2026-11-25)
+
+First-party data comes from two places. Use them in this order.
+
+**1. The automated digest.** This is `digest.md` in the private repo
+`kavyabarnadhya/dhamaka-seo-data`, which the routine checks out next to this
+repo (usually `../dhamaka-seo-data`). A GitHub Action rewrites it read-only
+from Search Console, GA4 and Play Console every Monday at about 06:41 IST (the
+schedule can slip by an hour or more).
+- Its header line gives `Generated: <date>` and "Search Console data ends
+  <date>". The second date is the digest's last data date.
+- Sections, and where each one prints its dates:
+  - Search Console totals: rows for the last 28 days, the previous 28 days and
+    the last 90 days. Each row's dates are in its Window column.
+  - Weekly series: complete Monday-Sunday weeks, dated in the "Week of"
+    column. The last full week can end before the last data date.
+  - Pages: the heading gives the dates for "Clicks" (last 28 days) and for
+    "Prev" (previous 28 days).
+  - Top queries: the heading gives the 90-day dates.
+  - GA4: the heading gives the 28-day dates. It covers AI-assistant referrals
+    and Play Store clicks by page, counting only visitors who accepted
+    analytics cookies.
+  - Play Console bulk reports: this and last month; they arrive with a few
+    days' delay.
+  - Google ranking updates: the last 180 days, or "None.".
+- A GA4, Play Console or ranking-update section that reads "Could not be read
+  this run: ..." or "Not configured." is unavailable this week. Never guess
+  its numbers.
+- The `Generated:` date is the day of the pull; it may differ from the commit
+  date.
+- The raw rows are in `data/<Generated date>/bundle.json`. That file also holds
+  page x query rows for 90 days that the digest does not show.
+
+**2. The manual digest.** This is `.jules/gsc-digest.md` in this repo, written by
+the owner. Always follow the owner's notes and rules in it. Use its numbers only
+as a fallback (see below).
+
+**Which one to use.** A digest qualifies if its `Generated:` date is at most 10
+days before the date you are working to (`proposed_at` for a proposal; today for
+monitoring). This is the same 10-day rule the queue gate applies to
+`fetched_at`.
+- If the automated digest qualifies, use it. That means the checkout exists,
+  `digest.md` exists, and its date qualifies.
+- Otherwise use the manual digest if it qualifies, and say in the PR body why
+  the automated one was not used.
+- If neither qualifies, propose nothing that needs first-party evidence and
+  make no revert decision this run. Report it, with a push notification.
+
+**How to cite it.**
+- Search Console rows use `kind: "gsc-digest"`; GA4 rows use `kind: "ga4"`.
+- `source`: `dhamaka-seo-data/digest.md at commit <sha>`. Get the sha with
+  `git -C ../dhamaka-seo-data rev-parse --short HEAD`, and check that
+  `git -C ../dhamaka-seo-data status --porcelain` prints nothing, so that the
+  file matches that commit.
+- `fetched_at`: the `Generated:` date.
+- `window`, depending on the rows you quote:
+  - Search Console totals: the Window column of the row;
+  - Pages, Top queries, GA4: the dates in the section heading. For page rows,
+    give the "Clicks" window and, if you quote "Prev", that window too;
+  - Weekly series: from the Monday of the first week you quote to the Sunday
+    of the last.
+- Quote the rows exactly, so that each row's query or page appears in the
+  quote.
+
+**Monitoring and comparisons.**
+- Baselines and comparisons use the automated digest's "Last 28 days" totals
+  row (window: its Window column) and the per-page "Clicks" column (window: the
+  "last 28 days" dates in the Pages heading). Both are the 28 days ending on
+  the last data date.
+- Before and after a ranking update, compare whole weeks from the weekly
+  series. Never compare overlapping rolling windows as if they showed weekly
+  growth.
+
+**Ranking updates.** The Search Status Dashboard feed stays authoritative (see
+"Google ranking updates" below). The digest's ranking-update list is only a
+cross-check. If the two disagree, or the feed cannot be read, follow that
+section's rules and mention the disagreement in the run report.
+
+Both digests are stored snapshots: never call them live.
+
 ## How the content loop works (changed 2026-11-25)
 
 Goal set by the owner on 2026-11-25: grow search clicks, AI-answer citations
@@ -170,7 +250,8 @@ Every `proposed` entry must pass `node scripts/check-queue-gate.js` (also run by
 CI), which requires:
 
 - **First-party evidence** (`evidence.first_party[]`): Search Console
-  (`gsc-live` for a live check, `gsc-digest` for the stored weekly digest) or
+  (`gsc-live` for a live check, `gsc-digest` for a stored digest, automated or
+  manual; see "Data sources") or
   GA4/traffic (`ga4`), each with `source`, `fetched_at`, `window` and the quoted
   rows relied on. Quote a zero result too: if the digest has no matching row,
   say so in the quote. Record query rows as `{query, clicks, impressions}` and
@@ -385,8 +466,8 @@ Run when there is no open `content/queue-refresh-*` PR (one waiting means the
 owner has not reviewed it yet) and fewer than 4 approved entries are still
 unwritten. Research produces proposals only:
 
-1. Read `.jules/gsc-digest.md` (and any GA4 / Play data the digest or the data
-   repo provides). Steer by the data, highest expected gain first. Prefer
+1. Read the automated digest and the manual digest as described in "Data
+   sources". Steer by the data, highest expected gain first. Prefer
    **first-party, practical content**. Google gives little detail about what core
    updates change. Early analyses of the November 2026 core update by SEO analysts are
    observations, not Google statements. SISTRIX (UK visibility data) and
