@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__github__pull_request_read",
+      "Bash(node scripts/check-queue-gate.js)",
+      "Bash(node --test scripts/check-queue-gate.test.js)",
+      "mcp__claude-code-remote__list_triggers",
+      "Bash(node scripts/check-drafting-markers.js)",
+      "Bash(node scripts/check-play-store-utm.js)",
+      "mcp__claude-code-remote__list_repos"
+    ]
+  }
+}
