@@ -134,42 +134,70 @@ warning and use judgment, don't reflexively bump every flagged file.
 
 ## Data sources (added 2026-11-25)
 
-First-party data comes from two places. Use them in this order:
+First-party data comes from two places. Use them in this order.
 
-1. **The automated digest** in the private repo `kavyabarnadhya/dhamaka-seo-data`,
-   which the routine has checked out next to this repo (for example
-   `../dhamaka-seo-data/digest.md`). A GitHub Action rewrites it every Monday
-   morning (IST) from Search Console, GA4 and Play Console, read-only. It has:
-   - totals for the last 28 days, the previous 28 days and 90 days, each with
-     its exact date window;
-   - a **weekly series** of complete Monday-Sunday weeks, to read trends and
-     compare before and after a ranking update;
-   - per-page rows (this window and the previous one) and top queries;
-   - GA4 referrals from AI assistants and Play Store clicks by page;
-   - Play Console reports, when available;
-   - the Google ranking-update list.
-   
-   The raw rows are in `data/<date>/bundle.json`. "Search Console data ends
-   <date>" is the digest's last data date.
-2. **The manual digest** `.jules/gsc-digest.md` in this repo, written by the
-   owner. It carries the owner's notes and rules (keep following them). Use its
-   numbers only when the automated digest is missing, or more than 10 days old
-   by its `Generated:` date, and say so in the PR body.
+**1. The automated digest.** This is `digest.md` in the private repo
+`kavyabarnadhya/dhamaka-seo-data`, which the routine checks out next to this
+repo (usually `../dhamaka-seo-data`). A GitHub Action rewrites it read-only
+from Search Console, GA4 and Play Console every Monday at about 06:41 IST (the
+schedule can slip by an hour or more).
+- Its header line gives `Generated: <date>` and "Search Console data ends
+  <date>". The second date is the digest's last data date.
+- Every section heading names its exact date window:
+  - Search Console totals: the last 28 days, the previous 28 days and the last
+    90 days;
+  - a weekly series of complete Monday-Sunday weeks;
+  - pages: the last 28 days, with "Prev" for the previous 28 days;
+  - top queries: the last 90 days;
+  - GA4 (last 28 days): AI-assistant referrals and Play Store clicks by page,
+    counting only visitors who accepted analytics cookies;
+  - Play Console bulk reports, which arrive with a few days' delay;
+  - a list of Google ranking updates.
+- A section that reads "Could not be read this run: ..." or "Not configured."
+  is unavailable this week. Never guess its numbers.
+- The raw rows are in `data/<Generated date>/bundle.json`. That file also holds
+  page x query rows for 90 days that the digest does not show.
 
-How to cite and use it:
-- Cite the automated digest as `kind: "gsc-digest"` (Search Console rows) or
-  `kind: "ga4"` (GA4 rows).
-  - `source`: `dhamaka-seo-data/digest.md at commit <short sha>`;
-  - `fetched_at`: its `Generated:` date;
-  - `window`: the window printed in that section;
-  - quote the rows exactly.
-- Monitoring baselines and comparisons use the automated digest's "Last 28
-  days" row and per-page rows. Their window is printed next to the row.
-- Before and after a ranking update, compare whole weeks from the weekly series.
-  Never compare overlapping rolling windows as if they were weekly growth.
-- If a section says "Could not be read this run" (for example Play Console
-  access), treat that source as unavailable. Never guess its numbers.
-- Both digests are stored snapshots: never call them live.
+**2. The manual digest.** This is `.jules/gsc-digest.md` in this repo, written by
+the owner. Always follow the owner's notes and rules in it. Use its numbers only
+as a fallback (see below).
+
+**Which one to use.** A digest qualifies if its `Generated:` date is at most 10
+days before the date you are working to (`proposed_at` for a proposal; today for
+monitoring). This is the same 10-day rule the queue gate applies to
+`fetched_at`.
+- If the automated digest qualifies, use it. That means the checkout exists,
+  `digest.md` exists, and its date qualifies.
+- Otherwise use the manual digest if it qualifies, and say in the PR body why
+  the automated one was not used.
+- If neither qualifies, propose nothing that needs first-party evidence and
+  make no revert decision this run. Report it, with a push notification.
+
+**How to cite it.**
+- Search Console rows use `kind: "gsc-digest"`; GA4 rows use `kind: "ga4"`.
+- `source`: `dhamaka-seo-data/digest.md at commit <sha>`. Get the sha with
+  `git -C ../dhamaka-seo-data rev-parse --short HEAD`, and check that
+  `git -C ../dhamaka-seo-data status --porcelain` prints nothing, so that the
+  file matches that commit.
+- `fetched_at`: the `Generated:` date.
+- `window`: the dates printed in that section's heading.
+- Quote the rows exactly, so that each row's query or page appears in the
+  quote.
+
+**Monitoring and comparisons.**
+- Baselines and comparisons use the automated digest's "Last 28 days" totals
+  row and its per-page rows. Their window is the 28 days ending on the last
+  data date, as printed.
+- Before and after a ranking update, compare whole weeks from the weekly
+  series. Never compare overlapping rolling windows as if they showed weekly
+  growth.
+
+**Ranking updates.** The Search Status Dashboard feed stays authoritative (see
+"Google ranking updates" below). The digest's ranking-update list is only a
+cross-check. If the two disagree, or the feed cannot be read, follow that
+section's rules and mention the disagreement in the run report.
+
+Both digests are stored snapshots: never call them live.
 
 ## How the content loop works (changed 2026-11-25)
 
