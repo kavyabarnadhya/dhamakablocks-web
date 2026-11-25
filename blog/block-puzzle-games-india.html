@@ -538,6 +538,12 @@
       .game-card { padding: 18px 16px 16px; }
       .pro-con-row { flex-direction: column; gap: 12px; }
     }
+
+    /* Visible without scroll-reveal or JavaScript. */
+    .cta-section.above-fold-cta { margin: 18px 0 28px; padding: 18px; }
+    .cta-section.above-fold-cta p { margin-bottom: 12px; font-size: 16px; }
+    .above-fold-cta .cta-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 14px 24px; letter-spacing: 0.5px; }
+    @media (max-width: 640px) { .ornament { margin-bottom: 18px; } .cta-section.above-fold-cta { margin: 14px 0 24px; padding: 14px; } .above-fold-cta .cta-btn { padding: 12px 16px; font-size: 15px; } }
   </style>
 </head>
 <body>
@@ -572,6 +578,12 @@
         <p>Block puzzle games have built a dedicated following across India for three very practical reasons. First, they work completely offline — no Wi-Fi, no mobile data, no problem. In a country where network quality varies significantly between cities, towns, and commutes, an offline-first game is not just convenient, it is essential.</p>
         <p>Second, there is no skill barrier. Block puzzles do not require fast reflexes, knowledge of fighting game combos, or hours of tutorial content. A 10-year-old and a 60-year-old can both pick up the same game and enjoy it immediately. Third, a single session lasts exactly as long as you want — three minutes on the metro or forty-five minutes at home before bed. That flexibility makes block puzzles one of the most-played casual game categories on the Indian Play Store.</p>
       </section>
+
+      <!-- Early CTA -->
+      <div class="cta-section above-fold-cta">
+        <p>Made by an Indian studio: an 8×8 block puzzle in saffron, gold and peacock green, with offline core play. Free on Android.</p>
+        <a href="https://play.google.com/store/apps/details?id=com.dhamakagames.dhamakablocks&utm_source=blog&utm_medium=hero_cta&utm_campaign=block-puzzle-games-india" class="cta-btn" target="_blank" rel="noopener noreferrer">Get it on Google Play</a>
+      </div>
 
       <!-- Section 2 -->
       <section class="reveal">
