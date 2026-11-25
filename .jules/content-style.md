@@ -314,24 +314,45 @@ old, compare the newest digest's 28-day numbers with the baseline:
 - If a later edit has touched the same page since, do not revert
   automatically: report it to the owner instead.
 
-**Google ranking updates (added 2026-11-25).** A core or other ranking update
-moves pages for reasons unrelated to our edits (the November 2026 core update
-ran 10-24 Nov, inside the first baselines). Each run, fetch
-`https://status.search.google.com/incidents.json` and note every incident whose
-affected product is Ranking, with its start and end dates.
+**Google ranking updates (added 2026-11-25).** Google's ranking updates (core,
+spam and others) move pages for reasons that have nothing to do with our edits.
+For example, the November 2026 core update ran 10-24 Nov, inside the baseline of
+the first monitored edit.
 
-- If any Ranking incident overlaps the baseline window or the comparison window
-  (each is the 28 days ending on that digest's last data date), make no revert
-  decision for that edit. Report it as "paused: Google ranking update <name>".
-- After such an incident ends, re-baseline from the first digest whose 28-day
-  window starts at least 3 days after the incident's end (data lag). Record it
-  as `baseline` and keep the old one as `baseline_superseded` with the reason.
-  The 4-week clock restarts from the new baseline date.
-- If the feed cannot be reached, make no revert decision this run and say so.
-  Never revert on a guess.
-- Do not propose reactive edits to pages only because they moved during an
-  update. Google's guidance is to wait at least a week after an update finishes
-  and then compare periods, so judge changes on post-update data.
+Reading the feed: each run, fetch `https://status.search.google.com/incidents.json`
+(a JSON list of incidents).
+- Use only items whose `service_name` is `Ranking`. Name each by `external_desc`.
+- A rollout starts at the `when` of the update whose `text` begins with
+  "Released".
+- A pre-announcement (only a "Preannounced" update, as for the December 2026
+  core update on 2026-11-24) has not started and does not count until a
+  "Released" update appears.
+- A rollout ends at `end`. If `end` is empty, the rollout is still running:
+  treat it as running through today.
+- A window is "clean" if no rollout overlaps it, counting each rollout as
+  lasting 3 extra days after its end for data lag.
+
+Decision rules:
+1. **Clean baseline.** An edit may be auto-reverted only if its `baseline` is a
+   clean window of 28 days ending on or before the edit's merge date. An edit
+   without one (for example `baseline.provisional: true`, measured during a
+   rollout) is **monitor-only**: never auto-revert it. Report its numbers
+   against the baseline in the weekly summary and leave the decision to the
+   owner. Never re-baseline from data collected after the edit.
+2. **Clean comparison.** The comparison window is the newest digest's 28 days.
+   It must start on or after the edit's merge date and be clean. If a rollout
+   overlaps it, make no decision this run and report "paused: <incident name>".
+3. **Pause limit.** If no clean comparison window has been available 12 weeks
+   after the merge, stop considering that edit for auto-revert. Report it to the
+   owner with the latest numbers.
+4. **Feed unreachable.** If the feed cannot be read, make no revert decision
+   this run. Say so in the run report and send a push notification: the host
+   may need to be allowed in the routine's network settings. Never revert on a
+   guess.
+5. **No reactive edits.** Do not propose edits to a page only because it moved
+   during a rollout. Google's guidance is to wait at least a full week after an
+   update finishes, then compare periods. Judge pages on windows that start at
+   least a week after the rollout's end.
 
 ## Weekly summary
 
@@ -356,21 +377,34 @@ unwritten. Research produces proposals only:
 
 1. Read `.jules/gsc-digest.md` (and any GA4 / Play data the digest or the data
    repo provides). Steer by the data, highest expected gain first. Prefer
-   **first-party, practical content**: the November 2026 core update rewarded
-   official sites for name searches and original data sources, and hurt
-   informational content written mainly to drive conversions, price-comparison
-   pages and broad explainers. So:
+   **first-party, practical content**. Google does not say what core updates
+   change. Early analyses of the November 2026 core update by SEO analysts are
+   observations, not Google statements. SISTRIX (UK visibility data) and
+   Rheinwunder (German sector data, reported by seo-kreativ.de) saw gains for
+   official sites on searches for their own name and for original data
+   sources, and losses for informational content written mainly to drive
+   conversions, for price-comparison and review platforms, and for broad
+   explainers. That is consistent with Google's long-standing guidance to make
+   helpful, people-first content. So:
    - Build pages on what only this site knows: exact scoring and combo tables,
-     booster costs, level gates, themes, real gameplay situations from
+     booster costs, level gates, themes, and real gameplay situations from
      "Confirmed game facts". Narrow, practical how-tos beat broad explainers.
    - A new comparison or alternatives page must add first-hand, specific
-     information that no existing post has. Never publish a near-duplicate
-     listicle that only reshuffles the same games.
+     information about Dhamaka Blocks, or say how the comparison was done (what
+     was checked, from which store listing, on which date), that no existing
+     post already has. Competitor facts stay hedged (see "Hard rules"). Never
+     publish a near-duplicate listicle that only reshuffles the same games.
    - Brand searches ("dhamaka game", "dhamak game") belong to the homepage and
-     official pages. Propose fixes when they do not rank first.
-   - The pre-announced December 2026 core update focuses on "longer and more
-     complex questions". Answer-first sections and FAQs that answer a full
-     question in the first sentence fit it.
+     official pages. A queue edit's target must be a blog post, so report
+     brand-search problems to the owner in the run report instead of proposing
+     them.
+   - Google's pre-announcement of the December 2026 core update (Search Status
+     Dashboard, 2026-11-24) says it "focuses on multiple improvements to how our
+     systems understand and rank relevant content (including for longer and
+     more complex questions)". Answer-first sections and FAQs that answer a full
+     question in the first sentence fit that.
+   - While a ranking update is rolling out or settling, treat digest-based
+     steering as provisional and say so in the batch PR.
    Then, in order:
    - **Page edits** on high-impression, low-CTR page-1 pages, and on the top
      page's main queries ("block blast alternative", "games like block blast")
