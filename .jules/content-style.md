@@ -314,6 +314,25 @@ old, compare the newest digest's 28-day numbers with the baseline:
 - If a later edit has touched the same page since, do not revert
   automatically: report it to the owner instead.
 
+**Google ranking updates (added 2026-11-25).** A core or other ranking update
+moves pages for reasons unrelated to our edits (the November 2026 core update
+ran 10-24 Nov, inside the first baselines). Each run, fetch
+`https://status.search.google.com/incidents.json` and note every incident whose
+affected product is Ranking, with its start and end dates.
+
+- If any Ranking incident overlaps the baseline window or the comparison window
+  (each is the 28 days ending on that digest's last data date), make no revert
+  decision for that edit. Report it as "paused: Google ranking update <name>".
+- After such an incident ends, re-baseline from the first digest whose 28-day
+  window starts at least 3 days after the incident's end (data lag). Record it
+  as `baseline` and keep the old one as `baseline_superseded` with the reason.
+  The 4-week clock restarts from the new baseline date.
+- If the feed cannot be reached, make no revert decision this run and say so.
+  Never revert on a guess.
+- Do not propose reactive edits to pages only because they moved during an
+  update. Google's guidance is to wait at least a week after an update finishes
+  and then compare periods, so judge changes on post-update data.
+
 ## Weekly summary
 
 On the Monday run, end with one push notification (under 200 characters)
@@ -336,7 +355,23 @@ owner has not reviewed it yet) and fewer than 4 approved entries are still
 unwritten. Research produces proposals only:
 
 1. Read `.jules/gsc-digest.md` (and any GA4 / Play data the digest or the data
-   repo provides). Steer by the data, highest expected gain first:
+   repo provides). Steer by the data, highest expected gain first. Prefer
+   **first-party, practical content**: the November 2026 core update rewarded
+   official sites for name searches and original data sources, and hurt
+   informational content written mainly to drive conversions, price-comparison
+   pages and broad explainers. So:
+   - Build pages on what only this site knows: exact scoring and combo tables,
+     booster costs, level gates, themes, real gameplay situations from
+     "Confirmed game facts". Narrow, practical how-tos beat broad explainers.
+   - A new comparison or alternatives page must add first-hand, specific
+     information that no existing post has. Never publish a near-duplicate
+     listicle that only reshuffles the same games.
+   - Brand searches ("dhamaka game", "dhamak game") belong to the homepage and
+     official pages. Propose fixes when they do not rank first.
+   - The pre-announced December 2026 core update focuses on "longer and more
+     complex questions". Answer-first sections and FAQs that answer a full
+     question in the first sentence fit it.
+   Then, in order:
    - **Page edits** on high-impression, low-CTR page-1 pages, and on the top
      page's main queries ("block blast alternative", "games like block blast")
      to move them toward the top 3.

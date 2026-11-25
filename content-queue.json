@@ -217,6 +217,19 @@
       ],
       "caveat": "Overlap with the existing page is a duplication risk, not a proven cannibalization effect. The signal is small either way."
     }
+  },
+  {
+    "slug": "edit-block-blast-alternatives-2026-11-25",
+    "type": "edit",
+    "target": "block-blast-alternatives",
+    "title": "Fix wrong competitor combo claim; retitle for 'games like block blast'",
+    "intent": "games like block blast, block blast alternative, block blast dupe",
+    "angle": "Edit 1 of 2 (PR #156): factual fix, new title/meta/h1, dates. Edit 2 (items 3-6) follows from 2026-12-02.",
+    "internal_links": [],
+    "status": "published",
+    "publish_after": "2026-11-25",
+    "published_at": "2026-11-25",
+    "merge_commit": "fc20615dcbee15523dee8d31df0b2a1d3c3c37ad",
+    "baseline": {"page_28d_clicks": 59, "page_28d_impressions": 2431, "site_28d_clicks": 89, "digest_date": "2026-11-23", "provisional": true, "note": "Measured during the November 2026 core update (2026-11-10 to 2026-11-24). Re-baseline from the first clean 28-day window per content-style.md 'Google ranking updates'."}
   }
 ]
-

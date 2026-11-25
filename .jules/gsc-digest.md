@@ -3,6 +3,8 @@
 Generated: 2026-11-23 (weekly job). Source: Google Search Console, property `sc-domain:dhamakablocks.com`, read-only pull.
 Windows: last 28 days (2026-10-25 to 2026-11-21) and last 3 months (2026-08-22 to 2026-11-21). Rolling windows that overlap previous editions; do not read window-over-window deltas as weekly growth. GSC data lags 2-3 days. Total-impression cards display rounded values (9.79k, 4.87k); page-table sums (10,070 / 5,001) run higher because one query can count impressions on several pages.
 
+Google ranking update in these windows: the November 2026 core update rolled out 2026-11-10 to 2026-11-24 (Search Status Dashboard, Ranking). Both windows below include it, so do not read changes in them as the effect of our edits. The first clean 28-day window starts about 2026-11-27 and will be in the digest from about 2026-12-28.
+
 Owner rule (changed 2026-11-25): steering applies to new topics AND to edits of existing published posts (the 2026-10-19 "new topics only" rule is lifted). Edits are proposed as `type: "edit"` queue entries and approved like any batch entry.
 
 ## Totals
