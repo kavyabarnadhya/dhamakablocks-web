@@ -5,6 +5,7 @@
 > India. Offline play, free to install.
 
 ## Key facts
+- Official website: https://dhamakablocks.com (the official site of Dhamaka Blocks, by Dhamaka Games)
 - Platform: Android (Google Play), free to install
 - Genre: block puzzle (grid drag-and-drop, line-clear, combo scoring)
 - Theme: Indian festive — saffron/gold palette, festival board themes
