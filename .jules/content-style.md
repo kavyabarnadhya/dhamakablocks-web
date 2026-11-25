@@ -160,8 +160,8 @@ schedule can slip by an hour or more).
 - A GA4, Play Console or ranking-update section that reads "Could not be read
   this run: ..." or "Not configured." is unavailable this week. Never guess
   its numbers.
-- The `Generated:` date is the day of the pull. The commit that holds it can be
-  a day later.
+- The `Generated:` date is the day of the pull; it may differ from the commit
+  date.
 - The raw rows are in `data/<Generated date>/bundle.json`. That file also holds
   page x query rows for 90 days that the digest does not show.
 
