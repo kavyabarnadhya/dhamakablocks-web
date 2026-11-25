@@ -1,0 +1,7 @@
+{
+  "_comment": "Owner's switch for the content loop's self-merge. Read from main by scripts/check-automerge.js; content PRs can never change this file. Set enabled to false to pause all auto-merges at once.",
+  "enabled": true,
+  "max_article_merges_per_7_days": 4,
+  "top_page": "block-blast-alternatives",
+  "top_page_min_days_between_edits": 7
+}

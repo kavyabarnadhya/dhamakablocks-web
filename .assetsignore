@@ -7,3 +7,6 @@ blog/_TEMPLATE.html
 scripts/check-queue-gate.js
 scripts/check-queue-gate.test.js
 .github/workflows/queue-gate-check.yml
+scripts/check-automerge.js
+scripts/check-automerge.test.js
+.github/workflows/automerge-check.yml

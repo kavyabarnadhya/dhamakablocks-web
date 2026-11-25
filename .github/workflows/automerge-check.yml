@@ -1,0 +1,27 @@
+name: Auto-merge Check
+
+# Deterministic half of the content loop's self-merge gate (see
+# scripts/check-automerge.js and .jules/content-style.md). Non-content PRs pass
+# with a notice and are never auto-merged. Content PRs (content/*) must touch
+# only allowed files, respect .jules/automerge.json on the base branch, and pass
+# the content lint. The loop merges a content PR only when this and every other
+# check is green AND the independent reviewer has posted a PASS.
+
+on:
+  pull_request:
+    branches: ["*"]
+
+jobs:
+  check-automerge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Self-test
+        run: node --test scripts/check-automerge.test.js
+      - name: Eligibility and content lint
+        env:
+          BASE_REF: ${{ github.base_ref }}
+          HEAD_REF: ${{ github.head_ref }}
+        run: node scripts/check-automerge.js --base "origin/$BASE_REF" --head-ref "$HEAD_REF"

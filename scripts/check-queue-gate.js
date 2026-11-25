@@ -5,9 +5,11 @@
 //
 // The scheduled routine proposes topics (new posts) and page edits (changes to an
 // existing post) in batches, as `status: "proposed"` entries on a
-// `content/queue-refresh-YYYY-MM-DD` branch, and opens a PR. APPROVAL = THE OWNER
-// MERGING THAT PR. The owner removes or edits any entry they do not want before
-// merging. Only entries that the merged PR itself added or changed count as
+// `content/queue-refresh-YYYY-MM-DD` branch, and opens a PR. APPROVAL = THAT PR
+// BEING MERGED INTO MAIN UNDER THE APPROVER ACCOUNT, either by the owner or, since
+// 2026-11-25, by the routine itself after the self-merge gate in
+// .jules/content-style.md (the routine's GitHub actions run under the owner's
+// account). The owner can remove or edit any entry before it is merged. Only entries that the merged PR itself added or changed count as
 // approved, and only while they are still exactly (by fingerprint) the revision
 // that was merged. `--approved` checks this against GitHub's own record of who
 // merged the PR (fetched by the routine with `gh pr list --json ...`), so nothing
@@ -339,7 +341,7 @@ function validateQueue(queue, ctx = {}) {
     if (rec.status === 'queued') {
       errors.push(`${id}: status "queued" is no longer valid; use "proposed"`);
     } else if (rec.status === 'approved') {
-      errors.push(`${id}: status "approved" is not used; approval is the owner merging the batch PR, checked with --approved`);
+      errors.push(`${id}: status "approved" is not used; approval is the batch PR being merged, checked with --approved`);
     } else if (!STATUSES.has(rec.status)) {
       errors.push(`${id}: unknown status "${rec.status}"`);
     }
@@ -451,7 +453,7 @@ function main(argv) {
     const ok = reasons.length === 0;
     console.log(JSON.stringify({
       slug, writable_checks_passed: ok, fingerprint: ok ? fingerprint(rec) : null, reasons,
-      approval: 'NOT checked here. Approval is the owner merging the batch PR; check it with --approved --prs <file>.',
+      approval: 'NOT checked here. Approval is the batch PR being merged into main; check it with --approved --prs <file>.',
     }, null, 2));
     return ok ? 0 : 1;
   }
