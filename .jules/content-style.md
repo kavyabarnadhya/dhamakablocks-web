@@ -143,18 +143,25 @@ from Search Console, GA4 and Play Console every Monday at about 06:41 IST (the
 schedule can slip by an hour or more).
 - Its header line gives `Generated: <date>` and "Search Console data ends
   <date>". The second date is the digest's last data date.
-- Every section heading names its exact date window:
-  - Search Console totals: the last 28 days, the previous 28 days and the last
-    90 days;
-  - a weekly series of complete Monday-Sunday weeks;
-  - pages: the last 28 days, with "Prev" for the previous 28 days;
-  - top queries: the last 90 days;
-  - GA4 (last 28 days): AI-assistant referrals and Play Store clicks by page,
-    counting only visitors who accepted analytics cookies;
-  - Play Console bulk reports, which arrive with a few days' delay;
-  - a list of Google ranking updates.
-- A section that reads "Could not be read this run: ..." or "Not configured."
-  is unavailable this week. Never guess its numbers.
+- Sections, and where each one prints its dates:
+  - Search Console totals: rows for the last 28 days, the previous 28 days and
+    the last 90 days. Each row's dates are in its Window column.
+  - Weekly series: complete Monday-Sunday weeks, dated in the "Week of"
+    column. The last full week can end before the last data date.
+  - Pages: the heading gives the dates for "Clicks" (last 28 days) and for
+    "Prev" (previous 28 days).
+  - Top queries: the heading gives the 90-day dates.
+  - GA4: the heading gives the 28-day dates. It covers AI-assistant referrals
+    and Play Store clicks by page, counting only visitors who accepted
+    analytics cookies.
+  - Play Console bulk reports: this and last month; they arrive with a few
+    days' delay.
+  - Google ranking updates: the last 180 days, or "None.".
+- A GA4, Play Console or ranking-update section that reads "Could not be read
+  this run: ..." or "Not configured." is unavailable this week. Never guess
+  its numbers.
+- The `Generated:` date is the day of the pull. The commit that holds it can be
+  a day later.
 - The raw rows are in `data/<Generated date>/bundle.json`. That file also holds
   page x query rows for 90 days that the digest does not show.
 
@@ -180,14 +187,20 @@ monitoring). This is the same 10-day rule the queue gate applies to
   `git -C ../dhamaka-seo-data status --porcelain` prints nothing, so that the
   file matches that commit.
 - `fetched_at`: the `Generated:` date.
-- `window`: the dates printed in that section's heading.
+- `window`, depending on the rows you quote:
+  - Search Console totals: the Window column of the row;
+  - Pages, Top queries, GA4: the dates in the section heading. For page rows,
+    give the "Clicks" window and, if you quote "Prev", that window too;
+  - Weekly series: from the Monday of the first week you quote to the Sunday
+    of the last.
 - Quote the rows exactly, so that each row's query or page appears in the
   quote.
 
 **Monitoring and comparisons.**
 - Baselines and comparisons use the automated digest's "Last 28 days" totals
-  row and its per-page rows. Their window is the 28 days ending on the last
-  data date, as printed.
+  row (window: its Window column) and the per-page "Clicks" column (window: the
+  "last 28 days" dates in the Pages heading). Both are the 28 days ending on
+  the last data date.
 - Before and after a ranking update, compare whole weeks from the weekly
   series. Never compare overlapping rolling windows as if they showed weekly
   growth.
