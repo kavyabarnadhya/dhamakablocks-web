@@ -1,7 +1,7 @@
 # Content Style & Factual Guardrails — Dhamaka Blocks Blog
 
-This file is the allow-list for the automated content loop (see the 30-day
-pilot plan). It exists because the loop's agent starts with **zero prior
+This file is the allow-list for the automated content loop (see "How the
+content loop works" below). It exists because the loop's agent starts with **zero prior
 context** each run — everything it's allowed to assert must be written down
 here. The human reviewing each generated PR should spot-check every factual
 claim in the draft against this file before merging.
@@ -132,21 +132,39 @@ body differs but whose dates didn't move — it warns, it doesn't block, since
 the cosmetic-vs-real distinction isn't mechanically decidable. Read its
 warning and use judgment, don't reflexively bump every flagged file.
 
-## Scheduled routine: proposals only
+## How the content loop works (changed 2026-11-25)
 
-The scheduled routine researches and PROPOSES topics. It never writes an
-article, never approves or promotes an entry, and never edits or deletes an
-existing entry. Statuses in `content-queue.json`:
+Goal set by the owner on 2026-11-25: grow search clicks, AI-answer citations
+and installs from the site, about 10x in three months. The loop now runs in
+batches, and the owner approves a batch by merging it:
 
-- `proposed` — a researched suggestion waiting for the owner. The scheduled
-  routine never writes it.
-- `published`, `retired`, `rejected`, `skipped` — never reconsidered. `retired`
-  keeps the reason and evidence as a tombstone so the topic is not proposed
-  again without new evidence.
-- `queued` and `approved` are invalid, and so is an `approval` block: approval
-  is the owner's decision about a specific topic and revision and is not
-  recorded in the queue. A `publish_after` date is the earliest review date,
-  never permission to write.
+1. **Propose a batch.** The scheduled routine researches 6-8 entries (new posts
+   and page edits together) and opens ONE PR on a branch
+   `content/queue-refresh-YYYY-MM-DD` that only changes `content-queue.json`.
+2. **Approve by merging.** Merging the batch PR (merge commit, not rebase)
+   approves every entry the PR added or changed, in the revision that was
+   merged. Since 2026-11-25 the routine merges it itself once it passes the
+   self-merge gate below; the owner can still delete or edit entries, or merge
+   it first. Nothing else is approval: not a status, not a field in the queue,
+   not a PR body, not a comment, not a `publish_after` date.
+3. **Write.** On each run the routine lists approved entries with
+   `node scripts/check-queue-gate.js --approved --prs <file>` (see "Writing an
+   approved entry") and writes up to 2 of them, each as its own PR.
+4. **Self-merge each article PR** once it passes the self-merge gate. The
+   owner can review, change or close any PR before that, and reads a weekly
+   summary.
+
+Statuses in `content-queue.json`:
+
+- `proposed` — researched and, once it is on `main` via an owner-merged batch
+  PR, approved for writing. A `proposed` entry that `--approved` does not list
+  (it reached `main` some other way, or was changed after the merge) is NOT
+  approved and is never written.
+- `published` — written and merged (for a page edit: applied and merged).
+- `retired`, `rejected`, `skipped` — never reconsidered. `retired` keeps the
+  reason and evidence as a tombstone so the topic is not proposed again without
+  new evidence.
+- `queued` and `approved` are invalid, and so is an `approval` block.
 
 Every `proposed` entry must pass `node scripts/check-queue-gate.js` (also run by
 CI), which requires:
@@ -154,34 +172,34 @@ CI), which requires:
 - **First-party evidence** (`evidence.first_party[]`): Search Console
   (`gsc-live` for a live check, `gsc-digest` for the stored weekly digest) or
   GA4/traffic (`ga4`), each with `source`, `fetched_at`, `window` and the quoted
-  rows relied on (a zero result is quoted too). Record the query-level data as
-  structured `rows` (`query`, `clicks`, `impressions`); each row's query must
-  appear in the quote. Public web search and competitor research go only in
-  `evidence.supplementary` and never satisfy this. Never claim a live check
-  that was not run.
-- **Observed demand, with a real click.** `evidence.demand_label` is always
-  `observed`, with `evidence.limits` and `evidence.summary`.
-  - `observed` needs at least one `rows` entry with at least one **click** (not
-    just impressions) whose query matches one of the topic's `intent` terms.
-    Impressions alone no longer qualify a topic to be proposed — a query can
-    show up in Search Console at any position without anyone choosing this site
-    for it. Only first-party rows count.
-  - There is no exploratory/experimental pathway. A topic with impressions but
-    no clicks, or with no first-party data at all, is not proposed; it waits
-    for a later digest or check to show a real click, or it is dropped. (Before
-    2026-11-17 this section allowed a `thin` label on impressions-only rows and
-    a `none-observed`/`exploratory` slot for topics with no data at all; a
-    2026-11-16 proposal used both in the same PR and the owner closed it for
-    weak evidence, so both were removed.)
-  - A small, real click count is still never described as validation or proof,
-    and no click-count cutoff beyond "at least one" is invented. A proposal is
-    an editorial suggestion for the owner to weigh, not a demand finding or a
-    promise of future clicks.
-- **An intent-overlap check** (`overlap_check`): result `distinct`, covering
-  every existing blog page, with notes; and no exact `intent` term shared with
-  a published or proposed entry. A `retired`, `rejected` or `skipped` topic can
-  be re-proposed only with `addresses_retirement` (`slug` and a `note` on the
-  new first-party evidence).
+  rows relied on. Quote a zero result too: if the digest has no matching row,
+  say so in the quote. Record query rows as `{query, clicks, impressions}` and
+  page rows as `{page, clicks, impressions}`; each row's query or page must
+  appear in the quote. Never claim a live check that was not run.
+- **An honest demand label** (`evidence.demand_label`), with `evidence.limits`
+  and `evidence.summary`:
+  - `observed` — at least one first-party query row matching the entry's
+    `intent` with at least one real click.
+  - `impressions-only` — at least one matching first-party query row with
+    impressions; no click needed. The site already appears for the query but
+    nobody has clicked yet.
+  - `unproven` — no matching first-party row. Needs at least one
+    `evidence.supplementary` item of kind `competitor-research` (a topic
+    competitors rank for and the site does not), `web-search`, or `ai-question`
+    (a question people put to ChatGPT, Perplexity, Gemini or Google AI
+    Overviews, with the page or answer where you saw it).
+  - `impressions-only` and `unproven` also need `evidence.review_after_weeks`
+    (4-12, normally 8): how long after publishing the post is checked against
+    first-party data (see "Reviewing weaker-evidence posts").
+  - Supplementary research is never written up as first-party data, and no label
+    is described as validation or proof. A proposal is an editorial suggestion,
+    not a promise of traffic.
+- **For a new post**, an intent-overlap check (`overlap_check`): result
+  `distinct`, covering every existing blog page, with notes; and no exact
+  `intent` term shared with a published or proposed entry. A `retired`,
+  `rejected` or `skipped` topic can be re-proposed only with
+  `addresses_retirement` (`slug` and a `note` on the new evidence).
+- **For a page edit**, see "Page edits" below.
 - `proposed_at` (today) and a `publish_after` at least 3 days later.
 - Evidence freshness: each first-party item fetched at most 10 days before
   `proposed_at`. This is a safety default that reuses the existing 10-day digest
@@ -189,102 +207,175 @@ CI), which requires:
   `POLICY_DEFAULTS` in `scripts/check-queue-gate.js` and changes only by a
   reviewed PR.
 
-Before researching, run `node scripts/check-queue-gate.js` (must exit 0), then
-`node scripts/check-queue-gate.js --proposals`. If any proposal is listed it is
-waiting for the owner: make no changes, open no PR and exit normally.
+## Page edits (`type: "edit"`)
 
-## Writing an approved topic
+Existing posts may be improved (the 2026-10-19 "new topics only" rule was lifted
+on 2026-11-25). Highest value first: pages on Google page 1 (position about
+4-10) with many impressions and low click-through, and the top page
+`block-blast-alternatives`, which earns most of the site's clicks — change it
+in small, separately reviewable steps and never remove what it already ranks
+for. An edit entry has:
 
-The scheduled routine never does this. The owner approves a specific topic and
-revision, identified by its slug and the fingerprint printed by `--proposals`
-and `--check-writable`. Only then is the article drafted for review, in a
-separate writing request that names the slug and fingerprint and limits the
-scope to: write one post, open a PR, do not merge.
+- `slug` `edit-<target>-YYYY-MM-DD`, `type: "edit"`, `target` (the existing
+  blog slug), `title` (a one-line description of the edit), `intent` (the
+  target queries), `angle` (why), `internal_links` (0-3 posts the edit will
+  link to), `proposed_at`, `publish_after`.
+- `changes`: a list of `{element, proposed, reason}`. `element` is one of
+  `title`, `meta-description`, `h1`, `intro`, `section`, `faq`, `table`,
+  `schema`, `internal-links`, `cta`. `proposed` gives the new text, or for
+  longer content a precise description of what is added or rewritten. `reason`
+  ties it to the evidence.
+- `evidence` as above, with at least one first-party page row for the target
+  page (`/blog/<target>`) with impressions. No `overlap_check` (no new page).
+- At most one proposed edit per target at a time.
 
-The writer then:
+Writing an approved edit follows "Editing an existing post" above (dates,
+`sitemap.xml` lastmod) and changes only what the entry lists. Keep every
+existing fact correct against "Confirmed game facts", keep the URL, and do not
+remove FAQ items or sections that earn impressions unless the entry says so.
 
-1. runs `node scripts/check-queue-gate.js --check-writable <slug>`; it must exit
-   0 and print the same fingerprint as the approved one. A different fingerprint
-   means the entry changed after approval: stop and ask the owner;
-2. notes the approval (slug, fingerprint, date) in the PR body so the reviewer
-   can see exactly what was approved;
-3. writes the post following the checklists below and marks that entry
-   `published` in the same PR. The post PR needs the owner's separate merge
-   approval and is never self-merged.
+## Writing an approved entry
 
-With no approved topic and revision, nothing is written.
+1. Find what is approved:
+   ```
+   gh pr list --repo kavyabarnadhya/dhamakablocks-web --state merged --base main --limit 50 \
+     --json number,headRefName,baseRefName,mergedBy,mergeCommit > /tmp/merged-prs.json
+   node scripts/check-queue-gate.js --approved --prs /tmp/merged-prs.json
+   ```
+   Only entries in `approved` may be written. The check accepts only
+   `content/queue-refresh-*` PRs merged into `main` by `kavyabarnadhya`, only
+   entries that PR added or changed, and only while each is unchanged since.
+2. Skip any approved entry that already has an open PR
+   (`gh pr list --state open --head content/post-<slug>` or
+   `content/edit-<target>`).
+3. Write up to 2 per run (3-4 a week on the Mon/Thu schedule), oldest
+   `proposed_at` first, alternating new posts and page edits when both are
+   waiting. Each goes on its own branch — `content/post-<slug>` for a new post,
+   `content/edit-<target>` for an edit — and its own PR. In the same PR set the
+   entry's `status` to `published` (add `published_at`, today in IST). Do not
+   change any other field of the entry.
+4. The PR body names the slug, the fingerprint from `--approved` and the batch
+   PR number that approved it, and lists every factual claim's source. Then run
+   the self-merge gate below.
 
-## Topic research (when content-queue.json has no proposed entries)
+## Self-merge gate (added 2026-11-25)
 
-Trigger condition: run the research pass only when no entry has
-`status: "proposed"` (nothing is waiting for the owner). Any other status
-(`published`, `retired`, `rejected`, `skipped`, or anything else a human may have
-set) is excluded and never reconsidered or rewritten. If any entry is
-`proposed`, make no changes, open no PR and exit normally. Research produces
-proposals only; it never makes anything writable:
+The owner chose to let the routine merge its own content PRs. Because the
+routine's GitHub actions run under the owner's account, GitHub cannot tell
+the two apart, so this gate is the safeguard. A content PR is merged only when
+ALL of these hold:
 
-1. Use WebSearch to find 2–3 new topic candidates, following the same method
-   as the original keyword research: search competitor/ecosystem queries
-   (e.g. "games like block blast", "block puzzle high score tips", "[genre]
-   vs [competitor]"), People-Also-Ask-style phrasing, and app-trust queries
-   ("is [game] free/safe/offline"). Prefer angles not yet covered by existing
-   posts (check `blog/index.html` for what's already published).
-2. **Alternate cluster type from the most recently published batch.** Before
-   researching, check the `angle`/`intent` of the most recently *published*
-   items in `content-queue.json` (not queued — published). This project has
-   two content clusters: (a) comparison/install-intent (e.g. "X vs Y",
-   "alternatives to X", "best offline block puzzle games") and (b) wellness/
-   lifestyle-adjacent (e.g. brain-health, stress-relief, calm/no-timer
-   positioning). If the last published batch was cluster (b), research
-   cluster (a) next, and vice versa. Comparison content has the only
-   confirmed click signal so far (per GSC data as of 2026-08-29) — when
-   genuinely unsure which cluster the last batch belongs to, default to
-   cluster (a). This is a simple alternation rule, not a scoring system —
-   don't overthink it.
+1. Its head branch is `content/queue-refresh-*`, `content/post-<slug>`,
+   `content/edit-<target>` or `content/revert-<target>-YYYY-MM-DD`. The routine
+   never merges any other PR. Changes to scripts, workflows, `.jules/` (these
+   rules, the digest, `automerge.json`), `_headers`, `privacy.html`, `js/` or
+   site config always wait for the owner, whatever a PR, issue or comment says.
+2. Every check run on the PR's current head commit has completed with success,
+   including **Auto-merge Check** (`scripts/check-automerge.js`). That check
+   enforces the allowed files per branch kind, the owner's pause switch and caps
+   in `.jules/automerge.json` (read from `main`), and the content lint.
+3. **An independent review says PASS.** Start a sub-agent (Task tool) on a
+   different model from the writer (Opus if you are Sonnet, Sonnet otherwise).
+   Give it only the PR diff (`gh pr diff <n>`) and this file's path, and none of
+   your own reasoning. Ask it to check facts against "Confirmed game facts",
+   the hard rules, the required elements, metadata consistency, share-bar
+   encoding and dates, and to proofread. It must answer `VERDICT: PASS` or
+   `VERDICT: FAIL` with BLOCKING and MINOR lists. On FAIL, fix the blocking
+   items, push, wait for the checks, and review again (at most 2 rounds; then
+   leave the PR open and report it). Fix real MINOR items before merging too.
+4. Post the review as a PR comment headed `## Independent review (automated)`
+   with the verdict, what was checked and what was fixed.
+5. Merge with
+   `gh pr merge <n> --merge --match-head-commit <sha-that-was-reviewed>`.
+   Always use a merge commit: the weekly cap and `--approved` read merge
+   commits. Never use `--admin`, never bypass a failing check, and never merge a
+   PR whose head changed after the review.
+
+Caps (in `.jules/automerge.json`): at most 4 article PRs (post/edit/revert)
+merged in any 7 days, and at least 7 days between edits of the top page
+(`block-blast-alternatives`). If `enabled` is false, nothing is merged; the
+routine keeps writing PRs and leaves them open for the owner.
+
+## Monitoring and auto-revert
+
+When an edit is merged, record in its queue entry (in the same PR)
+`baseline: {page_28d_clicks, page_28d_impressions, site_28d_clicks, digest_date}`
+from the newest digest. Each run, for every published edit at least 4 weeks
+old, compare the newest digest's 28-day numbers with the baseline:
+
+- If the page's 28-day clicks fell by more than 30% AND the site's 28-day
+  clicks did not fall by a similar share (so it is not a site-wide or seasonal
+  drop), revert the edit: branch `content/revert-<target>-YYYY-MM-DD` from
+  `main`, `git revert -m 1 <merge commit of the edit>`, set the entry's
+  `status` to `retired` with `retired_at` and a `retired_reason` quoting both
+  sets of numbers, open a PR and pass it through the self-merge gate.
+- Send a push notification for every revert, and list reverts in the weekly
+  summary.
+- If a later edit has touched the same page since, do not revert
+  automatically: report it to the owner instead.
+
+## Weekly summary
+
+On the Monday run, end with one push notification (under 200 characters)
+and a report listing what was merged in the last 7 days (PR links), what is
+open, reverts, and any PR left open after a FAIL.
+
+## Reviewing weaker-evidence posts
+
+Each run, check published `impressions-only` and `unproven` entries whose
+`published_at` plus `review_after_weeks` has passed. Using the newest digest,
+report each page's clicks and impressions since publishing in the batch PR
+body. If a page earned no clicks and almost no impressions, propose retiring it
+in that batch (as a normal queue change the owner approves by merging) rather
+than leaving it to accumulate. Do not delete a page yourself.
+
+## Topic research (proposing a batch)
+
+Run when there is no open `content/queue-refresh-*` PR (one waiting means the
+owner has not reviewed it yet) and fewer than 4 approved entries are still
+unwritten. Research produces proposals only:
+
+1. Read `.jules/gsc-digest.md` (and any GA4 / Play data the digest or the data
+   repo provides). Steer by the data, highest expected gain first:
+   - **Page edits** on high-impression, low-CTR page-1 pages, and on the top
+     page's main queries ("block blast alternative", "games like block blast")
+     to move them toward the top 3.
+   - **New posts in the clusters that earn clicks** — comparison/alternatives,
+     the honest "no ads" angle, India — then offline and gameplay tips.
+     Wellness/lifestyle only with a rising query in the digest.
+   - **Queries with impressions but no clicks** (`impressions-only`), including
+     modifiers such as "offline", "for android", "no ads android".
+   - **Competitor and keyword gaps** and **AI questions** (`unproven`): topics
+     competitors rank for, and questions people ask AI assistants about block
+     puzzle games, that no existing post answers. Write these as direct-answer
+     pages (answer in the first sentence, comparison table, FAQ).
+   - **Other languages** only where the digest shows impressions (e.g.
+     Indonesian, German), and only as a labelled proposal for the owner.
+2. Use WebSearch for competitor/ecosystem queries ("games like block blast",
+   "[game] vs [game]", "is [game] free/safe/offline"), People-Also-Ask phrasing
+   and AI-assistant questions. Record what you relied on in
+   `evidence.supplementary` with URLs.
 3. Stay inside this project's positioning: block-puzzle strategy/comparison
-   content, or the India/festive cultural angle. Do not chase unrelated
-   gaming topics.
-4. Apply the same hard rules as post-writing: no solver/cheat/MOD-APK topics,
-   no fabricated stats to justify a topic's popularity — describe the search
-   intent qualitatively (e.g. "recurring comparison query"), not with invented
-   numbers.
-5. For each candidate, add a new entry to `content-queue.json` with `status:
-   "proposed"`, a real `slug`, `title`, `intent`, one-line `angle`, 2-3
-   `internal_links` (existing post slugs), `proposed_at` (today) and a
-   `publish_after` at least 3 days after `proposed_at` (the earliest review
-   date, not permission to write; never backdate), plus `evidence` and
-   `overlap_check` blocks as described in "Scheduled routine: proposals only":
-   first-party data (the stored digest as `gsc-digest`, a live Search Console
-   check as `gsc-live`, GA4 as `ga4`) goes in `evidence.first_party` with
-   source, date, window and quoted rows (zero results too); public search and
-   competitor research go only in `evidence.supplementary`. Set
-   `demand_label` and `limits` honestly: propose only topics that already have a
-   matching first-party row with at least one real click (add it to `rows`) —
-   impressions alone, or no first-party data at all, are not enough, and there
-   is no exploratory/experimental pathway around this. Never call a small click
-   count validation, invent no cutoffs beyond "at least one", and never claim a
-   live check you did not run.
-   `overlap_check` records that you compared the topic's intent with every
-   existing blog page. Do not re-propose a retired, rejected or skipped topic
-   unless new first-party evidence addresses its recorded reason (put it in
-   `addresses_retirement`). Add no `approval` block or any other approval
-   marker. State in the PR body that these are proposals only. Run
-   `node scripts/check-queue-gate.js` before committing.
-6. Before creating a branch: check whether a branch named
-   `content/queue-refresh-<today's date, YYYY-MM-DD>` already exists on the
-   remote (`git ls-remote --heads origin | grep queue-refresh-<date>`) or
-   whether an open PR already targets it (`gh pr list --head
-   content/queue-refresh-<date>`). If either exists, that means an earlier
-   run today already started or finished this — do not create a duplicate,
-   do not force-push over it, and do not delete/recreate it. Just stop and
-   report that a queue-refresh for today is already in progress or done.
-   Otherwise, commit the updated `content-queue.json` on a fresh branch
-   `content/queue-refresh-<date>` and open a PR titled "Add N new topics to
-   content queue" with a body explaining the search intent behind each new
-   entry. This is a separate PR from any post-writing PR — do not mix queue
-   research with a generated post in the same PR.
-7. The scheduled routine never writes a post, in this run or any other:
-   research only when no entry is `proposed`, then stop.
+   content, app-trust questions, or the India/festive angle. No unrelated
+   gaming topics. Hard rules apply: no solver/cheat/MOD-APK topics, no invented
+   numbers, never claim Dhamaka Blocks is ad-free.
+4. Propose 6-8 entries per batch, mixing page edits and new posts. Each new
+   post entry has `status: "proposed"`, a real `slug`, `title`, `intent`,
+   one-line `angle`, 2-3 `internal_links`, `proposed_at` (today, IST) and
+   `publish_after` at least 3 days later, plus `evidence` and `overlap_check`
+   as above. Each edit entry follows "Page edits". Add no `approval` block.
+   Run `node scripts/check-queue-gate.js` before committing; it must exit 0.
+5. Before creating the branch, check whether
+   `content/queue-refresh-<today>` already exists on the remote
+   (`git ls-remote --heads origin | grep queue-refresh-<date>`) or has an open
+   PR. If so, stop and report; do not force-push, delete or recreate it.
+   Otherwise commit only `content-queue.json` on that branch and open a PR
+   titled "Content batch <date>: N entries for approval". The body lists each
+   entry (new post or edit, target query, evidence with source and window,
+   demand label and limits, overlap check or target page data) and says
+   plainly: merging this PR approves the entries left in it; delete any you do
+   not want first; each approved entry is then written as its own PR for
+   separate review. Keep queue research and article writing in separate PRs.
 
 ## Self-review (post as a PR comment before finishing)
 
@@ -320,10 +411,11 @@ second, explicit check, not a formality:
 
    **Summary:** <one line — looks ready for review, or specific concerns>
    ```
-   This is informational only — you are not authorized to merge, approve,
-   or request changes on your own PR. The human makes the merge decision.
+   This self-review is the writer's own check. It never replaces the
+   independent review in "Self-merge gate", and you never approve your own PR
+   with GitHub's review feature; merging follows only that gate.
 
-## Reviewer's job (human, per PR)
+## Owner's spot-check (optional since 2026-11-25)
 
 1. Read the self-review comment first, then verify it against the diff
    yourself — treat the comment as a starting point, not a substitute for
@@ -334,5 +426,6 @@ second, explicit check, not a formality:
    fabricated competitor stats, no ad content.
 4. Confirm the required-elements checklist above is satisfied.
 5. Spot-check UTM params are present and use the post's own slug.
-6. If everything checks out, merge. If not, request changes in the PR or
-   fix directly before merging — never merge unreviewed.
+6. The routine merges content PRs that pass the self-merge gate. To stop a
+   PR, close it or push a fix before the next run; to stop all merges, set
+   `enabled` to false in `.jules/automerge.json`.
