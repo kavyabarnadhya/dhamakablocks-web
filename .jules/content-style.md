@@ -132,6 +132,45 @@ body differs but whose dates didn't move — it warns, it doesn't block, since
 the cosmetic-vs-real distinction isn't mechanically decidable. Read its
 warning and use judgment, don't reflexively bump every flagged file.
 
+## Data sources (added 2026-11-25)
+
+First-party data comes from two places. Use them in this order:
+
+1. **The automated digest** in the private repo `kavyabarnadhya/dhamaka-seo-data`,
+   which the routine has checked out next to this repo (for example
+   `../dhamaka-seo-data/digest.md`). A GitHub Action rewrites it every Monday
+   morning (IST) from Search Console, GA4 and Play Console, read-only. It has:
+   - totals for the last 28 days, the previous 28 days and 90 days, each with
+     its exact date window;
+   - a **weekly series** of complete Monday-Sunday weeks, to read trends and
+     compare before and after a ranking update;
+   - per-page rows (this window and the previous one) and top queries;
+   - GA4 referrals from AI assistants and Play Store clicks by page;
+   - Play Console reports, when available;
+   - the Google ranking-update list.
+   
+   The raw rows are in `data/<date>/bundle.json`. "Search Console data ends
+   <date>" is the digest's last data date.
+2. **The manual digest** `.jules/gsc-digest.md` in this repo, written by the
+   owner. It carries the owner's notes and rules (keep following them). Use its
+   numbers only when the automated digest is missing, or more than 10 days old
+   by its `Generated:` date, and say so in the PR body.
+
+How to cite and use it:
+- Cite the automated digest as `kind: "gsc-digest"` (Search Console rows) or
+  `kind: "ga4"` (GA4 rows).
+  - `source`: `dhamaka-seo-data/digest.md at commit <short sha>`;
+  - `fetched_at`: its `Generated:` date;
+  - `window`: the window printed in that section;
+  - quote the rows exactly.
+- Monitoring baselines and comparisons use the automated digest's "Last 28
+  days" row and per-page rows. Their window is printed next to the row.
+- Before and after a ranking update, compare whole weeks from the weekly series.
+  Never compare overlapping rolling windows as if they were weekly growth.
+- If a section says "Could not be read this run" (for example Play Console
+  access), treat that source as unavailable. Never guess its numbers.
+- Both digests are stored snapshots: never call them live.
+
 ## How the content loop works (changed 2026-11-25)
 
 Goal set by the owner on 2026-11-25: grow search clicks, AI-answer citations
@@ -170,7 +209,8 @@ Every `proposed` entry must pass `node scripts/check-queue-gate.js` (also run by
 CI), which requires:
 
 - **First-party evidence** (`evidence.first_party[]`): Search Console
-  (`gsc-live` for a live check, `gsc-digest` for the stored weekly digest) or
+  (`gsc-live` for a live check, `gsc-digest` for a stored digest, automated or
+  manual; see "Data sources") or
   GA4/traffic (`ga4`), each with `source`, `fetched_at`, `window` and the quoted
   rows relied on. Quote a zero result too: if the digest has no matching row,
   say so in the quote. Record query rows as `{query, clicks, impressions}` and
@@ -385,8 +425,8 @@ Run when there is no open `content/queue-refresh-*` PR (one waiting means the
 owner has not reviewed it yet) and fewer than 4 approved entries are still
 unwritten. Research produces proposals only:
 
-1. Read `.jules/gsc-digest.md` (and any GA4 / Play data the digest or the data
-   repo provides). Steer by the data, highest expected gain first. Prefer
+1. Read the automated digest and the manual digest as described in "Data
+   sources". Steer by the data, highest expected gain first. Prefer
    **first-party, practical content**. Google gives little detail about what core
    updates change. Early analyses of the November 2026 core update by SEO analysts are
    observations, not Google statements. SISTRIX (UK visibility data) and
