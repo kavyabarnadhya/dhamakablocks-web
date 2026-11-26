@@ -8,6 +8,13 @@ claim in the draft against this file before merging.
 
 ## Confirmed game facts (safe to assert)
 
+Source: the production build, `v2.9.1` (versionCode 35, tag `v2.9.1` in
+`kavyabarnadhya/dhamaka-blocks`, live on Play production since 2026-10-31 in a
+staged rollout that RELEASES.md last recorded at 20%; say "live", not "100%").
+Checked against that code on 2026-11-25. Builds on open
+testing only (v2.9.2, v2.9.3) are not production: do not describe their
+changes until they reach production and this list is updated.
+
 - Platform: Android, via Google Play Store. App ID:
   `com.dhamakagames.dhamakablocks`. Free to install, free to play.
 - Grid: 8×8. Tray holds 3 pieces at a time; place in any order.
@@ -20,7 +27,8 @@ claim in the draft against this file before merging.
   +85 when touched.)
 - Combo multiplier (consecutive clearing turns): 1 turn 1.0×, 2 turns 2.0×,
   3 turns 3.5×, 4 turns 5.0×, 5 turns 7.0×, 6+ turns 10.0×. Missing a clear
-  resets the streak to 1.0×.
+  resets the streak to 1.0×. The multiplier applies to the line-clear bonus
+  only, not to the 1 point per cell placed or the +500 full-board bonus.
 - Difficulty gates at 200 / 500 / 1,000 / 2,000 points (Levels 1–5). The 3×3
   square piece unlocks at Level 2; relief/easy pieces get rarer at higher
   levels.
@@ -28,24 +36,40 @@ claim in the draft against this file before merging.
   Reward (25, 40, 60, 80, 120, 160, 400 coins on Day 7; misses reset to Day 1).
   Lifetime milestone chests at 7/30/100 total daily-reward days (150 coins;
   400 coins + free Aurora theme; 800 coins + free Monsoon theme) — these
-  don't reset even if the daily streak breaks.
-- Boosters: UNDO (30 coins, undoes last placement), REFRESH (40 coins, new
-  tray), BOMB (60 coins, clears a 3×3 area). All three also usable during the
-  "last chance" window before a game would end.
-- Board themes: 7 total. Basic tier: Ember (free). Signature tier: Midnight,
-  Peacock, Sunset, Frost (400–1,200 coins). Prestige tier: Monsoon (2,400
-  coins). Aurora is milestone-exclusive (not purchasable).
+  don't reset even if the daily streak breaks. There are also small,
+  occasional extras (for example a capped bonus of a few coins at some game
+  overs); don't present the sources above as the only ones, and don't quote
+  numbers for the extras.
+- Boosters (4, paid per use with coins): UNDO (25 coins, undoes the last
+  placement; only when there is a placement to undo), SWAP (35 coins,
+  replaces one tray piece you choose with a new piece that fits the board
+  where possible; never call it random),
+  REFRESH (40 coins, deals a whole new tray), BOMB (60 coins, clears a 3×3
+  area). When a game would end, a short "last chance" window offers the
+  boosters you can afford, which may let you keep playing (one attempt; a
+  booster does not guarantee the run continues). (UNDO cost 30 before 2026-07-13; any post still saying 30
+  is stale.)
+- Board themes: 8 in the permanent catalog. Basic tier: Ember (free,
+  default), Citrine (125 coins). Signature tier: Midnight (400), Peacock
+  (600), Sunset (900), Frost (1,200). Prestige tier: Monsoon (2,400 coins, or
+  free from the 100-day chest) and Aurora (not purchasable; free from the
+  30-day chest). Plus a limited-time Diwali theme (signature tier, 125
+  coins), on sale only from 5 November to 11 November 2026 (IST) and kept
+  permanently by players who bought it; it is no longer for sale.
 - Theme/branding: Indian festive aesthetic — saffron, gold, peacock green;
   rangoli-inspired visuals; Indian percussion sound effects. Built by
   Dhamaka Games, an Indian studio. Score-sharing card formatted for WhatsApp.
 - A one-time "continue" (rewarded-ad powered) is available when a game would
-  otherwise end — removes one piece type from the tray for another chance.
+  otherwise end: it clears the whole board and deals a fresh tray, keeping
+  the score and level; the combo streak starts again from 1.0×. Once per
+  game.
 - Google Play Games (optional sign-in, from Settings or auto-detected): 18
   achievements; Best Score and Longest Streak leaderboards (Settings →
   Play Games → Leaderboards, added v2.8.0); cloud save (added v2.8.0) that
-  syncs best score, coins, daily streak, and unlocked themes — merges by
-  keeping the higher value / most-recently-changed value per field, never a
-  blanket overwrite. One save slot per account; no manual conflict-resolution
+  syncs best score, coins, daily streak, and unlocked themes. It merges
+  field by field (for example the higher best score is kept and unlocked
+  themes are combined) rather than simply replacing one device's progress
+  with another's. One save slot per account; no manual conflict-resolution
   UI yet.
 
 ## Hard rules — never invent
