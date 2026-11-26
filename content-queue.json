@@ -231,5 +231,410 @@
     "published_at": "2026-11-25",
     "merge_commit": "fc20615dcbee15523dee8d31df0b2a1d3c3c37ad",
     "baseline": {"window_start": "2026-10-25", "window_end": "2026-11-21", "page_28d_clicks": 59, "page_28d_impressions": 2431, "site_28d_clicks": 89, "digest_date": "2026-11-23", "provisional": true, "note": "Measured during the November 2026 core update (2026-11-10 to 2026-11-24), so this edit is monitor-only (never auto-reverted) per content-style.md 'Google ranking updates'. Report it against this baseline; the owner decides."}
+  },
+  {
+    "slug": "edit-blockudoku-vs-block-blast-2026-11-30",
+    "type": "edit",
+    "target": "blockudoku-vs-block-blast",
+    "title": "Add a bilingual FAQ item answering the Indonesian \"how to play sudoku-style in Block Blast\" query",
+    "intent": "cara bermain sudoku di block blast, cara main sudoku di block blast, blockudoku vs block blast",
+    "angle": "This page already ranks #1 for several Indonesian-language queries asking how to play the sudoku-style rule, but gets zero clicks on real impressions -- the English snippet likely doesn't look relevant to those searchers. An FAQ item naming the question directly (in Indonesian) with a short English answer gives Google text to show as a more relevant snippet and lets non-English searchers recognize the page answers their question.",
+    "internal_links": [],
+    "status": "proposed",
+    "proposed_at": "2026-11-26",
+    "publish_after": "2026-11-30",
+    "changes": [
+      {
+        "element": "faq",
+        "proposed": "Add one FAQ Q&A: Q (Indonesian, shown first) \"Cara bermain sudoku di Block Blast?\" / \"Cara main sudoku di Block Blast?\" -- A (English, 2-3 sentences): explain that games in the sudoku-style sub-genre (like Blockudoku) also clear 3x3 boxes in addition to rows/columns, while Block Blast and Dhamaka Blocks clear only full rows or columns with no 3x3-box requirement -- consistent with this page's existing framing (\"a calmer third option that skips the 3x3-box requirement\"). Add the matching Q&A pair to the page's FAQPage JSON-LD in the same change.",
+        "reason": "Matches the Indonesian-language query rows (cara bermain sudoku di block blast 0/34, cara main sudoku di block blast 0/24, gimana cara main sudoku di block blast 0/2, cara main game sudoku di block blast 0/7 -- all position 1.0, page_query_d90) which land on this exact page with real impressions and zero clicks."
+      }
+    ],
+    "evidence": {
+      "first_party": [
+        {
+          "kind": "gsc-digest",
+          "source": "dhamaka-seo-data/digest.md at commit dcacdf7 (Pages section)",
+          "fetched_at": "2026-11-26",
+          "window": "last 28 days: 2026-10-27 to 2026-11-23",
+          "quote": "/blog/blockudoku-vs-block-blast | 5 | 4 | 631 | 0.8% | 6.1 (Page | Clicks | Prev | Impressions | CTR | Position)",
+          "rows": [
+            {
+              "page": "/blog/blockudoku-vs-block-blast",
+              "clicks": 5,
+              "impressions": 631
+            }
+          ]
+        },
+        {
+          "kind": "gsc-digest",
+          "source": "dhamaka-seo-data/data/2026-11-26/bundle.json (gsc.page_query_d90), same automated pull as digest.md at commit dcacdf7",
+          "fetched_at": "2026-11-26",
+          "window": "last 90 days: 2026-08-26 to 2026-11-23",
+          "quote": "page_query_d90 rows landing on /blog/blockudoku-vs-block-blast: \"cara bermain sudoku di block blast\" 0 clicks/34 impressions pos 1.0; \"cara main sudoku di block blast\" 0/24 pos 1.0; \"cara main game sudoku di block blast\" 0/7 pos 1.0; \"gimana cara main sudoku di block blast\" 0/2 pos 1.0",
+          "rows": [
+            {
+              "query": "cara bermain sudoku di block blast",
+              "clicks": 0,
+              "impressions": 34
+            },
+            {
+              "query": "cara main sudoku di block blast",
+              "clicks": 0,
+              "impressions": 24
+            },
+            {
+              "query": "cara main game sudoku di block blast",
+              "clicks": 0,
+              "impressions": 7
+            },
+            {
+              "query": "gimana cara main sudoku di block blast",
+              "clicks": 0,
+              "impressions": 2
+            }
+          ]
+        }
+      ],
+      "demand_label": "impressions-only",
+      "review_after_weeks": 8,
+      "limits": "Small absolute numbers from a thin-data property; GSC data lags 2-3 days; position-1 zero-click rows are from Indonesian-language queries we have not otherwise localized, so the FAQ addition is a targeted test, not a guarantee of clicks. Rolled out during the November 2026 core update window, so early movement should not be read as the effect of this change.",
+      "summary": "Four Indonesian-language query rows already rank position 1.0 on this page with 67 combined impressions and zero clicks over 90 days, pointing to a snippet-relevance gap rather than a ranking gap."
+    }
+  },
+  {
+    "slug": "edit-woodoku-vs-block-blast-2026-11-30",
+    "type": "edit",
+    "target": "woodoku-vs-block-blast",
+    "title": "Add a short tips FAQ item to capture 'woodoku blast tips' search intent",
+    "intent": "woodoku blast tips, woodoku vs block blast",
+    "angle": "The query \"woodoku blast tips\" lands on this comparison page with real impressions but at a weak position (16.5) and zero clicks -- the page currently has no tips-style content, only a feature comparison. A short, generic tips FAQ item gives it content that actually matches tips-style search intent.",
+    "internal_links": [],
+    "status": "proposed",
+    "proposed_at": "2026-11-26",
+    "publish_after": "2026-11-30",
+    "changes": [
+      {
+        "element": "faq",
+        "proposed": "Add one FAQ Q&A: \"What are good tips for sudoku-style block puzzle games?\" -- 2-3 sentences of generic, verifiable block-puzzle strategy (keep the board's edges and corners clear, don't fill the center early, watch all three tray pieces before placing any one of them). No proprietary or invented claims about Woodoku itself. Add the matching pair to the page's FAQPage JSON-LD.",
+        "reason": "Matches the 'woodoku blast tips' query row (0 clicks/23 impressions, position 16.5) which lands on this page per page_query_d90, with no tips content currently to match that intent."
+      }
+    ],
+    "evidence": {
+      "first_party": [
+        {
+          "kind": "gsc-digest",
+          "source": "dhamaka-seo-data/digest.md at commit dcacdf7 (Pages section)",
+          "fetched_at": "2026-11-26",
+          "window": "last 28 days: 2026-10-27 to 2026-11-23",
+          "quote": "/blog/woodoku-vs-block-blast | 2 | 3 | 168 | 1.2% | 6.1 (Page | Clicks | Prev | Impressions | CTR | Position)",
+          "rows": [
+            {
+              "page": "/blog/woodoku-vs-block-blast",
+              "clicks": 2,
+              "impressions": 168
+            }
+          ]
+        },
+        {
+          "kind": "gsc-digest",
+          "source": "dhamaka-seo-data/data/2026-11-26/bundle.json (gsc.page_query_d90), same automated pull as digest.md at commit dcacdf7",
+          "fetched_at": "2026-11-26",
+          "window": "last 90 days: 2026-08-26 to 2026-11-23",
+          "quote": "page_query_d90 row landing on /blog/woodoku-vs-block-blast: \"woodoku blast tips\" 0 clicks/23 impressions pos 16.5",
+          "rows": [
+            {
+              "query": "woodoku blast tips",
+              "clicks": 0,
+              "impressions": 23
+            }
+          ]
+        }
+      ],
+      "demand_label": "impressions-only",
+      "review_after_weeks": 8,
+      "limits": "23 impressions over 90 days on one query is a thin signal; position 16.5 is page 2, so a small content addition may not move ranking on its own. Measured during the November 2026 core update window, so early movement should not be read as the effect of this change.",
+      "summary": "The 'woodoku blast tips' query already sends impressions to this comparison page at a weak position with no matching tips content, a gap a short tips FAQ item directly addresses."
+    }
+  },
+  {
+    "slug": "edit-block-puzzle-games-before-bed-2026-11-30",
+    "type": "edit",
+    "target": "block-puzzle-games-before-bed",
+    "title": "Add a direct FAQ answer to 'does Block Blast help you sleep?'",
+    "intent": "does block blast help you sleep",
+    "angle": "This exact question already gets real impressions on this page with zero clicks. The page's existing framing already answers this in substance; adding the literal question as an FAQ item gives Google a direct match to show as a snippet.",
+    "internal_links": [],
+    "status": "proposed",
+    "proposed_at": "2026-11-26",
+    "publish_after": "2026-11-30",
+    "changes": [
+      {
+        "element": "faq",
+        "proposed": "Add one FAQ Q&A: \"Does Block Blast help you sleep?\" -- a short, hedged answer (a calm, untimed puzzle game before bed may help some players wind down by replacing scrolling; it is not a sleep aid and results vary by person), consistent with the page's existing tone and no medical claims. Add the matching pair to the page's FAQPage JSON-LD.",
+        "reason": "Matches the 'does block blast help you sleep' query row (0 clicks/10 impressions, position 5.7) which lands on this exact page per page_query_d90."
+      }
+    ],
+    "evidence": {
+      "first_party": [
+        {
+          "kind": "gsc-digest",
+          "source": "dhamaka-seo-data/digest.md at commit dcacdf7 (Pages section)",
+          "fetched_at": "2026-11-26",
+          "window": "last 28 days: 2026-10-27 to 2026-11-23",
+          "quote": "/blog/block-puzzle-games-before-bed | 2 | 0 | 203 | 1.0% | 5.6 (Page | Clicks | Prev | Impressions | CTR | Position)",
+          "rows": [
+            {
+              "page": "/blog/block-puzzle-games-before-bed",
+              "clicks": 2,
+              "impressions": 203
+            }
+          ]
+        },
+        {
+          "kind": "gsc-digest",
+          "source": "dhamaka-seo-data/data/2026-11-26/bundle.json (gsc.page_query_d90), same automated pull as digest.md at commit dcacdf7",
+          "fetched_at": "2026-11-26",
+          "window": "last 90 days: 2026-08-26 to 2026-11-23",
+          "quote": "page_query_d90 row landing on /blog/block-puzzle-games-before-bed: \"does block blast help you sleep\" 0 clicks/10 impressions pos 5.7",
+          "rows": [
+            {
+              "query": "does block blast help you sleep",
+              "clicks": 0,
+              "impressions": 10
+            }
+          ]
+        }
+      ],
+      "demand_label": "impressions-only",
+      "review_after_weeks": 8,
+      "limits": "10 impressions over 90 days is a thin signal from a low-traffic property; position 5.7 is already decent, so the gap is CTR/snippet match, not ranking. Measured during the November 2026 core update window, so early movement should not be read as the effect of this change.",
+      "summary": "The exact question 'does block blast help you sleep' already lands on this page at a reasonable position with zero clicks; a matching FAQ item targets that literal gap."
+    }
+  },
+  {
+    "slug": "edit-tetris-vs-block-puzzle-games-2026-11-30",
+    "type": "edit",
+    "target": "tetris-vs-block-puzzle-games",
+    "title": "Retitle and rewrite the meta description to be more query-phrased for 'tetris block puzzle' searches",
+    "intent": "tetris block puzzle, tetris blocks puzzle, tetris block",
+    "angle": "This page gets zero clicks on 170 impressions over the last 28 days despite page-1-adjacent position; several near-exact 'tetris block(s) puzzle' queries land here at positions 14-34 with no clicks. The current title/meta is a headline (\"What's the Real Difference?\") rather than the query-phrased pattern the 2026-09-14 GSC audit found converts better.",
+    "internal_links": [],
+    "status": "proposed",
+    "proposed_at": "2026-11-26",
+    "publish_after": "2026-11-30",
+    "changes": [
+      {
+        "element": "title",
+        "proposed": "\"Tetris Block Puzzle: Is It the Same as Block Puzzle Games? (2026)\" -- replaces \"Tetris vs Block Puzzle Games: What's the Real Difference?\"",
+        "reason": "Matches the literal 'tetris block puzzle' query (0 clicks/13 impressions, pos 14.0) and related 'tetris block(s) (puzzle)' rows, following the query-phrased title pattern the required-elements checklist calls for."
+      },
+      {
+        "element": "meta-description",
+        "proposed": "Open by directly addressing the searcher: \"Searching for a Tetris block puzzle game? Here's how falling-block Tetris actually differs from untimed grid puzzles like Dhamaka Blocks -- and which one fits how you want to play.\"",
+        "reason": "Ties the meta description to the same query-phrased intent as the new title, per the required-elements checklist (meta opens by addressing the searcher, not restating the title)."
+      }
+    ],
+    "evidence": {
+      "first_party": [
+        {
+          "kind": "gsc-digest",
+          "source": "dhamaka-seo-data/digest.md at commit dcacdf7 (Pages section)",
+          "fetched_at": "2026-11-26",
+          "window": "last 28 days: 2026-10-27 to 2026-11-23",
+          "quote": "/blog/tetris-vs-block-puzzle-games | 0 | 0 | 170 | 0.0% | 8.6 (Page | Clicks | Prev | Impressions | CTR | Position)",
+          "rows": [
+            {
+              "page": "/blog/tetris-vs-block-puzzle-games",
+              "clicks": 0,
+              "impressions": 170
+            }
+          ]
+        },
+        {
+          "kind": "gsc-digest",
+          "source": "dhamaka-seo-data/data/2026-11-26/bundle.json (gsc.page_query_d90), same automated pull as digest.md at commit dcacdf7",
+          "fetched_at": "2026-11-26",
+          "window": "last 90 days: 2026-08-26 to 2026-11-23",
+          "quote": "page_query_d90 rows landing on /blog/tetris-vs-block-puzzle-games: \"tetris block puzzle\" 0 clicks/13 impressions pos 14.0; \"tetris block\" 0/4 pos 26.5; \"tetris block puzzle game\" 0/3 pos 18.7; \"tetris blocks\" 0/3 pos 34.0; \"tetris blocks puzzle\" 0/3 pos 19.0",
+          "rows": [
+            {
+              "query": "tetris block puzzle",
+              "clicks": 0,
+              "impressions": 13
+            },
+            {
+              "query": "tetris block",
+              "clicks": 0,
+              "impressions": 4
+            },
+            {
+              "query": "tetris block puzzle game",
+              "clicks": 0,
+              "impressions": 3
+            },
+            {
+              "query": "tetris blocks",
+              "clicks": 0,
+              "impressions": 3
+            },
+            {
+              "query": "tetris blocks puzzle",
+              "clicks": 0,
+              "impressions": 3
+            }
+          ]
+        }
+      ],
+      "demand_label": "impressions-only",
+      "review_after_weeks": 8,
+      "limits": "Each individual query row is small (3-13 impressions over 90 days) on a thin-data property; several sit at position 15-34, past page 1, so a title/meta change alone may not move the weakest ones. Measured during the November 2026 core update window, so early movement should not be read as the effect of this change.",
+      "summary": "Five 'tetris block(s) puzzle' query rows send impressions to this page with zero clicks over 90 days, and the current title/meta is headline-style rather than query-phrased."
+    }
+  },
+  {
+    "slug": "edit-block-puzzle-games-india-2026-11-30",
+    "type": "edit",
+    "target": "block-puzzle-games-india",
+    "title": "Retitle for 'best puzzle game apps 2026 in india' and 'most popular puzzle game apps in india' queries",
+    "intent": "best puzzle game apps 2026 in india, what are the most popular puzzle game apps right now in india, indian block game",
+    "angle": "This page ranks at position 2.8 for 'best puzzle game apps 2026 in india' -- near the top of page 1 -- with zero clicks on real impressions, and at position 6.7 for the AI-assistant-style question 'what are the most popular puzzle game apps right now in india?'. The current title/meta don't closely match either phrasing.",
+    "internal_links": [],
+    "status": "proposed",
+    "proposed_at": "2026-11-26",
+    "publish_after": "2026-11-30",
+    "changes": [
+      {
+        "element": "title",
+        "proposed": "\"Best Puzzle Game Apps in India (2026): Top Picks for Android\" -- replaces \"Best Block Puzzle Games in India 2026 — Android Picks\"",
+        "reason": "Matches 'best puzzle game apps 2026 in india' (0 clicks/4 impressions, position 2.8) more closely than the current 'block puzzle games' phrasing."
+      },
+      {
+        "element": "intro",
+        "proposed": "Open the intro by answering the AI-assistant-style question directly in the first sentence: name the most popular puzzle game app categories in India right now (per this post's own picks), per the required-elements rule that each section answers its question in its first sentence.",
+        "reason": "Matches 'what are the most popular puzzle game apps right now in india?' (0 clicks/6 impressions, position 6.7), which Google's December 2026 core update pre-announcement favors (answer-first content for longer, more complex questions)."
+      }
+    ],
+    "evidence": {
+      "first_party": [
+        {
+          "kind": "gsc-digest",
+          "source": "dhamaka-seo-data/digest.md at commit dcacdf7 (Pages section)",
+          "fetched_at": "2026-11-26",
+          "window": "last 28 days: 2026-10-27 to 2026-11-23",
+          "quote": "/blog/block-puzzle-games-india | 2 | 2 | 145 | 1.4% | 7.5 (Page | Clicks | Prev | Impressions | CTR | Position)",
+          "rows": [
+            {
+              "page": "/blog/block-puzzle-games-india",
+              "clicks": 2,
+              "impressions": 145
+            }
+          ]
+        },
+        {
+          "kind": "gsc-digest",
+          "source": "dhamaka-seo-data/data/2026-11-26/bundle.json (gsc.page_query_d90), same automated pull as digest.md at commit dcacdf7",
+          "fetched_at": "2026-11-26",
+          "window": "last 90 days: 2026-08-26 to 2026-11-23",
+          "quote": "page_query_d90 rows landing on /blog/block-puzzle-games-india: \"best puzzle game apps 2026 in india\" 0 clicks/4 impressions pos 2.8; \"what are the most popular puzzle game apps right now in india?\" 0/6 pos 6.7; \"indian block game\" 0/2 pos 5.0",
+          "rows": [
+            {
+              "query": "best puzzle game apps 2026 in india",
+              "clicks": 0,
+              "impressions": 4
+            },
+            {
+              "query": "what are the most popular puzzle game apps right now in india?",
+              "clicks": 0,
+              "impressions": 6
+            },
+            {
+              "query": "indian block game",
+              "clicks": 0,
+              "impressions": 2
+            }
+          ]
+        }
+      ],
+      "demand_label": "impressions-only",
+      "review_after_weeks": 8,
+      "limits": "Each row is small (2-6 impressions over 90 days) from a thin-data property; position 2.8 is from only 4 impressions, so the ranking could move for reasons unrelated to this page. Measured during the November 2026 core update window, so early movement should not be read as the effect of this change.",
+      "summary": "This page already ranks near the top of page 1 (pos 2.8) for a close India-puzzle-apps query with zero clicks, and separately ranks for an AI-assistant-style question at position 6.7; the title and intro don't closely match either phrasing yet."
+    }
+  },
+  {
+    "slug": "edit-block-puzzle-games-no-ads-2026-11-30",
+    "type": "edit",
+    "target": "block-puzzle-games-no-ads",
+    "title": "Expand the no-ads checklist with the specific phrasings searchers use ('block game without ads', 'block game with no ads')",
+    "intent": "block game without ads, block game with no ads, best block game with no ads, block game no ads",
+    "angle": "This page earned 0 clicks on 131 impressions in the last 28 days (and only 1 in the previous 28 days). Several close variants of its own core phrase already land on it with real impressions and zero clicks, suggesting the existing checklist content doesn't closely match how people phrase the search.",
+    "internal_links": [],
+    "status": "proposed",
+    "proposed_at": "2026-11-26",
+    "publish_after": "2026-11-30",
+    "changes": [
+      {
+        "element": "section",
+        "proposed": "Add 3-4 short checklist bullets to the existing 'what to check' section that use the exact phrasings 'block game without ads', 'block game with no ads' and 'best block game with no ads' in their own sentences (not just synonyms), each answering what to verify (ad type shown, whether it's a one-time purchase to remove ads, whether offline play still shows ads). Keep the existing honest framing: Dhamaka Blocks is NOT ad-free; never claim otherwise.",
+        "reason": "Matches the 'block game without ads' (0/22), 'block game with no ads' (0/5), 'best block game with no ads' (0/5) and 'block game no ads' (0/4) query rows landing on this exact page with zero clicks."
+      }
+    ],
+    "evidence": {
+      "first_party": [
+        {
+          "kind": "gsc-digest",
+          "source": "dhamaka-seo-data/digest.md at commit dcacdf7 (Pages section)",
+          "fetched_at": "2026-11-26",
+          "window": "last 28 days: 2026-10-27 to 2026-11-23",
+          "quote": "/blog/block-puzzle-games-no-ads | 0 | 1 | 131 | 0.0% | 8.9 (Page | Clicks | Prev | Impressions | CTR | Position)",
+          "rows": [
+            {
+              "page": "/blog/block-puzzle-games-no-ads",
+              "clicks": 0,
+              "impressions": 131
+            }
+          ]
+        },
+        {
+          "kind": "gsc-digest",
+          "source": "dhamaka-seo-data/data/2026-11-26/bundle.json (gsc.page_query_d90), same automated pull as digest.md at commit dcacdf7",
+          "fetched_at": "2026-11-26",
+          "window": "last 90 days: 2026-08-26 to 2026-11-23",
+          "quote": "page_query_d90 rows landing on /blog/block-puzzle-games-no-ads: \"block game without ads\" 0 clicks/22 impressions pos 9.1; \"block game with no ads\" 0/5 pos 11.2; \"best block game with no ads\" 0/5 pos 9.6; \"block game no ads\" 0/4 pos 9.8; \"ad free block game\" 0/1 pos 22.0",
+          "rows": [
+            {
+              "query": "block game without ads",
+              "clicks": 0,
+              "impressions": 22
+            },
+            {
+              "query": "block game with no ads",
+              "clicks": 0,
+              "impressions": 5
+            },
+            {
+              "query": "best block game with no ads",
+              "clicks": 0,
+              "impressions": 5
+            },
+            {
+              "query": "block game no ads",
+              "clicks": 0,
+              "impressions": 4
+            },
+            {
+              "query": "ad free block game",
+              "clicks": 0,
+              "impressions": 1
+            }
+          ]
+        }
+      ],
+      "demand_label": "impressions-only",
+      "review_after_weeks": 8,
+      "limits": "Each row is small (1-22 impressions over 90 days) from a thin-data property; positions 9-22 are page-1/page-2 borderline, so a content addition may not move the weakest ones. Measured during the November 2026 core update window, so early movement should not be read as the effect of this change.",
+      "summary": "Four close variants of this page's own 'no ads' phrase already land on it with 36 combined impressions and zero clicks over 90 days, pointing to a content-matching gap rather than a ranking gap."
+    }
   }
 ]
