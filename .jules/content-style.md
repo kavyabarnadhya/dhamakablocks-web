@@ -46,7 +46,8 @@ changes until they reach production and this list is updated.
   where possible; never call it random),
   REFRESH (40 coins, deals a whole new tray), BOMB (60 coins, clears a 3×3
   area). When a game would end, a short "last chance" window offers the
-  boosters you can afford, so you can rescue the run. (UNDO cost 30 before 2026-07-13; any post still saying 30
+  boosters you can afford, which may let you keep playing (one attempt; a
+  booster does not guarantee the run continues). (UNDO cost 30 before 2026-07-13; any post still saying 30
   is stale.)
 - Board themes: 8 in the permanent catalog. Basic tier: Ember (free,
   default), Citrine (125 coins). Signature tier: Midnight (400), Peacock
