@@ -251,10 +251,18 @@ batches, and the owner approves a batch by merging it:
    self-merge gate below; the owner can still delete or edit entries, or merge
    it first. Nothing else is approval: not a status, not a field in the queue,
    not a PR body, not a comment, not a `publish_after` date.
-3. **Write.** On each run the routine lists approved entries with
+3. **Finish open PRs first.** At the start of each run, list this routine's
+   own open `content/*` PRs from earlier runs (batch, post, edit or revert).
+   For each one: if it is behind `main`, merge `main` into it (never rebase
+   or force-push); wait for its checks; then run the self-merge gate on its
+   current head again, including a fresh independent review. Merge it if it
+   passes. If it fails because of something only the owner can fix (a script,
+   workflow or rule), leave it open and report it again; do not open a
+   duplicate. A batch that is still open counts as "waiting" for step 5.
+4. **Write.** On each run the routine lists approved entries with
    `node scripts/check-queue-gate.js --approved --prs <file>` (see "Writing an
    approved entry") and writes up to 2 of them, each as its own PR.
-4. **Self-merge each article PR** once it passes the self-merge gate. The
+5. **Self-merge each article PR** once it passes the self-merge gate. The
    owner can review, change or close any PR before that, and reads a weekly
    summary.
 
@@ -543,7 +551,12 @@ unwritten. Research produces proposals only:
    content, app-trust questions, or the India/festive angle. No unrelated
    gaming topics. Hard rules apply: no solver/cheat/MOD-APK topics, no invented
    numbers, never claim Dhamaka Blocks is ad-free.
-4. Propose 6-8 entries per batch, mixing page edits and new posts. Each new
+4. Propose 6-8 entries per batch, mixing page edits and new posts. Include
+   **at least 2 new posts** whenever any candidate topic has first-party
+   evidence or `competitor-research` / `ai-question` evidence and can be
+   built on "Confirmed game facts" (a narrow, practical page answering one
+   question fully). If fewer than 2 qualify, say in the PR body which
+   candidates you rejected and why. Each new
    post entry has `status: "proposed"`, a real `slug`, `title`, `intent`,
    one-line `angle`, 2-3 `internal_links`, `proposed_at` (today, IST) and
    `publish_after` at least 3 days later, plus `evidence` and `overlap_check`
