@@ -43,3 +43,6 @@
 
 ## Blog
 - https://dhamakablocks.com/blog/
+
+## Legal
+- [Terms of Service](https://dhamakablocks.com/terms): plain-language terms for the free, ad-supported game and this website

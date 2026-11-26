@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service — Dhamaka Blocks</title>
+<link rel="icon" href="/images/favicon.png" type="image/png">
+<script src="/js/analytics.js?v=20261011-diwali" defer></script>
+<meta name="description" content="Terms of Service for Dhamaka Blocks, the free block puzzle game for Android by Dhamaka Games: ads, earned coins, Play Games sign-in, fair play and more.">
+<link rel="canonical" href="https://dhamakablocks.com/terms">
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dhamakablocks.com/terms">
+<meta property="og:site_name" content="Dhamaka Blocks">
+<meta property="og:title" content="Terms of Service — Dhamaka Blocks">
+<meta property="og:description" content="Terms of Service for Dhamaka Blocks, the free block puzzle game for Android by Dhamaka Games: ads, earned coins, Play Games sign-in, fair play and more.">
+<meta property="og:image" content="https://dhamakablocks.com/images/screen-home.jpg">
+<meta property="og:image:alt" content="Dhamaka Blocks game screenshot">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Terms of Service — Dhamaka Blocks">
+<meta name="twitter:description" content="Terms of Service for Dhamaka Blocks, the free block puzzle game for Android by Dhamaka Games: ads, earned coins, Play Games sign-in, fair play and more.">
+<meta name="twitter:image" content="https://dhamakablocks.com/images/screen-home.jpg">
+<meta name="theme-color" content="#FF9933">
+<!-- Performance: Preconnect to font origins to reduce Time to First Font (TTFF) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com">
+<link rel="dns-prefetch" href="https://www.googletagmanager.com">
+<link rel="dns-prefetch" href="https://www.google-analytics.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Rajdhani:wght@400;600;700&display=swap" fetchpriority="high">
+<style>
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --saffron: #FF9933;
+    --gold: #FFD700;
+    --dark: #1a0a00;
+    --dark2: #2d1200;
+    --ivory: #FFFFF0;
+    --text: #e8d5b0;
+    --muted: rgba(255,255,240,0.7);
+  }
+
+  body {
+    background: linear-gradient(180deg, var(--dark) 0%, var(--dark2) 100%);
+    min-height: 100vh;
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── Mandala dot background ─────────────────────────────────── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(255,215,0,0.1) 1px, transparent 1px);
+    background-size: 22px 22px;
+    pointer-events: none;
+    z-index: 0;
+    /* Performance: promote background to compositor layer to avoid repaints during scroll */
+    will-change: transform;
+  }
+
+  /* ── Rainbow bars ───────────────────────────────────────────── */
+  .rainbow-top, .rainbow-bottom {
+    position: fixed;
+    left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #8B0000, var(--saffron), var(--gold), var(--saffron), #8B0000);
+    z-index: 100;
+    will-change: transform; /* Performance: promote to own layer for smooth scrolling */
+  }
+  .rainbow-top  { top: 0; }
+  .rainbow-bottom { bottom: 0; }
+
+  /* Accessibility */
+  .skip-link {
+    position: absolute;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--saffron);
+    color: var(--dark);
+    padding: 12px 24px;
+    z-index: 1000;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    transition: top 0.3s ease;
+  }
+  .skip-link:focus {
+    top: 0;
+  }
+
+  *:focus-visible {
+    outline: 3px solid var(--gold);
+    outline-offset: 4px;
+  }
+
+  header {
+    text-align: center;
+    padding: 48px 24px 32px;
+    border-bottom: 1px solid rgba(255,153,51,0.15);
+  }
+  .logo {
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-size: 28px;
+    font-weight: 700;
+    background: linear-gradient(180deg, #FFD700, #FF9933);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 2px;
+    text-decoration: none;
+    transition: transform 0.2s;
+  }
+  .logo:hover,
+  .logo:focus-visible { transform: scale(1.05); }
+  .logo:active { transform: scale(0.95); }
+  .subtitle {
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 24px;
+    color: var(--gold);
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+  .effective {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 40px;
+    letter-spacing: 1px;
+  }
+
+  h2 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--saffron);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 36px 0 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255,153,51,0.15);
+  }
+
+  p { margin-bottom: 14px; color: var(--text); }
+
+  ul {
+    margin: 10px 0 14px 20px;
+    color: var(--text);
+  }
+  ul li { margin-bottom: 6px; }
+
+  a {
+    color: var(--saffron);
+    text-decoration: none;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+  a:hover,
+  a:focus-visible { text-decoration: underline; }
+  a:active { transform: scale(0.98); opacity: 0.7; }
+
+  .contact-box {
+    margin-top: 40px;
+    padding: 24px;
+    background: rgba(255,153,51,0.06);
+    border: 1px solid rgba(255,153,51,0.2);
+    border-radius: 12px;
+  }
+  .contact-box h2 { margin-top: 0; border: none; }
+
+  footer {
+    text-align: center;
+    padding: 24px;
+    border-top: 1px solid rgba(255,153,51,0.1);
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    /* Performance: skip rendering until near viewport */
+    content-visibility: auto;
+    contain-intrinsic-size: auto 100px;
+  }
+  .footer-links {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  .footer-links a {
+    font-size: 12px;
+    color: rgba(255,215,0,0.7);
+    text-decoration: none;
+    letter-spacing: 1px;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover,
+  .footer-links a:focus-visible { color: var(--gold); }
+  .footer-links a:active { transform: scale(0.95); }
+</style>
+</head>
+<body>
+
+<!-- Skip to content for accessibility -->
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<div class="rainbow-top"></div>
+
+<header>
+  <a href="/" class="logo" aria-label="Return to home page">DHAMAKA BLOCKS</a>
+  <div class="subtitle">By Dhamaka Games</div>
+</header>
+
+  <div class="container" id="main" tabindex="-1">
+
+  <h1>Terms of Service</h1>
+  <div class="effective">Last updated: November 2026</div>
+
+  <p>These Terms of Service ("Terms") explain the rules for using Dhamaka Blocks ("the App") and this website, dhamakablocks.com ("the Site").</p>
+
+  <h2>1. Who We Are</h2>
+
+  <p>Dhamaka Blocks is a block puzzle game for Android, developed and operated by Dhamaka Games ("we", "our", or "us"), an Indian studio. You can reach us at <a href="mailto:dhamakablocks@gmail.com">dhamakablocks@gmail.com</a>.</p>
+
+  <h2>2. Accepting These Terms</h2>
+
+  <p>By downloading, installing or using the App, or by using the Site, you agree to these Terms. If you do not agree, please do not use the App or the Site.</p>
+
+  <p>Our <a href="/privacy">Privacy Policy</a> explains what information is collected and how it is used. Please read it alongside these Terms.</p>
+
+  <h2>3. A Free Game With Ads</h2>
+
+  <p>Dhamaka Blocks is free to install and free to play. There are no purchases in the App.</p>
+
+  <p>The game is supported by ads served by Google AdMob, including banner ads, ads shown after some game overs, and optional rewarded ads. Watching a rewarded ad is always your choice: for example, a rewarded ad powers the one-time "continue" offered when a game would otherwise end. Ads depend on the ad provider and your connection, so an ad, or the reward linked to it, may not always be available.</p>
+
+  <h2>4. Coins, Boosters and Themes</h2>
+
+  <p>Coins are earned only by playing, for example from your score and from daily rewards. Coins cannot be bought, have no cash or monetary value, and cannot be sold, transferred or exchanged for money or anything outside the App. You can spend them inside the App on boosters and board themes.</p>
+
+  <p>Coins, boosters and themes are part of the game, not property you own, and we may change how they work in future updates.</p>
+
+  <p>Your progress is stored on your device. If you clear the App's data, use "Reset Everything", or uninstall the App, your local progress can be lost.</p>
+
+  <h2>5. Google Play Games Sign-In and Cloud Save</h2>
+
+  <p>Signing in to Google Play Games is optional, and the App is fully playable without it. If you sign in, the App can unlock achievements, submit your best score and longest streak to leaderboards, and keep a cloud save of your progress, as described in our <a href="/privacy">Privacy Policy</a>.</p>
+
+  <p>Google Play Games is a Google service. Your use of it is also covered by Google's <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a> and <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>. These features rely on Google's service and an internet connection, so we cannot guarantee they will always be available or that syncing will never fail.</p>
+
+  <h2>6. Fair Play</h2>
+
+  <p>When you use the App or the Site, you agree not to:</p>
+  <ul>
+    <li>use bots, scripts or other tools that automate play or change your score, coins or other game data;</li>
+    <li>use modified or unofficial copies of the App;</li>
+    <li>reverse engineer, decompile, disassemble or tamper with the App, except where the law allows this despite this restriction;</li>
+    <li>submit leaderboard scores you did not earn by playing normally, or otherwise abuse leaderboards or achievements;</li>
+    <li>interfere with the App, the Site or the services they rely on, or use them for anything unlawful.</li>
+  </ul>
+
+  <h2>7. Our Content</h2>
+
+  <p>The App, the Site and their content, including the game design, artwork, board themes, sounds, logos, the Dhamaka Blocks name and our blog posts, belong to Dhamaka Games or its licensors and are protected by law.</p>
+
+  <p>We give you a personal, non-commercial, non-transferable permission to use the App on your own devices and to read the Site. You are welcome to share your score card and links to our pages, but please do not copy, republish or sell our content without our written permission.</p>
+
+  <h2>8. The Website and Blog</h2>
+
+  <p>Articles on the Site are general information. We try to keep them accurate, but the game can change between updates, so the App and its Google Play listing are the most up-to-date source.</p>
+
+  <h2>9. Google Play and Other Third Parties</h2>
+
+  <p>The App is distributed through <a href="https://play.google.com/store/apps/details?id=com.dhamakagames.dhamakablocks&utm_source=terms&utm_medium=link&utm_campaign=terms">Google Play</a>, and downloading it is also subject to Google Play's own terms. The App and the Site also use or link to services run by others, such as Google AdMob, Google Play Games, Instagram and YouTube, and the App shows ads from third-party advertisers. We do not control these services or advertisers and are not responsible for their content or practices; their own terms and privacy policies apply.</p>
+
+  <h2>10. Availability and No Warranties</h2>
+
+  <p>The App and the Site are provided "as is" and "as available". To the extent the law allows, we make no promises or warranties that they will always be available, uninterrupted or free of errors, or that your progress will never be lost. We may update, change, pause or stop offering the App, the Site or any feature at any time.</p>
+
+  <h2>11. Limitation of Liability</h2>
+
+  <p>To the fullest extent the law allows, Dhamaka Games is not liable for any indirect, incidental, special or consequential loss, or for any loss of data or in-game progress, that arises from your use of, or inability to use, the App or the Site. Nothing in these Terms limits any rights you have under consumer protection law that cannot be limited or excluded.</p>
+
+  <h2>12. Changes to These Terms</h2>
+
+  <p>We may update these Terms from time to time. When we do, we will change the "Last updated" date at the top of this page. Continued use of the App or the Site after changes means you accept the updated Terms.</p>
+
+  <h2>13. Governing Law</h2>
+
+  <p>These Terms are governed by the laws of India.</p>
+
+  <div class="contact-box">
+    <h2>14. Contact Us</h2>
+    <p>If you have any questions about these Terms, please contact us:</p>
+    <p>
+      <strong>Dhamaka Games</strong><br>
+      Email: <a href="mailto:dhamakablocks@gmail.com">dhamakablocks@gmail.com</a><br>
+      Website: <a href="https://dhamakablocks.com">dhamakablocks.com</a>
+    </p>
+  </div>
+
+</div>
+
+<footer>
+  <p class="footer-copy">© 2026 Dhamaka Games</p>
+  <div class="footer-links">
+    <a href="/" aria-label="Return to home page">Home</a>
+    <span style="color:rgba(255,215,0,0.2)" aria-hidden="true">•</span>
+    <a href="/blog/">Blog</a>
+    <span style="color:rgba(255,215,0,0.2)" aria-hidden="true">•</span>
+    <a href="/privacy">Privacy Policy</a>
+    <span style="color:rgba(255,215,0,0.2)" aria-hidden="true">•</span>
+    <a href="/terms" aria-current="page">Terms</a>
+    <span style="color:rgba(255,215,0,0.2)" aria-hidden="true">•</span>
+    <a href="#" id="cookie-prefs-link">Cookie Preferences</a>
+    <span style="color:rgba(255,215,0,0.2)" aria-hidden="true">•</span>
+    <a href="https://instagram.com/dhamakablocks" target="_blank" rel="noopener noreferrer">Instagram</a>
+    <span style="color:rgba(255,215,0,0.2)" aria-hidden="true">•</span>
+    <a href="https://youtube.com/@DhamakaBlocksGame" target="_blank" rel="noopener noreferrer">YouTube</a>
+  </div>
+</footer>
+
+<div class="rainbow-bottom"></div>
+
+</body>
+</html>
