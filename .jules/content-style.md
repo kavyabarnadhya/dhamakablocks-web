@@ -251,14 +251,21 @@ batches, and the owner approves a batch by merging it:
    self-merge gate below; the owner can still delete or edit entries, or merge
    it first. Nothing else is approval: not a status, not a field in the queue,
    not a PR body, not a comment, not a `publish_after` date.
-3. **Finish open PRs first.** At the start of each run, list this routine's
-   own open `content/*` PRs from earlier runs (batch, post, edit or revert).
-   For each one: if it is behind `main`, merge `main` into it (never rebase
-   or force-push); wait for its checks; then run the self-merge gate on its
-   current head again, including a fresh independent review. Merge it if it
-   passes. If it fails because of something only the owner can fix (a script,
-   workflow or rule), leave it open and report it again; do not open a
-   duplicate. A batch that is still open counts as "waiting" for step 5.
+3. **Finish open PRs first.** At the start of each run, list the open PRs
+   whose head branch is one of the four kinds in the self-merge gate
+   (`content/queue-refresh-*`, `content/post-<slug>`, `content/edit-<target>`,
+   `content/revert-<target>-YYYY-MM-DD`) and that were opened before this run.
+   Skip any PR that changes a protected file (scripts, workflows, `.jules/`,
+   `_headers`, `privacy.html`, `js/`, site config); those wait for the owner.
+   For each remaining PR: if it is behind `main`, merge `main` into it (never
+   rebase or force-push). That changes its head, so wait for checks on the new
+   head and run the whole self-merge gate on it again, including a fresh
+   independent review, and use the new head's sha with `--match-head-commit`.
+   The weekly cap and the `automerge.json` pause switch apply as usual. If a PR
+   fails because of something only the owner can fix (a script, workflow or
+   rule), leave it open, do not open a duplicate, and list it in the run report
+   and the next weekly summary. An open batch PR blocks a new batch (see "Topic
+   research").
 4. **Write.** On each run the routine lists approved entries with
    `node scripts/check-queue-gate.js --approved --prs <file>` (see "Writing an
    approved entry") and writes up to 2 of them, each as its own PR.
@@ -494,9 +501,9 @@ than leaving it to accumulate. Do not delete a page yourself.
 
 ## Topic research (proposing a batch)
 
-Run when there is no open `content/queue-refresh-*` PR (one waiting means the
-owner has not reviewed it yet) and fewer than 4 approved entries are still
-unwritten. Research produces proposals only:
+Run when there is no open `content/queue-refresh-*` PR (an open one is still
+going through the self-merge gate, see step 3 of "How the content loop works")
+and fewer than 4 approved entries are still unwritten. Research produces proposals only:
 
 1. Read the automated digest and the manual digest as described in "Data
    sources". Steer by the data, highest expected gain first. Prefer
@@ -551,12 +558,15 @@ unwritten. Research produces proposals only:
    content, app-trust questions, or the India/festive angle. No unrelated
    gaming topics. Hard rules apply: no solver/cheat/MOD-APK topics, no invented
    numbers, never claim Dhamaka Blocks is ad-free.
-4. Propose 6-8 entries per batch, mixing page edits and new posts. Include
-   **at least 2 new posts** whenever any candidate topic has first-party
-   evidence or `competitor-research` / `ai-question` evidence and can be
-   built on "Confirmed game facts" (a narrow, practical page answering one
-   question fully). If fewer than 2 qualify, say in the PR body which
-   candidates you rejected and why. Each new
+4. Propose 6-8 entries per batch, mixing page edits and new posts. A new-post
+   candidate qualifies when it has first-party evidence or
+   `competitor-research` / `ai-question` evidence, passes the overlap check,
+   and can be built entirely on "Confirmed game facts" as a narrow, practical
+   page that answers one question fully. When at least 2 candidates qualify,
+   include **at least 2 new posts**. This target never overrides the hard
+   rules, the overlap check or honest evidence labels: proposing fewer is
+   acceptable, and then the PR body names the candidates you considered and
+   why each was rejected. Each new
    post entry has `status: "proposed"`, a real `slug`, `title`, `intent`,
    one-line `angle`, 2-3 `internal_links`, `proposed_at` (today, IST) and
    `publish_after` at least 3 days later, plus `evidence` and `overlap_check`
