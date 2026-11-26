@@ -540,7 +540,7 @@ test('CLI offers no switch to loosen the evidence-age default', () => {
   assert.equal(cli(root, ['--max-evidence-age-days', '9999']).status, 1);
 });
 
-test('the real content-queue.json is valid; nothing is queued, approved or proposed; the Indian-theming topic stays retired', () => {
+test('the real content-queue.json is valid; nothing is queued or approved; the Indian-theming topic stays retired', () => {
   const root = path.join(__dirname, '..');
   const queue = JSON.parse(fs.readFileSync(path.join(root, 'content-queue.json'), 'utf8'));
   assert.deepEqual(gate.validateQueue(queue, { blogSlugs: gate.listBlogSlugs(root) }), []);
@@ -549,6 +549,8 @@ test('the real content-queue.json is valid; nothing is queued, approved or propo
   const retired = queue.find((r) => r.slug === 'indian-themed-block-puzzle-games');
   assert.equal(retired.status, 'retired');
   assert.equal(retired.retired_evidence.ga4_used, false);
-  const out = JSON.parse(cli(root, ['--proposals']).stdout);
-  assert.deepEqual(out.proposals, []);
+  // Proposed entries are allowed since 2026-11-25 (batch PRs add them); every
+  // one must still pass the gate, which the validateQueue check above covers.
+  const res = cli(root, ['--proposals']);
+  assert.equal(res.status, 0, res.stderr);
 });
