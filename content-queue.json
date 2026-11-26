@@ -430,7 +430,7 @@
       "demand_label": "impressions-only",
       "review_after_weeks": 8,
       "limits": "Each individual query row is small (3-13 impressions over 90 days) on a thin-data property; several sit at position 15-34, past page 1, so a title change alone may not move the weakest ones. Measured during the November 2026 core update window, so early movement should not be read as the effect of this change.",
-      "summary": "Five 'tetris block(s) puzzle' query rows send impressions to this page with zero clicks over 90 days, and the current title/meta is headline-style rather than query-phrased."
+      "summary": "Five 'tetris block(s) puzzle' query rows send impressions to this page with zero clicks over 90 days, and the current title is headline-style rather than query-phrased."
     }
   },
   {
