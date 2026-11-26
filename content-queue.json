@@ -247,7 +247,7 @@
     "changes": [
       {
         "element": "faq",
-        "proposed": "Replace the page's least useful existing FAQ item (keep the total at 5) with one Q&A: the question in Indonesian, \"Cara bermain sudoku di Block Blast?\", and a short English answer (2-3 sentences): games in the sudoku-style sub-genre such as Blockudoku also clear 3x3 boxes as well as rows and columns, while Block Blast is commonly described as clearing full rows or columns only, and Dhamaka Blocks clears full rows or columns with no 3x3-box rule. Keep Block Blast hedged as the page already does. Update the matching FAQPage JSON-LD in the same change. Other-language text approved by the owner on 2026-11-26 (see owner_decision).",
+        "proposed": "Replace the existing FAQ item \"Does Dhamaka Blocks have combos like Block Blast?\" (the weakest on this page: no query in the 90-day page×query data reaches it, and combos are covered in depth by combo-multipliers-block-puzzle) with one Q&A, keeping the total at 5: the question in Indonesian, \"Cara bermain sudoku di Block Blast?\", and a short English answer (2-3 sentences): games in the sudoku-style sub-genre such as Blockudoku also clear 3x3 boxes as well as rows and columns, while Block Blast is commonly described as clearing full rows or columns only, and Dhamaka Blocks clears full rows or columns with no 3x3-box rule. Keep Block Blast hedged as the page already does. Update the matching FAQPage JSON-LD in the same change. All other FAQ items stay unchanged. Other-language text: see owner_decision.",
         "reason": "Matches the Indonesian-language query rows (cara bermain sudoku di block blast 0/34, cara main sudoku di block blast 0/24, gimana cara main sudoku di block blast 0/2, cara main game sudoku di block blast 0/7 -- all position 1.0, page_query_d90) which land on this exact page with real impressions and zero clicks."
       }
     ],
@@ -309,7 +309,7 @@
     "target": "woodoku-vs-block-blast",
     "title": "Add a short tips section to capture 'woodoku blast tips' search intent",
     "intent": "woodoku blast tips, woodoku vs block blast",
-    "angle": "The query \"woodoku blast tips\" lands on this comparison page with real impressions but at a weak position (16.5) and zero clicks -- the page currently has no tips-style content, only a feature comparison. A short, generic tips FAQ item gives it content that actually matches tips-style search intent.",
+    "angle": "The query \"woodoku blast tips\" lands on this comparison page with real impressions but at a weak position (16.5) and zero clicks -- the page currently has no tips-style content, only a feature comparison. A short, generic tips section gives it content that actually matches tips-style search intent.",
     "internal_links": ["dhamaka-blocks-tips-and-tricks", "block-puzzle-common-mistakes"],
     "status": "proposed",
     "proposed_at": "2026-11-26",
@@ -317,7 +317,7 @@
     "changes": [
       {
         "element": "section",
-        "proposed": "Add one short section (2-3 sentences, not a new FAQ item: the page already has 5) titled along the lines of \"Tips for sudoku-style block puzzles\": start from a corner or edge and build inward, keep your open space in one connected area, and look at all three tray pieces before placing any of them. This matches the site's existing strategy posts (block-puzzle-common-mistakes, dhamaka-blocks-tips-and-tricks) and links to them. No claims about how Woodoku itself works beyond what the page already says.",
+        "proposed": "Add one short section (2-3 sentences, not a new FAQ item: the page already has 5) with the question heading \"What are good tips for sudoku-style block puzzles?\": anchor your first pieces in a corner and build outward from there, keep your open space in one connected area, and look at all three tray pieces before placing any of them. This uses the site's own wording from block-puzzle-common-mistakes and dhamaka-blocks-tips-and-tricks and links to them. No claims about how Woodoku itself works beyond what the page already says.",
         "reason": "Matches the 'woodoku blast tips' query row (0 clicks/23 impressions, position 16.5) which lands on this page per page_query_d90, with no tips content currently to match that intent."
       }
     ],
@@ -355,7 +355,7 @@
       "demand_label": "impressions-only",
       "review_after_weeks": 8,
       "limits": "23 impressions over 90 days on one query is a thin signal; position 16.5 is page 2, so a small content addition may not move ranking on its own. Measured during the November 2026 core update window, so early movement should not be read as the effect of this change.",
-      "summary": "The 'woodoku blast tips' query already sends impressions to this comparison page at a weak position with no matching tips content, a gap a short tips FAQ item directly addresses."
+      "summary": "The 'woodoku blast tips' query already sends impressions to this comparison page at a weak position with no matching tips content, a gap a short tips section directly addresses."
     }
   },
   {
@@ -364,7 +364,7 @@
     "target": "tetris-vs-block-puzzle-games",
     "title": "Retitle query-first while keeping the comparison framing, for 'tetris block puzzle' searches",
     "intent": "tetris block puzzle, tetris blocks puzzle, tetris block",
-    "angle": "This page gets zero clicks on 170 impressions over the last 28 days despite page-1-adjacent position; several near-exact 'tetris block(s) puzzle' queries land here at positions 14-34 with no clicks. The current title/meta is a headline (\"What's the Real Difference?\") rather than the query-phrased pattern the 2026-09-14 GSC audit found converts better.",
+    "angle": "This page gets zero clicks on 170 impressions over the last 28 days despite page-1-adjacent position; several near-exact 'tetris block(s) puzzle' queries land here at positions 14-34 with no clicks. The current title is a headline (\"What's the Real Difference?\") rather than the query-phrased pattern the 2026-09-14 GSC audit found converts better.",
     "internal_links": [],
     "status": "proposed",
     "proposed_at": "2026-11-26",
@@ -373,7 +373,7 @@
       {
         "element": "title",
         "proposed": "\"Tetris vs Block Puzzle Games: Is Tetris a Block Puzzle? (2026)\" -- replaces \"Tetris vs Block Puzzle Games: What's the Real Difference?\". Apply the same text everywhere the title appears: <title>, h1, og:title, twitter:title, the Article headline in JSON-LD and the share-bar text.",
-        "reason": "Matches the literal 'tetris block puzzle' query (0 clicks/13 impressions, pos 14.0) and related 'tetris block(s) (puzzle)' rows, following the query-phrased title pattern the required-elements checklist calls for."
+        "reason": "Targets a close variant of the 'tetris block puzzle' query (0 clicks/13 impressions, pos 14.0) and related 'tetris block(s) (puzzle)' rows, following the query-phrased title pattern the required-elements checklist calls for."
       }
     ],
     "evidence": {
@@ -429,7 +429,7 @@
       ],
       "demand_label": "impressions-only",
       "review_after_weeks": 8,
-      "limits": "Each individual query row is small (3-13 impressions over 90 days) on a thin-data property; several sit at position 15-34, past page 1, so a title/meta change alone may not move the weakest ones. Measured during the November 2026 core update window, so early movement should not be read as the effect of this change.",
+      "limits": "Each individual query row is small (3-13 impressions over 90 days) on a thin-data property; several sit at position 15-34, past page 1, so a title change alone may not move the weakest ones. Measured during the November 2026 core update window, so early movement should not be read as the effect of this change.",
       "summary": "Five 'tetris block(s) puzzle' query rows send impressions to this page with zero clicks over 90 days, and the current title/meta is headline-style rather than query-phrased."
     }
   },
@@ -447,7 +447,7 @@
     "changes": [
       {
         "element": "section",
-        "proposed": "Add one short, plainly worded paragraph to the existing 'what to check' section answering \"Is there a block game without ads?\": some block puzzle games are paid or have an optional one-time purchase that removes ads, so check the store listing for 'Contains ads' and for in-app purchases before installing. Do not repeat the existing pay-to-remove-ads bullet, do not repeat the query phrases as keywords, and say nothing that suggests Dhamaka Blocks shows no ads (online or offline): it is not ad-free.",
+        "proposed": "Add one short, plainly worded paragraph to the existing 'what to check' section answering \"Is there a block game without ads?\": check the store listing for the 'Contains ads' label and for in-app purchases, and read what a purchase actually changes before assuming any game is ad-free. Keep the existing pay-to-remove-ads bullet as it is, do not repeat the query phrases as keywords, and say nothing that suggests Dhamaka Blocks shows no ads (online or offline): it is not ad-free.",
         "reason": "Matches the 'block game without ads' (0/22), 'block game with no ads' (0/5), 'best block game with no ads' (0/5) and 'block game no ads' (0/4) query rows landing on this exact page with zero clicks."
       }
     ],
