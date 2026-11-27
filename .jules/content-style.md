@@ -145,6 +145,9 @@ also update, in the same PR:
 - [ ] `<meta property="article:modified_time" ...>`, to the same today's date
 - [ ] The matching `<lastmod>` entry for that post's URL in `sitemap.xml`
 
+A link-only `internal-links` edit is an exception: it does not bump these
+dates (see "Optional inbound link" under "Topic research").
+
 Do NOT bump these for a purely cosmetic/shared-UI change replicated across
 many posts (e.g. adding a footer link site-wide) — that would manufacture a
 false freshness signal on pages whose actual content didn't change. This is
@@ -372,9 +375,16 @@ remove FAQ items or sections that earn impressions unless the entry says so.
    posts and 1 page edit. Before choosing each entry, count the
    `content/post-*`, `content/edit-*` and `content/revert-*` PRs merged into
    `main` in the last 7 days (by merge time, the same count the self-merge
-   gate's 4-merge cap uses). Count posts and edits separately; reverts count
-   only toward the total. An entry is waiting when it is approved, has no open
-   PR, and its `publish_after` has passed. Then choose, in this order:
+   gate's 4-merge cap uses), plus any such PR still open, as if merged. Also
+   count as an edit any other merged change to an existing `blog/*.html` page
+   made outside the content loop (such as the scheduled 2 December 2026
+   top-page edit); the script's 4-merge cap does not see those, so this part
+   is agent-enforced. Count posts and edits separately; reverts count only
+   toward the total. Recount before choosing each entry, including the PRs
+   opened earlier in this run. An entry is waiting when it is approved, has no
+   open PR, and its `publish_after` has passed. A top-page edit is not waiting
+   until 7 days have passed since the last merged change to
+   `blog/block-blast-alternatives.html`. Then choose, in this order:
    1. a new post, if fewer than 3 posts merged and one is waiting;
    2. otherwise a page edit, if no edit merged and one is waiting;
    3. otherwise, if fewer than 4 merged in total, any waiting entry. This is how
@@ -384,9 +394,7 @@ remove FAQ items or sections that earn impressions unless the entry says so.
    Within a kind, take the oldest `proposed_at` first. The 3-post and 1-edit
    limits are this file's rule; no script enforces them. Scripts enforce the
    4-merge total and the 7 days between top-page edits
-   (`scripts/check-automerge.js`). A top-page edit counts as an edit, including
-   one made outside the content loop (such as the scheduled 2 December 2026
-   edit). Write an `internal-links` edit that links to a new post only after
+   (`scripts/check-automerge.js`). Write an `internal-links` edit that links to a new post only after
    that post is merged into `main`.
    The 4 edits approved in #164 (26 November 2026) predate this rule. While no
    new post is waiting, step 3 lets them be written within the 4-merge cap.
@@ -525,9 +533,9 @@ than leaving it to accumulate. Do not delete a page yourself.
 
 Run when there is no open `content/queue-refresh-*` PR (an open one is still
 going through the self-merge gate, see step 3 of "How the content loop works")
-and fewer than 4 approved entries are still unwritten. Each run writes before it
-researches, so after a run writes 2 of 4 waiting entries, research runs in
-that same run. Research produces proposals only:
+and fewer than 4 approved entries are still unwritten. An entry counts as
+written once its PR is open or merged. Each run writes before it researches,
+so after a run writes 2 of 4 waiting entries, research runs in that same run. Research produces proposals only:
 
 1. Read the automated digest and the manual digest as described in "Data
    sources". Steer by the data, highest expected gain first. Prefer
@@ -595,14 +603,17 @@ that same run. Research produces proposals only:
    - **AI questions:** questions people put to ChatGPT, Perplexity, Gemini or
      Google AI Overviews, where you can actually see one: a public share page,
      or an AI Overview shown for a search (record that search's URL and the
-     date). There is no direct source for what people ask assistants: the
+     date, and name the search query in the quote; an overview can change, so
+     this is weak evidence). There is no direct source for what people ask assistants: the
      digest's GA4 AI-assistant landing pages show which topics assistants
      already send visitors to. Use them as a pointer for where to research,
      never as evidence of a question. Record as `ai-question` only a question
      you saw. Expect this kind to be rare.
    - **What to store.** Every supplementary item needs an https `url`, a
      `fetched_at` date (at most 10 days before `proposed_at`) and a `quote`
-     (at least 20 characters). `content-queue.json` is not served on the site
+     (at least 20 characters). The 10-day limit for supplementary items is
+     this file's rule; `scripts/check-queue-gate.js` checks the age of
+     first-party items only. `content-queue.json` is not served on the site
      (`.assetsignore`), but it is in the git history, so treat it as public:
      - the quote is the question only, in one or two sentences, preferably a
        paraphrase starting "paraphrase of:";
