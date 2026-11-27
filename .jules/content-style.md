@@ -369,8 +369,11 @@ remove FAQ items or sections that earn impressions unless the entry says so.
    (`gh pr list --state open --head content/post-<slug>` or
    `content/edit-<target>`).
 3. Write up to 2 per run (3-4 a week on the Mon/Thu schedule), oldest
-   `proposed_at` first, alternating new posts and page edits when both are
-   waiting. Each goes on its own branch — `content/post-<slug>` for a new post,
+   `proposed_at` first. Weekly target (owner decision, 2026-11-27): 3 new
+   posts and 1 page edit. Merge at most 1 page edit in any 7 days, counting
+   the top-page edits; skip a waiting edit when one merged in the last 7 days
+   and write a new post instead. When no new post is waiting, an edit may
+   take its place, still within the self-merge gate's 4 merges per 7 days. Each goes on its own branch — `content/post-<slug>` for a new post,
    `content/edit-<target>` for an edit — and its own PR. In the same PR set the
    entry's `status` to `published` (add `published_at`, today in IST). Do not
    change any other field of the entry.
@@ -535,35 +538,81 @@ and fewer than 4 approved entries are still unwritten. Research produces proposa
      question in the first sentence fit that.
    - While a ranking update is rolling out or settling, treat digest-based
      steering as provisional and say so in the batch PR.
-   Then, in order:
+   Fill the batch's new-post slots first (see step 4), from these sources:
+   - **Queries with impressions but no clicks** (`impressions-only`), including
+     modifiers such as "offline", "for android", "no ads android".
+   - **New posts in the clusters that earn clicks**: comparison/alternatives,
+     the honest "no ads" angle, India, then offline and gameplay tips.
+     Wellness/lifestyle only with a rising query in the digest.
+   - **Outside demand** (`unproven`), found as described in step 2: questions
+     players ask, topics competitors rank for, and questions people ask AI
+     assistants about block puzzle games, that no existing post answers in
+     depth.
+   - **Other languages** only where the digest shows impressions (e.g.
+     Indonesian, German), and only as a labelled proposal for the owner.
+   Then the edit slots:
    - **Page edits** on high-impression, low-CTR page-1 pages, and on the top
      page's main queries ("block blast alternative", "games like block blast")
      to move them toward the top 3.
-   - **New posts in the clusters that earn clicks** — comparison/alternatives,
-     the honest "no ads" angle, India — then offline and gameplay tips.
-     Wellness/lifestyle only with a rising query in the digest.
-   - **Queries with impressions but no clicks** (`impressions-only`), including
-     modifiers such as "offline", "for android", "no ads android".
-   - **Competitor and keyword gaps** and **AI questions** (`unproven`): topics
-     competitors rank for, and questions people ask AI assistants about block
-     puzzle games, that no existing post answers. Write these as direct-answer
-     pages (answer in the first sentence, comparison table, FAQ).
-   - **Other languages** only where the digest shows impressions (e.g.
-     Indonesian, German), and only as a labelled proposal for the owner.
-2. Use WebSearch for competitor/ecosystem queries ("games like block blast",
-   "[game] vs [game]", "is [game] free/safe/offline"), People-Also-Ask phrasing
-   and AI-assistant questions. Record what you relied on in
-   `evidence.supplementary` with URLs.
+   - **Inbound links** for new posts (see the overlap rule in step 4).
+   Search Console only shows queries the site already appears for, so it cannot
+   reveal unmet demand. That is why outside demand is researched every batch
+   (added 2026-11-27, after a batch found no new-post candidates in first-party
+   data alone).
+2. **Find outside demand** (every batch, with WebSearch):
+   - **Seeds:** "block puzzle", "block blast", "blockudoku", "woodoku",
+     "1010", each combined with modifiers such as tips, strategy, high score,
+     combo, offline, no ads, how, why and can.
+   - **Player questions:** questions players actually ask in public, found by
+     searching forums and communities (for example Reddit, Quora, or app-review
+     discussions). Prefer questions that several people ask, or that one
+     thread shows many people care about. Record each as `web-search` evidence
+     with its URL and date. Use the question, never the posters' names.
+   - **Competitor and ecosystem queries:** "games like block blast",
+     "[game] vs [game]", "is [game] free/safe/offline", and People-Also-Ask
+     phrasing where a result shows it. Record as `competitor-research` or
+     `web-search`.
+   - **AI questions:** questions people put to ChatGPT, Perplexity, Gemini or
+     Google AI Overviews, where you can see one (a public share, an AI Overview
+     in a result). There is no direct source for what people ask assistants:
+     use the digest's GA4 AI-assistant landing pages as a pointer to which
+     topics assistants already send visitors to, and research questions near
+     them. GA4 landing pages are a pointer, not evidence of a question; record
+     only a question you actually saw, as `ai-question`.
+   - Record everything you relied on in `evidence.supplementary` with URLs.
+     Outside demand is a signal, not a measured volume: label it `unproven`
+     and never quote a search volume you did not see in first-party data.
 3. Stay inside this project's positioning: block-puzzle strategy/comparison
    content, app-trust questions, or the India/festive angle. No unrelated
    gaming topics. Hard rules apply: no solver/cheat/MOD-APK topics, no invented
    numbers, never claim Dhamaka Blocks is ad-free.
-4. Propose 6-8 entries per batch, mixing page edits and new posts. A new-post
-   candidate qualifies when it has first-party evidence or
+4. Propose 6-8 entries per batch, about three new posts for every page edit
+   (for example 6 new posts and 2 edits). This matches the weekly target of 3
+   new posts and 1 page edit (see "Writing an approved entry"). A new-post
+   candidate qualifies when it has first-party evidence or `web-search` /
    `competitor-research` / `ai-question` evidence, passes the overlap check,
-   and can be built entirely on "Confirmed game facts" as a narrow, practical
-   page that answers one question fully. When at least 2 candidates qualify,
-   include **at least 2 new posts**. This target never overrides the hard
+   and is a narrow, practical page that answers one question fully. Every
+   claim about Dhamaka Blocks must come from "Confirmed game facts"; general
+   gameplay advice is allowed as advice; claims about other games stay hedged
+   (see "Hard rules").
+   **Overlap rule for narrower posts (owner decision, 2026-11-27):** a new post
+   may answer a question that existing posts only mention in passing (at most
+   one paragraph, and not in their title, h1 or an h2). Its `overlap_check`
+   stays `distinct`, and its notes name each existing post that mentions the
+   topic and how much it says. The new post links to those posts. The
+   reverse link, from the existing post to the new one, is a page edit of
+   element `internal-links` (a post PR may only add its own page). Propose it
+   in the same batch or a later one; one edit entry on a page may add links to
+   several new posts. A topic that an existing post covers in its title, h1,
+   an h2 or more than one paragraph is not distinct: improve that post with a
+   page edit instead.
+   **Shape of each new post:** the answer in the first sentence; one worked
+   example with Dhamaka Blocks' exact numbers from "Confirmed game facts" (for
+   example what a third clear in a row is worth with the combo multiplier); a
+   table where a comparison helps; an FAQ that answers each full question in
+   its first sentence.
+   When at least 3 candidates qualify, include **at least 3 new posts**; when
+   2 qualify, include both. This target never overrides the hard
    rules, the overlap check or honest evidence labels: proposing fewer is
    acceptable, and then the PR body names the candidates you considered and
    why each was rejected. Each new
