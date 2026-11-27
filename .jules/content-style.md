@@ -521,6 +521,25 @@ On the Monday run, end with one push notification (under 200 characters)
 and a report listing what was merged in the last 7 days (PR links), what is
 open, reverts, and any PR left open after a FAIL.
 
+**Install baseline (recorded 2026-11-27, owner-approved).** Compare installs
+against this, not against memory:
+- Play Console, new users, 30 Oct to 25 Nov 2026: **9** (about 2 a week),
+  read by the owner's assistant from Play Console. Play counts install clicks
+  from people without the app installed, not finished installs, and includes
+  returning players who had uninstalled.
+- GA4 first opens, 1 Oct to 25 Nov 2026: **29** after removing test devices.
+  Not comparable with the Play figure (longer window, includes reinstalls).
+  The device model IN2025 looked like Play pre-launch testing and was removed.
+  From app 2.9.4 (open testing only as of 27 Nov), analytics stays off on
+  pre-launch devices, so GA4 figures from before and after that release are
+  not directly comparable either.
+When the data repo's digest has Play Console install data, the Monday report
+gives new users for the latest available window next to this baseline, with
+both windows' dates. At about 2 installs a week, a change is noise until it
+holds for several weeks: say so, and never attribute installs to a page or
+edit. Judge the website first on Search Console clicks and on Play-store
+clicks from site pages (the GA4 `play_store_click` event).
+
 ## Reviewing weaker-evidence posts
 
 Each run, check published `impressions-only` and `unproven` entries whose
