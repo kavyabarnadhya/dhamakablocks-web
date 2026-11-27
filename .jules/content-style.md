@@ -377,10 +377,10 @@ remove FAQ items or sections that earn impressions unless the entry says so.
    `main` in the last 7 days (by merge time, the same count the self-merge
    gate's 4-merge cap uses), plus any such PR still open, as if merged. Also
    count as an edit any other merged change to an existing `blog/*.html` page
-   made outside the content loop, excluding shared-UI changes replicated
-   across many pages (such as a footer link) (such as the scheduled 2 December 2026
-   top-page edit); the script's 4-merge cap does not see those, so this part
-   is agent-enforced. Count posts and edits separately; reverts count only
+   made outside the content loop, such as the scheduled 2 December 2026
+   top-page edit, but not a shared-UI change replicated across many pages
+   (for example a footer link). The script's 4-merge cap does not see those
+   changes, so this part is agent-enforced. Count posts and edits separately; reverts count only
    toward the total. Recount before choosing each entry, including the PRs
    opened earlier in this run. An entry is waiting when it is approved, has no
    open PR, and its `publish_after` has passed. A top-page edit is not waiting
