@@ -145,6 +145,9 @@ also update, in the same PR:
 - [ ] `<meta property="article:modified_time" ...>`, to the same today's date
 - [ ] The matching `<lastmod>` entry for that post's URL in `sitemap.xml`
 
+A link-only `internal-links` edit is an exception: it does not bump these
+dates (see "Optional inbound link" under "Topic research").
+
 Do NOT bump these for a purely cosmetic/shared-UI change replicated across
 many posts (e.g. adding a footer link site-wide) — that would manufacture a
 false freshness signal on pages whose actual content didn't change. This is
@@ -330,7 +333,7 @@ CI), which requires:
 ## Page edits (`type: "edit"`)
 
 Existing posts may be improved (the 2026-10-19 "new topics only" rule was lifted
-on 2026-11-25). Highest value first: pages on Google page 1 (position about
+on 2026-11-25). Among edits, highest value first: pages on Google page 1 (position about
 4-10) with many impressions and low click-through, and the top page
 `block-blast-alternatives`, which earns most of the site's clicks — change it
 in small, separately reviewable steps and never remove what it already ranks
@@ -368,10 +371,36 @@ remove FAQ items or sections that earn impressions unless the entry says so.
 2. Skip any approved entry that already has an open PR
    (`gh pr list --state open --head content/post-<slug>` or
    `content/edit-<target>`).
-3. Write up to 2 per run (3-4 a week on the Mon/Thu schedule), oldest
-   `proposed_at` first, alternating new posts and page edits when both are
-   waiting. Each goes on its own branch — `content/post-<slug>` for a new post,
-   `content/edit-<target>` for an edit — and its own PR. In the same PR set the
+3. Write up to 2 per run. Weekly target (owner decision, 2026-11-27): 3 new
+   posts and 1 page edit. Before choosing each entry, count the
+   `content/post-*`, `content/edit-*` and `content/revert-*` PRs merged into
+   `main` in the last 7 days (by merge time, the same count the self-merge
+   gate's 4-merge cap uses), plus any such PR still open, as if merged. Also
+   count as an edit any other merged change to an existing `blog/*.html` page
+   made outside the content loop, such as the scheduled 2 December 2026
+   top-page edit, but not a shared-UI change replicated across many pages
+   (for example a footer link). The script's 4-merge cap does not see those
+   changes, so this part is agent-enforced. Count posts and edits separately; reverts count only
+   toward the total. Recount before choosing each entry, including the PRs
+   opened earlier in this run. An entry is waiting when it is approved, has no
+   open PR, and its `publish_after` has passed. A top-page edit is not waiting
+   until 7 days have passed since the last merged change to
+   `blog/block-blast-alternatives.html`. Then choose, in this order:
+   1. a new post, if fewer than 3 posts merged and one is waiting;
+   2. otherwise a page edit, if no edit merged and one is waiting;
+   3. otherwise, if fewer than 4 merged in total, any waiting entry. This is how
+      an edit takes a post's place when no post is waiting, so it may go past
+      1 edit;
+   4. otherwise, write nothing more this run.
+   Within a kind, take the oldest `proposed_at` first. The 3-post and 1-edit
+   limits are this file's rule; no script enforces them. Scripts enforce the
+   4-merge total and the 7 days between top-page edits
+   (`scripts/check-automerge.js`). Write an `internal-links` edit that links to a new post only after
+   that post is merged into `main`.
+   The 4 edits approved in #164 (26 November 2026) predate this rule. While no
+   new post is waiting, step 3 lets them be written within the 4-merge cap.
+   Each entry goes on its own branch, `content/post-<slug>` for a new post or
+   `content/edit-<target>` for an edit, with its own PR. In that PR set the
    entry's `status` to `published` (add `published_at`, today in IST). Do not
    change any other field of the entry.
 4. The PR body names the slug, the fingerprint from `--approved` and the batch
@@ -396,7 +425,9 @@ ALL of these hold:
    in `.jules/automerge.json` (read from `main`), and the content lint.
 3. **An independent review says PASS.** Start a sub-agent (Task tool) on a
    different model from the writer (Opus if you are Sonnet, Sonnet otherwise).
-   Give it only the PR diff (`gh pr diff <n>`) and this file's path, and none of
+   Give it only the PR diff (`gh pr diff <n>`) and this file's path (for a
+   `content/queue-refresh-*` PR, also the `blog/` folder, so it can open every
+   post named in an `overlap_check`), and none of
    your own reasoning. Ask it to check facts against "Confirmed game facts",
    the hard rules, the required elements, metadata consistency, share-bar
    encoding and dates, and to proofread. It must answer `VERDICT: PASS` or
@@ -503,7 +534,9 @@ than leaving it to accumulate. Do not delete a page yourself.
 
 Run when there is no open `content/queue-refresh-*` PR (an open one is still
 going through the self-merge gate, see step 3 of "How the content loop works")
-and fewer than 4 approved entries are still unwritten. Research produces proposals only:
+and fewer than 4 approved entries are still unwritten. An entry counts as
+written once its PR is open or merged. Each run writes before it researches,
+so after a run writes 2 of 4 waiting entries, research runs in that same run. Research produces proposals only:
 
 1. Read the automated digest and the manual digest as described in "Data
    sources". Steer by the data, highest expected gain first. Prefer
@@ -535,38 +568,129 @@ and fewer than 4 approved entries are still unwritten. Research produces proposa
      question in the first sentence fit that.
    - While a ranking update is rolling out or settling, treat digest-based
      steering as provisional and say so in the batch PR.
-   Then, in order:
+   Fill the batch's new-post slots first (see step 4), from these sources:
+   - **Queries with impressions but no clicks** (`impressions-only`), including
+     modifiers such as "offline", "for android", "no ads android".
+   - **New posts in the clusters that earn clicks**: comparison/alternatives,
+     the honest "no ads" angle, India, then offline and gameplay tips.
+     Wellness/lifestyle only with a rising query in the digest.
+   - **Outside demand** (`unproven`), found as described in step 2: questions
+     players ask, topics competitors rank for, and questions people ask AI
+     assistants about block puzzle games, that no existing post answers in
+     depth.
+   - **Other languages** only where the digest shows impressions (e.g.
+     Indonesian, German), and only as a labelled proposal for the owner.
+   Then the edit slots:
    - **Page edits** on high-impression, low-CTR page-1 pages, and on the top
      page's main queries ("block blast alternative", "games like block blast")
      to move them toward the top 3.
-   - **New posts in the clusters that earn clicks** — comparison/alternatives,
-     the honest "no ads" angle, India — then offline and gameplay tips.
-     Wellness/lifestyle only with a rising query in the digest.
-   - **Queries with impressions but no clicks** (`impressions-only`), including
-     modifiers such as "offline", "for android", "no ads android".
-   - **Competitor and keyword gaps** and **AI questions** (`unproven`): topics
-     competitors rank for, and questions people ask AI assistants about block
-     puzzle games, that no existing post answers. Write these as direct-answer
-     pages (answer in the first sentence, comparison table, FAQ).
-   - **Other languages** only where the digest shows impressions (e.g.
-     Indonesian, German), and only as a labelled proposal for the owner.
-2. Use WebSearch for competitor/ecosystem queries ("games like block blast",
-   "[game] vs [game]", "is [game] free/safe/offline"), People-Also-Ask phrasing
-   and AI-assistant questions. Record what you relied on in
-   `evidence.supplementary` with URLs.
+   - **Optional inbound links** to published new posts (see step 4).
+   Search Console only shows queries the site already appears for, so it cannot
+   reveal unmet demand. That is why outside demand is researched every batch
+   (added 2026-11-27, after a batch found no new-post candidates in first-party
+   data alone).
+2. **Find outside demand** (every batch, with WebSearch):
+   - **Seeds:** "block puzzle", "block blast", "blockudoku", "woodoku",
+     "1010", each combined with modifiers such as tips, strategy, high score,
+     combo, offline, no ads, how, why and can.
+   - **Player questions:** questions players ask on public pages, found by
+     searching forums and communities (for example Reddit or Quora). Public
+     pages only: nothing behind a login, in a private or closed group, or in a
+     personal message. Record each as a `web-search` item.
+   - **Competitor and ecosystem queries:** "games like block blast",
+     "[game] vs [game]", "is [game] free/safe/offline", and People-Also-Ask
+     phrasing where a result shows it. Record as `competitor-research` or
+     `web-search`.
+   - **AI questions:** questions people put to ChatGPT, Perplexity, Gemini or
+     Google AI Overviews, where you can actually see one: a public share page,
+     or an AI Overview shown for a search (record that search's URL and the
+     date, and name the search query in the quote; an overview can change, so
+     this is weak evidence). There is no direct source for what people ask assistants: the
+     digest's GA4 AI-assistant landing pages show which topics assistants
+     already send visitors to. Use them as a pointer for where to research,
+     never as evidence of a question. Record as `ai-question` only a question
+     you saw. Expect this kind to be rare.
+   - **What to store.** Every supplementary item needs an https `url`, a
+     `fetched_at` date (at most 10 days before `proposed_at`) and a `quote`
+     (at least 20 characters). The 10-day limit for supplementary items is
+     this file's rule; `scripts/check-queue-gate.js` checks the age of
+     first-party items only. `content-queue.json` is not served on the site
+     (`.assetsignore`), but it is in the git history, so treat it as public:
+     - the quote is the question only, in one or two sentences, preferably a
+       paraphrase starting "paraphrase of:";
+     - remove usernames, handles, real names, places and any personal detail;
+       if the question cannot be separated from them, do not use that source;
+     - from an AI share page, store the question only, never the rest of the
+       conversation.
+   - **Counts.** Record only what you saw: how many separate threads ask the
+     question, or a thread's reply or vote count, with the URL. Never write
+     "many players ask" or similar unless the recorded URLs show it.
+   - **No estimates.** Do not use search volume, keyword difficulty or traffic
+     estimates from any third-party tool or article (owner decision,
+     2026-11-27: no paid keyword tool). Outside demand is a signal, not a
+     measured volume, and is labelled `unproven`.
 3. Stay inside this project's positioning: block-puzzle strategy/comparison
    content, app-trust questions, or the India/festive angle. No unrelated
    gaming topics. Hard rules apply: no solver/cheat/MOD-APK topics, no invented
    numbers, never claim Dhamaka Blocks is ad-free.
-4. Propose 6-8 entries per batch, mixing page edits and new posts. A new-post
-   candidate qualifies when it has first-party evidence or
-   `competitor-research` / `ai-question` evidence, passes the overlap check,
-   and can be built entirely on "Confirmed game facts" as a narrow, practical
-   page that answers one question fully. When at least 2 candidates qualify,
-   include **at least 2 new posts**. This target never overrides the hard
-   rules, the overlap check or honest evidence labels: proposing fewer is
-   acceptable, and then the PR body names the candidates you considered and
-   why each was rejected. Each new
+4. Propose 6-8 entries per batch, about three new posts for every page edit
+   (for example 6 new posts and 2 edits). Only 4 entries are merged a week,
+   so an unwritten backlog is expected; research runs again when fewer than 4
+   approved entries are unwritten.
+   **When a new post qualifies.** It has:
+   - first-party evidence (`evidence.first_party`, quoting a zero result where
+     there is no match). If neither digest is usable, propose nothing that
+     needs first-party evidence, including outside-demand posts;
+   - for the `unproven` label, at least one supplementary item stored as in
+     step 2;
+   - a pass on the overlap rule below;
+   - a narrow, practical scope that answers one question fully.
+   Every claim about Dhamaka Blocks must come from "Confirmed game facts".
+   General gameplay advice is allowed, phrased as a suggestion, with no
+   statistics, success rates or promised outcomes. Claims about other games
+   stay hedged (see "Hard rules").
+   **Overlap rule for narrower posts (owner decision, 2026-11-27).** A new
+   post may answer a question that existing posts only mention in passing. A
+   topic counts as covered, and therefore not distinct, if any existing post
+   has it in its title, meta description, h1, h2, h3, intro, a table or an
+   FAQ question or answer, or if all the existing mentions together come to
+   more than one paragraph. A covered topic gets a page edit to that post
+   instead. For a distinct topic:
+   - `overlap_check.result` is `distinct`, and its notes name each existing
+     post that mentions the topic and quote the first words of each mentioning
+     paragraph, so the reviewer can open the post and check;
+   - the new post's 2-3 `internal_links` are the posts that mention it (the
+     first 3 if more do), topped up from closely related posts if fewer than 2
+     mention it.
+   **Optional inbound link.** A link from an older post to the new one is a
+   page edit of element `internal-links`. It is optional, because every new
+   post is already linked from `blog/index.html`, `sitemap.xml` and
+   `llms.txt`. It competes for the edit slot, and it can be proposed only:
+   - in a batch after the new post is published, because an edit's
+     `internal_links` must name existing posts;
+   - when the older post has a first-party page row with impressions;
+   - when no other proposed edit targets that post;
+   - for at most 3 links in one entry.
+   On the top page it counts as a top-page edit, with the 7-day gap. A
+   link-only edit does not change `dateModified`, `article:modified_time` or
+   `lastmod`; the Modified Date Check warning it raises is expected.
+   **Shape of each new post.**
+   - The answer comes in the first sentence.
+   - Include one worked example only where the topic involves scoring, coins
+     or booster costs. Use only values stated in "Confirmed game facts", pick
+     inputs that give a whole number, and never state a rounding rule. Omit
+     the example otherwise.
+   - Add a table where a comparison helps.
+   - Add an FAQ whose answers each answer the full question in their first
+     sentence.
+   **How many.** When at least 3 candidates qualify, include **at least 3 new
+   posts**; when 2 qualify, include both. Exception: if the latest "Reviewing
+   weaker-evidence posts" check found that at least half of the reviewed
+   `unproven` new posts earned no clicks, propose at most 1 `unproven` new
+   post per batch until a later review shows otherwise. This target never
+   overrides the hard rules, the overlap rule or honest evidence labels.
+   Proposing fewer is acceptable; the PR body then names the candidates you
+   considered and why each was rejected. Each new
    post entry has `status: "proposed"`, a real `slug`, `title`, `intent`,
    one-line `angle`, 2-3 `internal_links`, `proposed_at` (today, IST) and
    `publish_after` at least 3 days later, plus `evidence` and `overlap_check`
