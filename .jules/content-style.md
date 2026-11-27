@@ -530,7 +530,7 @@ generated 2026-11-27), so the Monday report can compare like with like:
 - Search Console clicks, last 28 days (2026-10-28 to 2026-11-24): **88**.
   This window includes the November 2026 core update rollout (10 to 24
   November), so it is a rough reference only; read it with "Google ranking
-  updates" below.
+  updates" under "Monitoring and auto-revert".
 - GA4 `play_store_click` events from site pages, same 28 days: **10** (8 on
   `/blog/block-blast-alternatives`, 1 on `/`, 1 on
   `/blog/block-puzzle-games-no-ads`). GA4 counts only visitors who accepted
