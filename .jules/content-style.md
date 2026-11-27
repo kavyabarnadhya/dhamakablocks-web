@@ -521,24 +521,43 @@ On the Monday run, end with one push notification (under 200 characters)
 and a report listing what was merged in the last 7 days (PR links), what is
 open, reverts, and any PR left open after a FAIL.
 
-**Install baseline (recorded 2026-11-27, owner-approved).** Compare installs
-against this, not against memory:
-- Play Console, new users, 30 Oct to 25 Nov 2026: **9** (about 2 a week),
-  read by the owner's assistant from Play Console. Play counts install clicks
-  from people without the app installed, not finished installs, and includes
-  returning players who had uninstalled.
-- GA4 first opens, 1 Oct to 25 Nov 2026: **29** after removing test devices.
-  Not comparable with the Play figure (longer window, includes reinstalls).
-  The device model IN2025 looked like Play pre-launch testing and was removed.
-  From app 2.9.4 (open testing only as of 27 Nov), analytics stays off on
-  pre-launch devices, so GA4 figures from before and after that release are
-  not directly comparable either.
-When the data repo's digest has Play Console install data, the Monday report
-gives new users for the latest available window next to this baseline, with
-both windows' dates. At about 2 installs a week, a change is noise until it
-holds for several weeks: say so, and never attribute installs to a page or
-edit. Judge the website first on Search Console clicks and on Play-store
-clicks from site pages (the GA4 `play_store_click` event).
+**Baselines (recorded 2026-11-27, owner-approved).** These are internal
+reference figures. Never put them in blog copy, and never use them as
+`evidence.first_party` entries: they have no quoted digest rows.
+
+Measured by the weekly data pull (`dhamaka-seo-data` digest at `bd8debf`,
+generated 2026-11-27), so the Monday report can compare like with like:
+- Search Console clicks, last 28 days (2026-10-28 to 2026-11-24): **88**.
+- GA4 `play_store_click` events from site pages, same 28 days: **10** (8 on
+  `/blog/block-blast-alternatives`, 1 on `/`, 1 on
+  `/blog/block-puzzle-games-no-ads`). GA4 counts only visitors who accepted
+  analytics cookies.
+
+Reported by the owner's assistant from the consoles, for reference only:
+- Play Console new users, 30 Oct to 25 Nov 2026: **9** (about 2 a week). By
+  the assistant's reading, Play counts install clicks rather than finished
+  installs, and includes returning players.
+- GA4 app first opens, 1 Oct to 25 Nov 2026: **29**, after the assistant
+  removed test devices. The window includes open testing before the
+  production launch on 31 Oct, and the figure is not comparable with Play's.
+
+In the Monday report (not the push notification, which stays under 200
+characters):
+- Give Search Console clicks and `play_store_click` events for the digest's
+  latest 28-day window next to the measured baselines, with both windows'
+  dates. Both are stored snapshots, not live figures.
+- Installs: the digest's Play section lists report files and columns only;
+  it does not report a new-user number, and its monthly files do not match
+  the 30 Oct to 25 Nov window. Unless a digest section reports new users for
+  a stated window, write "Play new users: not available from the digest" and
+  do not estimate or add up rows yourself. The digest has no app first-open
+  figure: do not restate or compare the GA4 first-open number.
+- At about 2 installs a week, treat any change as noise until it holds for
+  at least 4 consecutive weekly reads. Never attribute installs to a page or
+  edit. Name other causes when they apply: the production rollout stage
+  recorded under "Confirmed game facts", store-listing changes and festivals.
+- Do not report progress toward the 10x goal from these numbers. The owner
+  judges that.
 
 ## Reviewing weaker-evidence posts
 
