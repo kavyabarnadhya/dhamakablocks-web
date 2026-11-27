@@ -521,6 +521,51 @@ On the Monday run, end with one push notification (under 200 characters)
 and a report listing what was merged in the last 7 days (PR links), what is
 open, reverts, and any PR left open after a FAIL.
 
+**Baselines (recorded 2026-11-27; the owner approved recording a baseline, and the measured figures were added from the digest).** These are internal
+reference figures. Never put them in blog copy, and never use them as
+`evidence.first_party` entries: they have no quoted digest rows.
+
+Measured by the weekly data pull (`dhamaka-seo-data` digest at `bd8debf`,
+generated 2026-11-27), so the Monday report can compare like with like:
+- Search Console clicks, last 28 days (2026-10-28 to 2026-11-24): **88**.
+  This window includes the November 2026 core update rollout (10 to 24
+  November), so it is a rough reference only; read it with "Google ranking
+  updates" under "Monitoring and auto-revert".
+- GA4 `play_store_click` events from site pages, same 28 days: **10** (8 on
+  `/blog/block-blast-alternatives`, 1 on `/`, 1 on
+  `/blog/block-puzzle-games-no-ads`). GA4 counts only visitors who accepted
+  analytics cookies.
+
+Reported by the owner's assistant from the consoles, for reference only:
+- Play Console new users, 30 Oct to 25 Nov 2026: **9** (about 2 a week). By
+  the assistant's reading, Play counts install clicks rather than finished
+  installs, and includes returning players.
+- GA4 app first opens, 1 Oct to 25 Nov 2026: **29**, after the assistant
+  removed test devices. The window includes open testing before the
+  production launch on 31 Oct, and the figure is not comparable with Play's.
+
+In the Monday report (not the push notification, which stays under 200
+characters):
+- Give Search Console clicks and `play_store_click` events for the digest's
+  latest 28-day window next to the measured baselines, with both windows'
+  dates. Both are stored snapshots, not live figures.
+- Installs: the digest's Play section lists report files and columns only;
+  it does not report a new-user number, and its monthly files do not match
+  the 30 Oct to 25 Nov window. If the section could not be read (for
+  example a 403), or unless a digest section reports new users for a stated
+  window, write "Play new users: not available from the digest" and
+  do not estimate or add up rows yourself. The digest has no app first-open
+  figure: do not restate or compare the GA4 first-open number.
+- At about 2 installs a week and 10 Play-store clicks in 28 days (8 of them
+  on one page), treat any change in either as noise until it holds for at
+  least 4 consecutive weekly reads. Never attribute installs to a page or
+  edit. Name other causes when they apply: the production rollout stage
+  (the figure under "Confirmed game facts" is a past snapshot and may be
+  outdated; write "rollout stage unknown" when you cannot confirm it),
+  store-listing changes and festivals.
+- Do not report progress toward the 10x goal from these numbers. The owner
+  judges that.
+
 ## Reviewing weaker-evidence posts
 
 Each run, check published `impressions-only` and `unproven` entries whose
